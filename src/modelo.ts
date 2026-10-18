@@ -12,6 +12,7 @@ export interface ObjetoCenario {
   rotX?: number;           // graus, inclinação fixa (ex.: cyberdeck deitado na mesa); aplicada depois do rotY
   escala: number;
   animacao?: string;       // clipe em loop (ex.: "correr" do túnel)
+  alemDoPortal?: boolean;  // só aparece através da "janela" do portal (planeta-cubo e estrelas do outro lado)
 }
 
 /** Um ator: personagem ou objeto que a cena move, anima, mostra e esconde. */

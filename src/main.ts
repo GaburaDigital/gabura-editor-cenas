@@ -223,6 +223,8 @@ function aplicar(c: NonNullable<ReturnType<typeof cena>>, t: number): void {
   tocador.abaixarMusica(ativas.length > 0);
   mundo.textoRelogio(estado.aguardando?.texto ?? (leg ? leg.quem + ' falando' : ''));
   const relogioFalando = ativas.some((b) => tocador.atorDaFala(c, b)?.relogio);
+  const blocoRelogio = ativas.find((b) => tocador.atorDaFala(c, b)?.relogio);
+  mundo.relogioFalando(blocoRelogio ? tocador.nivelVoz(blocoRelogio.fala, t - blocoRelogio.t) : 0, blocoRelogio ? t - blocoRelogio.t : 0);
   tocador.volumeDoRelogio(olhandoRelogio);
   mundo.piscarRelogio(relogioFalando && !olhandoRelogio);
   mundo.mostrarCaminhos(c.caminhos ?? [], estado.modo === 'editar');

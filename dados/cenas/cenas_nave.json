@@ -256,6 +256,89 @@
           "escala": 1
         },
         {
+          "id": "ceu_nave",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "fora_lima_castanho",
+          "modelo": "gabura_lima_castanho.glb",
+          "pos": [
+            16,
+            3,
+            -9
+          ],
+          "rotY": -85.642,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_robo_menta",
+          "modelo": "gabura_robo_menta.glb",
+          "pos": [
+            -12,
+            1.5,
+            -12
+          ],
+          "rotY": 70,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_aqua_loiro",
+          "modelo": "gabura_aqua_loiro.glb",
+          "pos": [
+            -12,
+            2.5,
+            12
+          ],
+          "rotY": 110,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_gato_lilas",
+          "modelo": "gabura_gato_lilas.glb",
+          "pos": [
+            -6,
+            3,
+            -32
+          ],
+          "rotY": 35.62,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_coral_grisalho",
+          "modelo": "gabura_coral_grisalho.glb",
+          "pos": [
+            17,
+            1,
+            10
+          ],
+          "rotY": -145.466,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_violeta_sem_oculos",
+          "modelo": "gabura_violeta_sem_oculos.glb",
+          "pos": [
+            -20,
+            2,
+            -12
+          ],
+          "rotY": 84.036,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
           "id": "caixa_teste_1",
           "modelo": "caixa_teste.glb",
           "pos": [
@@ -844,6 +927,89 @@
           "escala": 1
         },
         {
+          "id": "ceu_nave",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "fora_lima_castanho",
+          "modelo": "gabura_lima_castanho.glb",
+          "pos": [
+            16,
+            3,
+            -9
+          ],
+          "rotY": -85.642,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_robo_menta",
+          "modelo": "gabura_robo_menta.glb",
+          "pos": [
+            -12,
+            1.5,
+            -12
+          ],
+          "rotY": 70,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_aqua_loiro",
+          "modelo": "gabura_aqua_loiro.glb",
+          "pos": [
+            -12,
+            2.5,
+            12
+          ],
+          "rotY": 110,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_gato_lilas",
+          "modelo": "gabura_gato_lilas.glb",
+          "pos": [
+            -6,
+            3,
+            -32
+          ],
+          "rotY": 35.62,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_coral_grisalho",
+          "modelo": "gabura_coral_grisalho.glb",
+          "pos": [
+            17,
+            1,
+            10
+          ],
+          "rotY": -145.466,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_violeta_sem_oculos",
+          "modelo": "gabura_violeta_sem_oculos.glb",
+          "pos": [
+            -20,
+            2,
+            -12
+          ],
+          "rotY": 84.036,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
           "id": "mesa",
           "modelo": "mesa.glb",
           "pos": [
@@ -896,6 +1062,61 @@
             -14.92
           ],
           "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "mesa_gaveteiro",
+          "modelo": "mesa_gaveteiro.glb",
+          "pos": [
+            6.65,
+            0,
+            -15
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "caixas_carga_a",
+          "modelo": "caixas_carga_a.glb",
+          "pos": [
+            5.95,
+            0,
+            -10.75
+          ],
+          "rotY": 15,
+          "escala": 1
+        },
+        {
+          "id": "caixas_carga_b",
+          "modelo": "caixas_carga_b.glb",
+          "pos": [
+            -6,
+            0,
+            -10.75
+          ],
+          "rotY": -10,
+          "escala": 1
+        },
+        {
+          "id": "mural_papeis",
+          "modelo": "mural_papeis.glb",
+          "pos": [
+            -3.6,
+            0,
+            -10.02
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "mesa_lateral",
+          "modelo": "mesa_lateral.glb",
+          "pos": [
+            3.6,
+            0,
+            -10.36
+          ],
+          "rotY": 180,
           "escala": 1
         }
       ],
@@ -980,6 +1201,66 @@
           ],
           "rotY": 0,
           "cor": "#b9c2c8"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "pc_1",
+          "nome": "Computador 1",
+          "modelo": "computador_grande.glb",
+          "pos": [
+            -6.55,
+            0,
+            -11.9
+          ],
+          "rotY": 90,
+          "cor": "#26303d"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "pc_2",
+          "nome": "Computador 2",
+          "modelo": "computador_estreito.glb",
+          "pos": [
+            -6.55,
+            0,
+            -17.6
+          ],
+          "rotY": 90,
+          "cor": "#26303d"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "pc_3",
+          "nome": "Computador 3",
+          "modelo": "computador_grande.glb",
+          "pos": [
+            6.55,
+            0,
+            -11.9
+          ],
+          "rotY": -90,
+          "cor": "#26303d"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "pc_4",
+          "nome": "Computador 4",
+          "modelo": "computador_estreito.glb",
+          "pos": [
+            6.55,
+            0,
+            -17.6
+          ],
+          "rotY": -90,
+          "cor": "#26303d"
         }
       ],
       "faixas": [
@@ -1026,6 +1307,62 @@
             {
               "t": 28.92,
               "dur": 24.64,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_pc_1",
+          "nome": "pc_1 · animação",
+          "tipo": "animacao",
+          "alvo": "pc_1",
+          "blocos": [
+            {
+              "t": 46.2,
+              "dur": 7.36,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_pc_2",
+          "nome": "pc_2 · animação",
+          "tipo": "animacao",
+          "alvo": "pc_2",
+          "blocos": [
+            {
+              "t": 46.45,
+              "dur": 7.11,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_pc_3",
+          "nome": "pc_3 · animação",
+          "tipo": "animacao",
+          "alvo": "pc_3",
+          "blocos": [
+            {
+              "t": 46.7,
+              "dur": 6.86,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_pc_4",
+          "nome": "pc_4 · animação",
+          "tipo": "animacao",
+          "alvo": "pc_4",
+          "blocos": [
+            {
+              "t": 46.95,
+              "dur": 6.61,
               "clipe": "acender",
               "loop": false
             }
@@ -1189,7 +1526,7 @@
           ]
         }
       ],
-      "notas": "Gabura pede o cyberdeck (embaixo das caixas de pizza na mesa da esquerda). As dicas de 30 s e 60 s (004 e 005) e as do tangram (008 e 009) são falas por evento. Ao encaixar, o cyberdeck da mesa some e aparece em pé no console, e os dois acendem. No fim, a luz da navegação acende e a Gabu_IA avisa pelo relógio. Música mus_ponte: espaço reservado."
+      "notas": "Gabura pede o cyberdeck (embaixo das caixas de pizza na mesa da esquerda). As dicas de 30 s e 60 s (004 e 005) e as do tangram (008 e 009) são falas por evento. Computadores, mesas, caixas e o mural de papéis encostados nas paredes; os 4 computadores acendem quando a navegação volta. Ao encaixar, o cyberdeck da mesa some e aparece em pé no console, e os dois acendem. No fim, a luz da navegação acende e a Gabu_IA avisa pelo relógio. Música mus_ponte: espaço reservado."
     },
     {
       "id": "treino_captura",
@@ -1437,89 +1774,172 @@
           "escala": 1
         },
         {
+          "id": "ceu_nave",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "fora_lima_castanho",
+          "modelo": "gabura_lima_castanho.glb",
+          "pos": [
+            16,
+            3,
+            -9
+          ],
+          "rotY": -85.642,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_robo_menta",
+          "modelo": "gabura_robo_menta.glb",
+          "pos": [
+            -12,
+            1.5,
+            -12
+          ],
+          "rotY": 70,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_aqua_loiro",
+          "modelo": "gabura_aqua_loiro.glb",
+          "pos": [
+            -12,
+            2.5,
+            12
+          ],
+          "rotY": 110,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_gato_lilas",
+          "modelo": "gabura_gato_lilas.glb",
+          "pos": [
+            -6,
+            3,
+            -32
+          ],
+          "rotY": 35.62,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_coral_grisalho",
+          "modelo": "gabura_coral_grisalho.glb",
+          "pos": [
+            17,
+            1,
+            10
+          ],
+          "rotY": -145.466,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_violeta_sem_oculos",
+          "modelo": "gabura_violeta_sem_oculos.glb",
+          "pos": [
+            -20,
+            2,
+            -12
+          ],
+          "rotY": 84.036,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
           "id": "parapeito_posto",
           "modelo": "parapeito_posto.glb",
           "pos": [
-            -19,
+            -13.8,
             0,
-            4.2
+            0
           ],
-          "rotY": 0,
+          "rotY": 90,
           "escala": 1
         },
         {
           "id": "suporte_arma",
           "modelo": "suporte_arma.glb",
           "pos": [
-            -16.7,
+            -13.3,
             0,
-            4.55
+            2.4
           ],
-          "rotY": 0,
+          "rotY": 90,
           "escala": 1
         },
         {
           "id": "camara_captura",
           "modelo": "camara_captura.glb",
           "pos": [
-            -19,
+            -26.3,
             0,
-            -6.5
+            0
           ],
-          "rotY": 0,
+          "rotY": 90,
           "escala": 1
         },
         {
           "id": "botao_cuidado",
           "modelo": "botao_cuidado.glb",
           "pos": [
-            -24.4,
+            -17.9,
             0,
-            1.7
+            -5.7
           ],
-          "rotY": 90,
+          "rotY": 0,
           "escala": 1
         },
         {
           "id": "caixa_robo_1",
           "modelo": "caixa_robo_1.glb",
           "pos": [
-            -21.5,
+            -24,
             0,
             -2.5
           ],
-          "rotY": 18.449,
+          "rotY": 18,
           "escala": 1
         },
         {
           "id": "caixa_robo_2",
           "modelo": "caixa_robo_2.glb",
           "pos": [
-            -17.5,
+            -19.2,
             0,
-            -3
+            -0.3
           ],
-          "rotY": -10.6,
+          "rotY": -11,
           "escala": 1
         },
         {
           "id": "caixa_robo_3",
           "modelo": "caixa_robo_3.glb",
           "pos": [
-            -15.2,
+            -16.8,
             0,
-            -0.5
+            3.5
           ],
-          "rotY": -34.664,
+          "rotY": -35,
           "escala": 1
         },
         {
           "id": "caixas_bracinhos",
           "modelo": "caixas_bracinhos.glb",
           "pos": [
-            -19,
+            -22.8,
             0,
-            0.8
+            4
           ],
           "rotY": 0,
           "escala": 1
@@ -1528,55 +1948,55 @@
           "id": "lata_aqua",
           "modelo": "lata_aqua.glb",
           "pos": [
-            -20.3,
+            -25.2,
             0,
-            1.9
+            5
           ],
-          "rotY": 22.746,
+          "rotY": 23,
           "escala": 1
         },
         {
           "id": "lata_violeta",
           "modelo": "lata_violeta.glb",
           "pos": [
-            -16.4,
+            -17.6,
             0,
-            1.6
+            -2.2
           ],
-          "rotY": -37.414,
+          "rotY": -37,
           "escala": 1
         },
         {
           "id": "balde_amarelo",
           "modelo": "balde_amarelo.glb",
           "pos": [
-            -19.7,
+            -20.4,
             0,
-            -1
+            2.25
           ],
-          "rotY": 6.646,
+          "rotY": 7,
           "escala": 1
         },
         {
           "id": "balde_coral",
           "modelo": "balde_coral.glb",
           "pos": [
-            -14.7,
+            -16,
             0,
-            -2.6
+            1
           ],
-          "rotY": -29.507,
+          "rotY": -30,
           "escala": 1
         },
         {
           "id": "arma_laser",
           "modelo": "arma_laser.glb",
           "pos": [
-            -16.7,
+            -13.3,
             0.933,
-            4.55
+            2.4
           ],
-          "rotY": 0,
+          "rotY": 90,
           "escala": 1
         }
       ],
@@ -1609,11 +2029,11 @@
           "cor": "#ffd166",
           "personagem": "gabura_gato",
           "pos": [
-            -23.6,
+            -11.6,
             0,
-            2.4
+            -2.4
           ],
-          "rotY": 126.051
+          "rotY": 22.62
         },
         {
           "falarAutomatico": false,
@@ -1623,16 +2043,88 @@
           "nome": "Máquina de clonagem",
           "modelo": "maquina_clonagem.glb",
           "pos": [
-            -25,
+            -20.6,
             0,
-            -1.2
+            -5.9
           ],
-          "rotY": 90,
+          "rotY": 0,
           "cor": "#ff7a6b",
           "animacao": "defeito"
         }
       ],
       "faixas": [
+        {
+          "id": "mover_gabura_gato",
+          "nome": "Gabura gato · movimento",
+          "tipo": "mover",
+          "alvo": "gabura_gato",
+          "chaves": [
+            {
+              "t": 22.65,
+              "pos": [
+                -11.6,
+                0,
+                -2.4
+              ],
+              "rotY": 22.62,
+              "escala": 1,
+              "curva": "suave"
+            },
+            {
+              "t": 23.05,
+              "pos": [
+                -11.6,
+                0,
+                -2.4
+              ],
+              "rotY": -111.595,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 28.212,
+              "pos": [
+                -16.4,
+                0,
+                -4.3
+              ],
+              "rotY": -111.595,
+              "escala": 1,
+              "curva": "suave"
+            },
+            {
+              "t": 28.712,
+              "pos": [
+                -16.4,
+                0,
+                -4.3
+              ],
+              "rotY": 53.448,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "anim_gabura_gato",
+          "nome": "Gabura gato · animação",
+          "tipo": "animacao",
+          "alvo": "gabura_gato",
+          "blocos": [
+            {
+              "t": 23.05,
+              "dur": 5.162,
+              "clipe": "andar",
+              "loop": true
+            },
+            {
+              "t": 54.182,
+              "dur": 4,
+              "clipe": "comemorar",
+              "loop": true
+            }
+          ]
+        },
         {
           "id": "anim_maquina_clonagem",
           "nome": "Máquina · animação",
@@ -1644,20 +2136,6 @@
               "dur": 23.122,
               "clipe": "desligar",
               "loop": false
-            }
-          ]
-        },
-        {
-          "id": "anim_gabura_gato",
-          "nome": "Gabura gato · animação",
-          "tipo": "animacao",
-          "alvo": "gabura_gato",
-          "blocos": [
-            {
-              "t": 54.182,
-              "dur": 4,
-              "clipe": "comemorar",
-              "loop": true
             }
           ]
         },
@@ -1722,11 +2200,11 @@
               "condicao": {
                 "tipo": "chegar",
                 "pos": [
-                  -17.4,
+                  -12.6,
                   0,
-                  3.6
+                  2
                 ],
-                "raio": 1,
+                "raio": 0.9,
                 "texto": "ir até o suporte da arma"
               }
             },
@@ -1813,57 +2291,27 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
+              -23.125,
               0,
-              0.125
+              -1.125
             ],
             [
-              -21.375,
+              -24,
               0,
-              0.875
+              -1.178
             ],
             [
-              -21.375,
-              0,
-              3.125
-            ],
-            [
-              -18.375,
-              0,
-              3.125
-            ],
-            [
-              -17.625,
-              0,
-              1.625
-            ],
-            [
-              -17.625,
-              0,
-              -0.625
-            ],
-            [
-              -19.125,
-              0,
-              -1.875
-            ],
-            [
-              -20.175,
-              0,
-              -2.5
-            ],
-            [
-              -21.5,
+              -24,
               0,
               -2.5
             ]
@@ -1875,49 +2323,29 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
-              0,
-              0.125
-            ],
-            [
-              -21.375,
+              -20.375,
               0,
               0.875
             ],
             [
-              -21.375,
+              -19.2,
               0,
-              3.125
+              0.968
             ],
             [
-              -18.375,
+              -19.2,
               0,
-              3.125
-            ],
-            [
-              -17.625,
-              0,
-              1.625
-            ],
-            [
-              -17.5,
-              0,
-              -1.735
-            ],
-            [
-              -17.5,
-              0,
-              -3
+              -0.3
             ]
           ]
         },
@@ -1927,49 +2355,39 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
-              0,
-              0.125
-            ],
-            [
-              -21.375,
+              -20.375,
               0,
               0.875
             ],
             [
-              -21.375,
+              -18.125,
               0,
               3.125
             ],
             [
-              -14.625,
+              -18.125,
               0,
-              3.375
+              4.875
             ],
             [
-              -13.875,
+              -16.8,
               0,
-              0.375
+              4.897
             ],
             [
-              -13.803,
+              -16.8,
               0,
-              -0.5
-            ],
-            [
-              -15.2,
-              0,
-              -0.5
+              3.5
             ]
           ]
         },
@@ -1979,49 +2397,29 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
+              -21.625,
               0,
-              0.125
+              5.125
             ],
             [
-              -21.375,
+              -22.8,
               0,
-              0.875
+              5.29
             ],
             [
-              -21.375,
+              -22.8,
               0,
-              3.125
-            ],
-            [
-              -18.375,
-              0,
-              3.125
-            ],
-            [
-              -17.625,
-              0,
-              1.625
-            ],
-            [
-              -17.71,
-              0,
-              0.8
-            ],
-            [
-              -19,
-              0,
-              0.8
+              4
             ]
           ]
         },
@@ -2031,39 +2429,34 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
+              -21.625,
               0,
-              0.125
+              5.125
             ],
             [
-              -21.375,
+              -23.625,
               0,
-              0.875
+              6.125
             ],
             [
-              -21.375,
+              -24.794,
               0,
-              3.125
+              6.37
             ],
             [
-              -19.894,
+              -24.794,
               0,
-              3.271
-            ],
-            [
-              -19.894,
-              0,
-              1.865
+              4.963
             ]
           ]
         },
@@ -2073,39 +2466,34 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
-              0,
-              0.125
-            ],
-            [
-              -21.375,
+              -20.375,
               0,
               0.875
             ],
             [
-              -21.375,
+              -17.875,
               0,
-              3.125
+              0.875
             ],
             [
-              -16.168,
+              -17.365,
               0,
-              3.358
+              -0.443
             ],
             [
-              -16.168,
+              -17.365,
               0,
-              1.935
+              -1.867
             ]
           ]
         },
@@ -2115,54 +2503,34 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
+              -21.125,
               0,
-              0.125
+              2.375
             ],
             [
-              -21.375,
-              0,
-              0.875
-            ],
-            [
-              -21.375,
+              -21.125,
               0,
               3.125
             ],
             [
-              -18.375,
+              -20.4,
               0,
-              3.125
+              3.034
             ],
             [
-              -17.625,
+              -20.4,
               0,
-              1.625
-            ],
-            [
-              -17.625,
-              0,
-              -0.375
-            ],
-            [
-              -18.918,
-              0,
-              -1
-            ],
-            [
-              -19.7,
-              0,
-              -1
+              2.25
             ]
           ]
         },
@@ -2172,54 +2540,39 @@
           "cor": "#ff7a6b",
           "pontos": [
             [
-              -24.25,
+              -20.6,
               0,
-              -1.2
+              -5.15
             ],
             [
-              -20.85,
+              -20.6,
               0,
-              -1.2
+              -1.75
             ],
             [
-              -20.875,
-              0,
-              0.125
-            ],
-            [
-              -21.375,
+              -20.375,
               0,
               0.875
             ],
             [
-              -21.375,
+              -16.375,
               0,
-              3.125
+              1.875
             ],
             [
-              -14.625,
+              -16,
               0,
-              3.375
+              1.859
             ],
             [
-              -13.875,
+              -16,
               0,
-              0.375
-            ],
-            [
-              -13.842,
-              0,
-              -2.6
-            ],
-            [
-              -14.7,
-              0,
-              -2.6
+              1
             ]
           ]
         }
       ],
-      "notas": "Arranjo igual ao da galeria (a sala tem o mesmo tamanho, 18 × 14 m). As linhas tracejadas mostram os caminhos possíveis dos clones: da esteira da máquina até cada um dos 8 esconderijos (coral = Gojo e Fred; lilás = só Fred cabe). Capturas, erros, metade e último clone são falas por evento. Depois da 015 o gato dança (comemorar). Música mus_treino (a mais diferente das salas): espaço reservado."
+      "notas": "Pela planta aprovada em 16/10: quem entra já está no posto (parapeito e suporte da arma junto da porta), a câmara de captura fica no fundo, a máquina e o botão na parede de cima. O gato recebe o jogador perto da porta e, nas falas 004 e 005, anda até a máquina. As linhas tracejadas mostram os caminhos possíveis dos clones, da esteira até cada esconderijo. Capturas, erros, metade e último clone são falas por evento. Depois da 015 o gato dança (comemorar). Música mus_treino: espaço reservado."
     },
     {
       "id": "oficina_energia",
@@ -2467,6 +2820,89 @@
           "escala": 1
         },
         {
+          "id": "ceu_nave",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "fora_lima_castanho",
+          "modelo": "gabura_lima_castanho.glb",
+          "pos": [
+            16,
+            3,
+            -9
+          ],
+          "rotY": -85.642,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_robo_menta",
+          "modelo": "gabura_robo_menta.glb",
+          "pos": [
+            -12,
+            1.5,
+            -12
+          ],
+          "rotY": 70,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_aqua_loiro",
+          "modelo": "gabura_aqua_loiro.glb",
+          "pos": [
+            -12,
+            2.5,
+            12
+          ],
+          "rotY": 110,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_gato_lilas",
+          "modelo": "gabura_gato_lilas.glb",
+          "pos": [
+            -6,
+            3,
+            -32
+          ],
+          "rotY": 35.62,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_coral_grisalho",
+          "modelo": "gabura_coral_grisalho.glb",
+          "pos": [
+            17,
+            1,
+            10
+          ],
+          "rotY": -145.466,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_violeta_sem_oculos",
+          "modelo": "gabura_violeta_sem_oculos.glb",
+          "pos": [
+            -20,
+            2,
+            -12
+          ],
+          "rotY": 84.036,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
           "id": "protoboard",
           "modelo": "protoboard.glb",
           "pos": [
@@ -2530,6 +2966,105 @@
             -1.3
           ],
           "rotY": -58.487,
+          "escala": 1
+        },
+        {
+          "id": "cavalete_quadro",
+          "modelo": "cavalete_quadro.glb",
+          "pos": [
+            18.1,
+            0,
+            -3.2
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "estante_prateleira",
+          "modelo": "estante_prateleira.glb",
+          "pos": [
+            17.9,
+            0,
+            3.4
+          ],
+          "rotY": -180,
+          "escala": 1
+        },
+        {
+          "id": "cnc",
+          "modelo": "cnc.glb",
+          "pos": [
+            12.1,
+            0,
+            -4.95
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "impressora_3d",
+          "modelo": "impressora_3d.glb",
+          "pos": [
+            22.6,
+            0,
+            4.95
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "barril_1",
+          "modelo": "barril_metal.glb",
+          "pos": [
+            23.35,
+            0,
+            -4.85
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "barril_2",
+          "modelo": "barril_azul.glb",
+          "pos": [
+            22.65,
+            0,
+            -4.95
+          ],
+          "rotY": 30,
+          "escala": 1
+        },
+        {
+          "id": "barril_3",
+          "modelo": "barril_metal.glb",
+          "pos": [
+            23.35,
+            0,
+            -4.15
+          ],
+          "rotY": 60,
+          "escala": 1
+        },
+        {
+          "id": "barril_4",
+          "modelo": "barril_azul.glb",
+          "pos": [
+            23.45,
+            0,
+            4.05
+          ],
+          "rotY": 10,
+          "escala": 1
+        },
+        {
+          "id": "gaveteiro_ferramentas",
+          "modelo": "gaveteiro_ferramentas.glb",
+          "pos": [
+            11.2,
+            0,
+            4.95
+          ],
+          "rotY": 180,
           "escala": 1
         },
         {
@@ -2653,6 +3188,21 @@
         {
           "falarAutomatico": false,
           "escala": 1,
+          "visivel": true,
+          "id": "gerador_motor",
+          "nome": "Gerador",
+          "modelo": "gerador_motor.glb",
+          "pos": [
+            19.7,
+            0,
+            0.2
+          ],
+          "rotY": -90,
+          "cor": "#323e4d"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
           "visivel": false,
           "id": "led_circuito",
           "nome": "LED (no circuito)",
@@ -2698,6 +3248,20 @@
               "dur": 24.62,
               "clipe": "girar",
               "loop": true
+            }
+          ]
+        },
+        {
+          "id": "anim_gerador_motor",
+          "nome": "Gerador · animação",
+          "tipo": "animacao",
+          "alvo": "gerador_motor",
+          "blocos": [
+            {
+              "t": 51.05,
+              "dur": 25.02,
+              "clipe": "acender",
+              "loop": false
             }
           ]
         },
@@ -2860,7 +3424,7 @@
           ]
         }
       ],
-      "notas": "Arranjo da galeria girado para a entrada: a protoboard fica de frente para quem entra; o Metal em cima da plataforma; as peças nos lugares da bandeja. Resistor queimado, jumper curto, LED ao contrário e peça certa são falas por evento. Quando o circuito fecha, o LED acende e o motor gira. Música mus_oficina: espaço reservado."
+      "notas": "Arranjo da galeria girado para a entrada: a protoboard fica de frente para quem entra; o Metal em cima da plataforma; as peças nos lugares da bandeja. O quadro tem cavalete, a prateleira virou estante e o motor tem um gerador atrás (acende junto); CNC, impressora 3D, barris e ferramentas ficam junto às paredes e seguram o jogador. Resistor queimado, jumper curto, LED ao contrário e peça certa são falas por evento. Quando o circuito fecha, o LED acende e o motor gira. Música mus_oficina: espaço reservado."
     },
     {
       "id": "portal_saida",
@@ -3106,6 +3670,126 @@
           ],
           "rotY": 0,
           "escala": 1
+        },
+        {
+          "id": "ceu_nave",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "fora_lima_castanho",
+          "modelo": "gabura_lima_castanho.glb",
+          "pos": [
+            16,
+            3,
+            -9
+          ],
+          "rotY": -85.642,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_robo_menta",
+          "modelo": "gabura_robo_menta.glb",
+          "pos": [
+            -12,
+            1.5,
+            -12
+          ],
+          "rotY": 70,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_aqua_loiro",
+          "modelo": "gabura_aqua_loiro.glb",
+          "pos": [
+            -12,
+            2.5,
+            12
+          ],
+          "rotY": 110,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_gato_lilas",
+          "modelo": "gabura_gato_lilas.glb",
+          "pos": [
+            -6,
+            3,
+            -32
+          ],
+          "rotY": 35.62,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_coral_grisalho",
+          "modelo": "gabura_coral_grisalho.glb",
+          "pos": [
+            17,
+            1,
+            10
+          ],
+          "rotY": -145.466,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "fora_violeta_sem_oculos",
+          "modelo": "gabura_violeta_sem_oculos.glb",
+          "pos": [
+            -20,
+            2,
+            -12
+          ],
+          "rotY": 84.036,
+          "escala": 1,
+          "animacao": "flutuar"
+        },
+        {
+          "id": "alem_terra_cubo",
+          "modelo": "terra_cubo.glb",
+          "pos": [
+            0,
+            4,
+            50
+          ],
+          "rotY": 200,
+          "escala": 5,
+          "animacao": "girar",
+          "alemDoPortal": true
+        },
+        {
+          "id": "alem_astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            -1,
+            34
+          ],
+          "rotY": 180,
+          "escala": 1,
+          "alemDoPortal": true
+        },
+        {
+          "id": "alem_ceu",
+          "modelo": "ceu_nave.glb",
+          "pos": [
+            0,
+            0,
+            18.4
+          ],
+          "rotY": 0,
+          "escala": 1,
+          "alemDoPortal": true
         }
       ],
       "atores": [
@@ -3295,7 +3979,7 @@
           ]
         }
       ],
-      "notas": "Caminho principal (já com as 3 luzes acesas): a alavanca destrava, o jogador puxa, o portal se expande e a Gabu_IA se despede quando ele atravessa; o evento iniciar_tunel leva à cena do túnel. Entrar com menos de 3 luzes, alavanca travada e \"15 s sem entrar\" são falas por evento. Música mus_portal: espaço reservado."
+      "notas": "Caminho principal (já com as 3 luzes acesas): a alavanca destrava, o jogador puxa, o portal se expande e a Gabu_IA se despede quando ele atravessa; o evento iniciar_tunel leva à cena do túnel. Pela janela do portal aparece o outro lado (planeta-cubo, astros e estrelas), mesmo com a parede atrás: o redemoinho fica translúcido e a janela cresce quando ele se expande. Entrar com menos de 3 luzes, alavanca travada e \"15 s sem entrar\" são falas por evento. Música mus_portal: espaço reservado."
     },
     {
       "id": "tunel_despedida",

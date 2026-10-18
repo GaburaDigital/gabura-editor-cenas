@@ -34,8 +34,9 @@ interface Parede { c: THREE.Vector3; hx: number; hz: number; rot: number; porta?
 function lerParedes(obj: THREE.Object3D): Parede[] {
   const out: Parede[] = [];
   obj.traverse((o) => {
-    const sala = o.userData.gabura_sala as { colisores?: { c: number[]; t: number[]; rotY: number; porta?: string }[] } | undefined;
-    if (!sala?.colisores) return;
+    // salas (extras.gabura_sala) e peças de cenário grandes (extras.gabura_objeto) usam o mesmo formato de colisor
+    const sala = (o.userData.gabura_sala ?? o.userData.gabura_objeto) as { colisores?: { c: number[]; t: number[]; rotY: number; porta?: string }[] } | undefined;
+    if (!sala?.colisores?.length) return;
     o.updateMatrix();
     for (const k of sala.colisores) {
       const c = new THREE.Vector3(k.c[0], k.c[1], k.c[2]).applyMatrix4(o.matrix);
@@ -146,7 +147,7 @@ export function nomePlaca(): string {
 
 export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | null): void {
   caixa = el; ganchos = g;
-  renderizador = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+  renderizador = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', stencil: true }); // stencil: janela do portal
   leve = forcarLeve ?? placaFraca(renderizador);
   renderizador.setPixelRatio(leve ? 0.75 : Math.min(devicePixelRatio, 2));
   renderizador.shadowMap.enabled = !leve;
@@ -309,13 +310,13 @@ function capsula(cor: string): THREE.Object3D {
   return m;
 }
 
-interface Pedido { id: string; modelo: string; holograma: boolean; cor: string; }
+interface Pedido { id: string; modelo: string; holograma: boolean; cor: string; alemDoPortal?: boolean; }
 
 /** Monta (ou reaproveita) os objetos da cena. Só remonta o que mudou de modelo. */
 export async function montar(c: Cena): Promise<void> {
   cena3d.background = new THREE.Color(c.fundo);
   const pedidos: Pedido[] = [
-    ...c.cenario.map((o) => ({ id: o.id, modelo: o.modelo, holograma: false, cor: '#4a6878' })),
+    ...c.cenario.map((o) => ({ id: o.id, modelo: o.modelo, holograma: false, cor: '#4a6878', alemDoPortal: !!o.alemDoPortal })),
     ...c.atores.map((a) => ({ id: a.id, modelo: a.modelo, holograma: !!a.holograma, cor: a.cor })),
   ];
   const assinatura = c.id + '|' + pedidos.map((p) => `${p.id}:${p.modelo}:${p.holograma}:${biblioteca.modelos.has(p.modelo)}`).join(',');
@@ -347,9 +348,39 @@ export async function montar(c: Cena): Promise<void> {
     for (const cl of g.animations) inst.clipes.set(cl.name, cl);
     inst.boca = lerBoca(obj, g.animations);
     inst.paredes = lerParedes(obj);
-    obj.traverse((o) => { if (o.name === 'casco') cascos.add(o); });
+    obj.traverse((o) => {
+      if (o.name === 'casco') cascos.add(o);
+      if (o.userData.gabura_objeto?.ceu) raiz.userData.naoEscolher = true;
+      const gp = o.userData.gabura_portal as { mascara: string; redemoinho: string; opacidade_redemoinho: number } | undefined;
+      if (gp) prepararJanelaPortal(o, gp);
+    });
+    if (p.alemDoPortal) prepararAlemDoPortal(obj);
   }
+  void trocarRelogioPeloComunicador();
   for (const c of cascos) if (!c.parent || ![...instancias.values()].some((i) => c.parent && isDescendente(c, i.raiz))) cascos.delete(c);
+}
+
+// ---------- janela do portal: o outro lado aparece através do redemoinho, mesmo com a parede atrás ----------
+/** A máscara marca no stencil onde fica a janela; o redemoinho fica translúcido. */
+function prepararJanelaPortal(raiz: THREE.Object3D, gp: { mascara: string; redemoinho: string; opacidade_redemoinho: number }): void {
+  const masc = raiz.getObjectByName(gp.mascara) as THREE.Mesh | undefined;
+  if (masc) {
+    masc.material = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false, stencilWrite: true, stencilRef: 1,
+      stencilFunc: THREE.AlwaysStencilFunc, stencilZPass: THREE.ReplaceStencilOp });
+    masc.renderOrder = 10;
+  }
+  const red = raiz.getObjectByName(gp.redemoinho) as THREE.Mesh | undefined;
+  if (red) { const m = (red.material as THREE.Material).clone(); m.transparent = true; m.opacity = gp.opacidade_redemoinho; m.depthWrite = false; red.material = m; red.renderOrder = 20; }
+}
+/** O que está do outro lado só é desenhado dentro da máscara, por cima da parede. */
+function prepararAlemDoPortal(obj: THREE.Object3D): void {
+  obj.traverse((o) => {
+    const m = o as THREE.Mesh; if (!m.isMesh) return;
+    const conv = (mt: THREE.Material) => { const n = mt.clone(); n.stencilWrite = true; n.stencilRef = 1; n.stencilFunc = THREE.EqualStencilFunc;
+      n.stencilFail = THREE.KeepStencilOp; n.stencilZFail = THREE.KeepStencilOp; n.stencilZPass = THREE.KeepStencilOp; n.depthTest = false; return n; };
+    m.material = Array.isArray(m.material) ? m.material.map(conv) : conv(m.material);
+    m.renderOrder = 11; m.castShadow = false; m.frustumCulled = false;
+  });
 }
 
 function isDescendente(o: THREE.Object3D, raiz: THREE.Object3D): boolean { for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === raiz) return true; return false; }
@@ -438,10 +469,11 @@ function criarMarcadorJogador(): THREE.Group {
 function criarSeta(): THREE.Group {
   const g = new THREE.Group();
   const mat = new THREE.MeshBasicMaterial({ color: '#4fd6d0', transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false });
+  // o lookAt de um objeto aponta o +Z para o alvo: a ponta fica no +Z
   const haste = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.32, 10).rotateX(Math.PI / 2), mat);
-  haste.position.z = -0.08;
-  const ponta = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 16).rotateX(-Math.PI / 2), mat);
-  ponta.position.z = -0.3;
+  haste.position.z = 0.08;
+  const ponta = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.16, 16).rotateX(Math.PI / 2), mat);
+  ponta.position.z = 0.3;
   g.add(haste, ponta);
   g.renderOrder = 5;
   return g;
@@ -532,6 +564,38 @@ export function mostrarChegar(pos: Vec3 | null, raio = 1): void {
 }
 
 export function textoRelogio(texto: string): void { desenharRelogio(texto); }
+
+// ---------- o relógio do pulso usa o comunicador.glb da galeria, quando ele está na biblioteca ----------
+let comunicador: { obj: THREE.Object3D; mixer: THREE.AnimationMixer; falar: THREE.AnimationAction | null; barras: THREE.Object3D[] } | null = null;
+async function trocarRelogioPeloComunicador(): Promise<void> {
+  if (comunicador || !biblioteca.modelos.has('comunicador.glb')) return;
+  const g = await gltf('comunicador.glb');
+  if (!g || comunicador) return;
+  const obj = SkeletonUtils.clone(g.scene);
+  // tela para o rosto (frente do modelo = +Z), no pulso esquerdo, um pouco abaixo da vista
+  obj.rotation.set(0, Math.PI, 0);
+  const mixer = new THREE.AnimationMixer(obj);
+  const clipe = g.animations.find((a) => a.name === 'falar');
+  const barras: THREE.Object3D[] = [];
+  for (let i = 0; i < 7; i++) { const b = obj.getObjectByName('barra_' + i); if (b) barras.push(b); }
+  relogio.clear();
+  const giro = new THREE.Group(); giro.rotation.y = Math.PI; giro.add(obj); relogio.add(giro);
+  comunicador = { obj, mixer, falar: clipe ? mixer.clipAction(clipe) : null, barras };
+  relogioFalando(0, 0);
+}
+/** Ondas da tela do relógio no ritmo da voz de quem está no relógio (nivel 0 = calado). */
+export function relogioFalando(nivel: number, tempo: number): void {
+  if (!comunicador) return;
+  const c = comunicador;
+  if (nivel > 0.02 && c.falar) {
+    c.falar.enabled = true; c.falar.play(); c.falar.setEffectiveWeight(1);
+    const d = c.falar.getClip().duration || 1; c.falar.time = tempo % d; c.mixer.update(0);
+  } else {
+    if (c.falar) c.falar.enabled = false;
+    c.mixer.update(0);
+    for (const b of c.barras) b.scale.set(1, 0.2, 1);
+  }
+}
 
 // ---------- quem fica no relógio (Gabu_IA) ----------
 const ACIMA_DO_RELOGIO = 0.075; // o centro da cabeça (8 cm) flutua 7,5 cm acima da tela
@@ -631,7 +695,7 @@ function ligarEntrada(): void {
     const r = tela.getBoundingClientRect();
     const ponto = new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     const raio = new THREE.Raycaster(); raio.setFromCamera(ponto, camEditar);
-    const alvos = [marcadorJogador, ...[...instancias.values()].map((i) => i.raiz)].filter((o) => o.visible);
+    const alvos = [marcadorJogador, ...[...instancias.values()].map((i) => i.raiz)].filter((o) => o.visible && !o.userData.naoEscolher);
     const hit = raio.intersectObjects(alvos, true)[0];
     let o: THREE.Object3D | null = hit?.object ?? null;
     while (o && o.userData.id === undefined) o = o.parent;
