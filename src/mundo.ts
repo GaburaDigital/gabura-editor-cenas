@@ -30,16 +30,16 @@ export interface Instancia {
 }
 
 /** Caixa de parede vista de cima: centro, meia-largura, meia-espessura e giro (graus, como o rotation.y). */
-interface Parede { c: THREE.Vector3; hx: number; hz: number; rot: number }
+interface Parede { c: THREE.Vector3; hx: number; hz: number; rot: number; porta?: string }
 function lerParedes(obj: THREE.Object3D): Parede[] {
   const out: Parede[] = [];
   obj.traverse((o) => {
-    const sala = o.userData.gabura_sala as { colisores?: { c: number[]; t: number[]; rotY: number }[] } | undefined;
+    const sala = o.userData.gabura_sala as { colisores?: { c: number[]; t: number[]; rotY: number; porta?: string }[] } | undefined;
     if (!sala?.colisores) return;
     o.updateMatrix();
     for (const k of sala.colisores) {
       const c = new THREE.Vector3(k.c[0], k.c[1], k.c[2]).applyMatrix4(o.matrix);
-      out.push({ c, hx: k.t[0] / 2, hz: k.t[2] / 2, rot: THREE.MathUtils.degToRad(k.rotY) + o.rotation.y });
+      out.push({ c, hx: k.t[0] / 2, hz: k.t[2] / 2, rot: THREE.MathUtils.degToRad(k.rotY) + o.rotation.y, porta: k.porta });
     }
   });
   return out;
@@ -114,6 +114,7 @@ export const simulacao = {
   yaw: 0, pitch: 0,
   deslocamento: new THREE.Vector3(), // o quanto o jogador andou com WASD, em relação ao ponto da cena
   colisao: true,         // as paredes das salas seguram o jogador (C liga e desliga)
+  portasAbertas: false,  // portas fechadas seguram como parede; P abre/fecha todas (no jogo, cada porta abre na sua hora)
   teclas: new Set<string>(),
   relogio: false,
 };
@@ -582,6 +583,7 @@ function ligarEntrada(): void {
     if (k === 'escape' && document.pointerLockElement) { document.exitPointerLock(); return; }
     if (['w', 'a', 's', 'd'].includes(k)) { simulacao.teclas.add(k); e.preventDefault(); }
     if (k === 'r' && !e.ctrlKey && !e.metaKey) { simulacao.relogio = !simulacao.relogio; relogio.visible = simulacao.relogio; }
+    if (k === 'p' && !e.ctrlKey && !e.metaKey) { simulacao.portasAbertas = !simulacao.portasAbertas; caixa.dispatchEvent(new CustomEvent('portas', { detail: simulacao.portasAbertas })); }
     if (k === 'c' && !e.ctrlKey && !e.metaKey) { simulacao.colisao = !simulacao.colisao; caixa.dispatchEvent(new CustomEvent('colisao', { detail: simulacao.colisao })); }
   });
   window.addEventListener('keyup', (e) => simulacao.teclas.delete(e.key.toLowerCase()));
@@ -616,6 +618,7 @@ function empurrarParaFora(p: THREE.Vector3): void {
       if (!inst.paredes.length || !inst.raiz.visible) continue;
       const s = inst.raiz.scale.x;
       for (const w of inst.paredes) {
+        if (w.porta && simulacao.portasAbertas) continue;
         c.copy(w.c).multiplyScalar(s).applyAxisAngle(new THREE.Vector3(0, 1, 0), inst.raiz.rotation.y).add(inst.raiz.position);
         const th = w.rot + inst.raiz.rotation.y, co = Math.cos(th), si = Math.sin(th);
         const dx = p.x - c.x, dz = p.z - c.z;
