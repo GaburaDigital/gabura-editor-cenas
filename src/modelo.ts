@@ -9,6 +9,7 @@ export interface ObjetoCenario {
   modelo: string;          // nome do arquivo .glb
   pos: Vec3;
   rotY: number;            // graus
+  rotX?: number;           // graus, inclinação fixa (ex.: cyberdeck deitado na mesa); aplicada depois do rotY
   escala: number;
   animacao?: string;       // clipe em loop (ex.: "correr" do túnel)
 }
@@ -24,9 +25,26 @@ export interface Ator {
   falarAutomatico?: boolean; // durante a fala dele, toca o clipe "falar" sozinho
   pos: Vec3;
   rotY: number;
+  rotX?: number;           // graus, inclinação fixa (não muda com a faixa de movimento)
   escala: number;
   visivel: boolean;        // no começo da cena
   animacao?: string;       // clipe inicial em loop
+  relogio?: boolean;       // fica no relógio do pulso (Gabu_IA): só aparece quando o jogador olha o relógio;
+                           // sem olhar, a voz fica mais baixa e a tela do relógio pisca
+}
+
+/** Linha no chão que mostra um caminho possível (ex.: clones correndo para os esconderijos). Só aparece no editor. */
+export interface Caminho { id: string; nome: string; cor?: string; pontos: Vec3[]; }
+
+/** Falas que não têm hora marcada: tocam quando algo acontece no jogo (pegar, errar, ficar parado...). */
+export interface FalaPorEvento {
+  id: string;              // nome do evento no jogo (ex.: treino_captura)
+  sala: string;            // onde vale (ex.: treinamento, ou "qualquer")
+  quando: string;          // o gatilho, em português
+  falas: string[];         // ids da dublagem
+  modo: 'sorteio' | 'sequencia' | 'uma_vez'; // sorteio sem repetir a anterior; sequência (dica 1, dica 2); toca uma vez só
+  ator?: string;           // quem fala (id do personagem)
+  nota?: string;
 }
 
 /** Ponto-chave de movimento. "curva" diz como ir DESTE ponto até o próximo:
@@ -42,6 +60,7 @@ export interface BlocoSeta { t: number; dur: number; alvo: string; }
 export type Condicao =
   | { tipo: 'chegar'; pos: Vec3; raio: number; texto: string }
   | { tipo: 'olhar'; alvo: string; angulo: number; texto: string }
+  | { tipo: 'relogio'; texto: string }   // levantar o pulso e olhar o relógio (R no Simular VR)
   | { tipo: 'manual'; texto: string };
 export interface BlocoAguardar { t: number; condicao: Condicao; }
 export interface BlocoEvento { t: number; nome: string; }
@@ -70,6 +89,7 @@ export interface Cena {
   cenario: ObjetoCenario[];
   atores: Ator[];
   faixas: Faixa[];
+  caminhos?: Caminho[];
   notas?: string;
 }
 
@@ -78,6 +98,7 @@ export interface Pacote {
   projeto: string;
   personagens: Record<string, string>; // id → nome mostrado na legenda
   cenas: Cena[];
+  falas_por_evento?: FalaPorEvento[];
 }
 
 /** Itens "pontuais" ou com duração de qualquer faixa, para a linha do tempo tratar todos igual. */
@@ -101,10 +122,12 @@ export function novoId(prefixo: string): string {
 export function normalizarPacote(p: Pacote): Pacote {
   if (p.versao_formato !== 1) throw new Error('Pacote de cenas em formato desconhecido.');
   p.personagens ??= {};
+  // campos opcionais acrescentados em 18/10 (caminhos, falas_por_evento, ator.relogio): pacotes antigos continuam valendo
+  p.falas_por_evento ??= [];
   for (const c of p.cenas) {
     c.fundo ??= '#0a141c';
     c.jogador ??= { pos: [0, 0, 0], rotY: 0 };
-    c.cenario ??= []; c.atores ??= []; c.faixas ??= [];
+    c.cenario ??= []; c.atores ??= []; c.faixas ??= []; c.caminhos ??= [];
     for (const a of c.atores) { a.escala ??= 1; a.rotY ??= 0; a.visivel ??= true; a.falarAutomatico ??= true; }
     for (const f of c.faixas) {
       if ('chaves' in f) f.chaves.sort((a, b) => a.t - b.t);

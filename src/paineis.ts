@@ -239,6 +239,7 @@ function painelAtor(a: Ator): HTMLElement[] {
     escolha('Modelo', a.modelo, [...biblioteca.modelos.keys()].sort().map((m) => [m, m]), (v) => { a.modelo = v; }),
     escolha('Personagem (falas)', a.personagem ?? '', [['', '— nenhum —'], ...personagens], (v) => { a.personagem = v || undefined; }),
     marca('Holograma', !!a.holograma, (v) => { a.holograma = v; }, 'Azulado e translúcido, brilha no ritmo da voz'),
+    marca('Fica no relógio do pulso', !!a.relogio, (v) => { a.relogio = v || undefined; }, 'Só aparece quando o jogador olha o relógio (R no Simular VR); sem olhar, a voz fica mais baixa e a tela pisca'),
     marca('Mexer ("falar") durante as falas dele', a.falarAutomatico !== false, (v) => { a.falarAutomatico = v; }),
     marca('Visível no começo', a.visivel, (v) => { a.visivel = v; }),
     escolhaClipe('Animação parada', a.animacao ?? '', a.modelo, (v) => { a.animacao = v || undefined; }, 'idle (padrão)'),
@@ -349,10 +350,11 @@ function painelItem(f: Faixa, i: number): HTMLElement[] {
         const j = poseJogador(c, b.t);
         b.condicao = tipo === 'chegar' ? { tipo: 'chegar', pos: [...j.pos] as Vec3, raio: 1, texto: txt }
           : tipo === 'olhar' ? { tipo: 'olhar', alvo: alvosDaCena()[0]?.[0] ?? '', angulo: 20, texto: txt }
-            : { tipo: 'manual', texto: txt };
+            : tipo === 'relogio' ? { tipo: 'relogio', texto: txt }
+              : { tipo: 'manual', texto: txt };
       };
       out.push(
-        escolha('Espera até', cd.tipo, [['chegar', 'O jogador chegar a um lugar'], ['olhar', 'O jogador olhar para algo'], ['manual', 'O jogo avisar (botão, encaixe…)']], trocar),
+        escolha('Espera até', cd.tipo, [['chegar', 'O jogador chegar a um lugar'], ['olhar', 'O jogador olhar para algo'], ['relogio', 'O jogador olhar o relógio (R)'], ['manual', 'O jogo avisar (botão, encaixe…)']], trocar),
         texto('O que o jogador faz', cd.texto, (v) => { cd.texto = v; }, 'Aparece no relógio e no botão "simular"'),
         ...condicaoCampos(cd),
         el('p', { class: 'nota' }, 'No Simular VR a cena segue sozinha quando a condição acontece. No Editar, aparece o botão "Simular" na janela 3D.'),

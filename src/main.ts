@@ -33,6 +33,7 @@ const btDesfazer = el('button', { class: 'bt icone', type: 'button', title: 'Des
 const btRefazer = el('button', { class: 'bt icone', type: 'button', title: 'Refazer (Ctrl+Y)', onclick: () => refazerUltimo() }, '↷');
 const btAbrir = el('button', { class: 'bt', type: 'button', onclick: () => escolherArquivos(), title: 'Pacote de cenas (.json ou .zip), modelos (.glb), ZIP da dublagem, sons' }, 'Abrir arquivos');
 const btExportar = el('button', { class: 'bt lima', type: 'button', onclick: () => exportar() }, 'Exportar cenas');
+const btEventos = el('button', { class: 'bt', type: 'button', title: 'Falas que tocam quando algo acontece no jogo (sem hora marcada)', onclick: () => abrirFalasPorEvento() }, 'Falas por evento');
 const btAjustes = el('button', { class: 'bt icone', type: 'button', title: 'Ajustes', onclick: () => abrirAjustes() }, '⚙');
 
 const barra = el('header', { class: 'barra' },
@@ -40,7 +41,7 @@ const barra = el('header', { class: 'barra' },
   selCena,
   el('div', { class: 'abas' }, btEditar, btSimular),
   el('div', { class: 'transporte' }, btInicio, btTocar, relogioTxt),
-  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btAbrir, btExportar, btAjustes));
+  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btEventos, btAbrir, btExportar, btAjustes));
 
 const esquerda = el('aside', { class: 'painel esq', 'aria-label': 'Biblioteca' });
 const direita = el('aside', { class: 'painel dir', 'aria-label': 'Propriedades' });
@@ -193,17 +194,20 @@ function quadro(): void {
 const ultimoJogador = new THREE.Vector3();
 function aplicar(c: NonNullable<ReturnType<typeof cena>>, t: number): void {
   for (const o of c.cenario) {
-    mundo.posicionar(o.id, o.pos, o.rotY, o.escala, true);
+    mundo.posicionar(o.id, o.pos, o.rotY, o.escala, true, o.rotX ?? 0);
     const inst = mundo.instancias.get(o.id);
     if (inst && o.animacao) mundo.animar(o.id, [{ clipe: o.animacao, tempo: t, peso: 1, loop: true }]);
   }
   const ativas = tocador.falasAtivas(c, t);
+  // Gabu_IA no relógio: no Simular só aparece com o pulso levantado (R); no Editar aparece sempre
+  const olhandoRelogio = estado.modo !== 'simular' || mundo.simulacao.relogio;
   const falando = new Map<string, number>();
   for (const b of ativas) { const a = tocador.atorDaFala(c, b); if (a) falando.set(a.id, tocador.nivelVoz(b.fala, t - b.t)); }
   for (const a of c.atores) {
     const p = tocador.poseAtor(c, a, t);
     const vis = tocador.visivelEm(c, a, t);
-    mundo.posicionar(a.id, p.pos, p.rotY, p.escala, vis);
+    mundo.posicionar(a.id, p.pos, p.rotY, p.escala, vis, a.rotX ?? 0);
+    if (a.relogio) mundo.colocarNoRelogio(a.id, p.escala, vis && olhandoRelogio);
     const inst = mundo.instancias.get(a.id);
     if (inst && vis) mundo.animar(a.id, tocador.camadasEm(c, a, t, [...inst.clipes.keys()]), inst.boca.length ? tocador.bocaEm(c, a, t) : null);
     if (a.holograma) mundo.brilhar(a.id, falando.get(a.id) ?? 0);
@@ -218,6 +222,10 @@ function aplicar(c: NonNullable<ReturnType<typeof cena>>, t: number): void {
   if (leg) { legenda.replaceChildren(el('strong', {}, leg.quem + ': '), leg.texto); legenda.hidden = false; } else legenda.hidden = true;
   tocador.abaixarMusica(ativas.length > 0);
   mundo.textoRelogio(estado.aguardando?.texto ?? (leg ? leg.quem + ' falando' : ''));
+  const relogioFalando = ativas.some((b) => tocador.atorDaFala(c, b)?.relogio);
+  tocador.volumeDoRelogio(olhandoRelogio);
+  mundo.piscarRelogio(relogioFalando && !olhandoRelogio);
+  mundo.mostrarCaminhos(c.caminhos ?? [], estado.modo === 'editar');
   // anel amarelo do "chegar" selecionado
   const s = estado.selecao; const f = s ? c.faixas.find((x) => x.id === s.faixa) : undefined;
   const sel = f && f.tipo === 'aguardar' && s ? f.blocos[s.indice] : undefined;
@@ -241,6 +249,8 @@ function verificarCondicao(): void {
     const { origem, direcao } = mundo.olharDoJogador();
     const ang = THREE.MathUtils.radToDeg(direcao.angleTo(alvo.sub(origem).normalize()));
     if (ang <= cd.angulo) liberarAguardar();
+  } else if (cd.tipo === 'relogio') {
+    if (mundo.simulacao.relogio) liberarAguardar();
   }
 }
 
@@ -500,3 +510,29 @@ void iniciar().catch((e) => {
   console.error(e);
   app.append(el('p', { class: 'carregando' }, 'O editor não abriu: ' + (e instanceof Error ? e.message : String(e))));
 });
+
+/** Lista das falas por evento (as que não têm hora marcada numa cena), por sala, com botão para ouvir. */
+const MODOS_EVENTO = { sorteio: 'sorteia uma (sem repetir a anterior)', sequencia: 'uma depois da outra', uma_vez: 'toca uma vez só' } as const;
+function abrirFalasPorEvento(): void {
+  const lista = estado.pacote?.falas_por_evento ?? [];
+  const nomes = estado.pacote?.personagens ?? {};
+  const salas = [...new Set(lista.map((e) => e.sala))];
+  const corpo = el('div', { class: 'modal-corpo eventos' },
+    el('h3', {}, 'Falas por evento'),
+    el('p', { class: 'nota' }, 'Estas falas não ficam na linha do tempo: o jogo toca quando o gatilho acontece. Clique em ▶ para ouvir.'),
+    lista.length ? null : el('p', {}, 'Este pacote ainda não tem falas por evento.'),
+    ...salas.map((sala) => el('section', { class: 'evento-sala' },
+      el('h4', {}, sala),
+      ...lista.filter((e) => e.sala === sala).map((e) => el('div', { class: 'evento-item' },
+        el('div', { class: 'evento-topo' }, el('strong', {}, e.quando), el('span', { class: 'nota' }, ` · ${MODOS_EVENTO[e.modo] ?? e.modo} · `, el('code', {}, e.id))),
+        e.nota ? el('p', { class: 'nota' }, e.nota) : null,
+        ...e.falas.map((id) => {
+          const info = biblioteca.falas.get(id);
+          const quem = nomes[info?.personagem ?? e.ator ?? ''] ?? info?.personagem ?? e.ator ?? '';
+          const bt = el('button', { class: 'bt mini', type: 'button', title: 'Ouvir', onclick: () => { if (!tocador.ouvirFala(id)) aviso('O áudio desta fala não está no editor (arraste o ZIP da dublagem).', 'info'); } }, '▶');
+          return el('div', { class: 'evento-fala' }, bt, el('span', {}, el('strong', {}, quem ? quem + ': ' : ''), info?.texto ?? id),
+            el('span', { class: 'nota' }, info ? ` ${info.duracao.toFixed(1).replace('.', ',')} s` : ' (sem áudio)'));
+        }))))),
+    el('div', { class: 'modal-bts' }, el('button', { class: 'bt lima', type: 'button', onclick: () => j.fechar() }, 'Fechar')));
+  const j = abrirJanela(corpo);
+}

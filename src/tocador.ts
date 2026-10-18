@@ -217,7 +217,7 @@ export function duracaoItem(f: Faixa, i: number): number {
 }
 
 // ---------- som: falas e músicas agendadas no relógio do áudio ----------
-interface Tocando { fonte: AudioBufferSourceNode; ganho: GainNode; musica: boolean; volume: number; }
+interface Tocando { fonte: AudioBufferSourceNode; ganho: GainNode; musica: boolean; volume: number; relogio?: boolean; }
 let tocando: Tocando[] = [];
 
 /** Começa o som da cena a partir de t0 (o relógio do áudio manda no tempo). */
@@ -225,7 +225,7 @@ export function tocarSom(c: Cena, t0: number): number {
   pararSom();
   const ctx = contextoAudio();
   const agora = ctx.currentTime + 0.05;
-  const agendar = (buf: AudioBuffer, inicio: number, volume: number, musica: boolean, loop = false, fim?: number) => {
+  const agendar = (buf: AudioBuffer, inicio: number, volume: number, musica: boolean, loop = false, fim?: number, relogio = false) => {
     const dentro = t0 - inicio;
     if (!loop && dentro >= buf.duration) return;
     if (fim !== undefined && t0 >= fim) return;
@@ -236,9 +236,9 @@ export function tocarSom(c: Cena, t0: number): number {
     const offset = Math.max(0, dentro);
     fonte.start(quando, loop ? offset % buf.duration : offset);
     if (fim !== undefined) fonte.stop(agora + (fim - t0));
-    tocando.push({ fonte, ganho, musica, volume });
+    tocando.push({ fonte, ganho, musica, volume, relogio });
   };
-  for (const b of falasDa(c)) { const buf = bufferPronto(b.fala); if (buf) agendar(buf, b.t, 1, false); }
+  for (const b of falasDa(c)) { const buf = bufferPronto(b.fala); if (buf) agendar(buf, b.t, 1, false, false, undefined, !!atorDaFala(c, b)?.relogio); }
   for (const f of c.faixas) {
     if (f.tipo !== 'som') continue;
     for (const b of f.blocos) {
@@ -258,6 +258,25 @@ export function pararSom(): void {
 export function abaixarMusica(alguemFalando: boolean): void {
   const ctx = contextoAudio();
   for (const s of tocando) if (s.musica) s.ganho.gain.setTargetAtTime(s.volume * (alguemFalando ? 0.35 : 1), ctx.currentTime, 0.15);
+}
+
+/** Voz de quem está no relógio: normal quando o jogador olha, mais baixa quando não olha. */
+export const VOLUME_RELOGIO_SEM_OLHAR = 0.4;
+export function volumeDoRelogio(olhando: boolean): void {
+  const ctx = contextoAudio();
+  for (const s of tocando) if (s.relogio) s.ganho.gain.setTargetAtTime(s.volume * (olhando ? 1 : VOLUME_RELOGIO_SEM_OLHAR), ctx.currentTime, 0.08);
+}
+
+/** Toca uma fala solta (lista de falas por evento). Devolve false se o áudio não está no editor. */
+let soltaAtual: AudioBufferSourceNode | null = null;
+export function ouvirFala(id: string): boolean {
+  const buf = bufferPronto(id);
+  try { soltaAtual?.stop(); } catch { /* já parou */ }
+  if (!buf) return false;
+  const ctx = contextoAudio();
+  const fonte = ctx.createBufferSource(); fonte.buffer = buf; fonte.connect(ctx.destination); fonte.start();
+  soltaAtual = fonte;
+  return true;
 }
 
 export function somFalta(arquivo: string): boolean { return !biblioteca.audios.has(arquivo); }

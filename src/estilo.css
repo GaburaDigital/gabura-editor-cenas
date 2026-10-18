@@ -204,3 +204,15 @@ label.marca { display: flex; gap: 8px; align-items: center; font: 600 .88rem var
   .sel-cena { max-width: 180px; }
   .bt { padding: 4px 10px; }
 }
+
+/* falas por evento */
+.modal:has(.eventos) { max-width: 760px; }
+.eventos h4 { margin: 10px 0 4px; font: 800 1rem var(--fonte-titulo, inherit); color: var(--aqua); text-transform: capitalize; }
+.evento-item { border: 1px solid var(--linha); border-radius: 10px; padding: 8px 10px; margin-bottom: 8px; display: grid; gap: 4px; }
+.evento-fala { display: flex; gap: 8px; align-items: baseline; }
+.evento-fala .bt.mini { flex: none; }
+
+/* Gabu_IA chamando no relógio (Simular VR, pulso abaixado) */
+.relogio-chamando { position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; border-radius: 999px; background: rgba(9, 21, 32, .82); color: var(--aqua); font: 700 .85rem var(--fonte-texto, inherit); border: 2px solid var(--aqua); animation: piscar-relogio .7s steps(2) infinite; pointer-events: none; }
+.relogio-chamando[hidden] { display: none; }
+@keyframes piscar-relogio { 50% { border-color: transparent; color: var(--texto-2); } }

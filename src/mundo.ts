@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { biblioteca } from './arquivos';
-import type { Cena, Vec3 } from './modelo';
+import type { Caminho, Cena, Vec3 } from './modelo';
 
 export const ALTURA_OLHOS = 1.6;
 export const VELOCIDADE_ANDAR = 1.4; // m/s, a mesma do jogo
@@ -107,6 +107,11 @@ export const instancias = new Map<string, Instancia>();
 let assinaturaAtual = '';
 export let leve = false;
 let medidorFps: HTMLElement;
+let avisoRelogio: HTMLElement;
+/** Casco das salas (lado de fora): no Editar some, para a câmera livre ver por cima; no Simular aparece pelas janelas. */
+const cascos = new Set<THREE.Object3D>();
+let grupoCaminhos: THREE.Group;
+let assinaturaCaminhos = '';
 
 export const simulacao = {
   ativa: false,
@@ -202,6 +207,12 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
   anelChegar.visible = false; cena3d.add(anelChegar);
   relogio = criarRelogio(); relogio.visible = false; camSimular.add(relogio);
 
+  grupoCaminhos = new THREE.Group(); cena3d.add(grupoCaminhos);
+  avisoRelogio = document.createElement('div');
+  avisoRelogio.className = 'relogio-chamando'; avisoRelogio.hidden = true;
+  avisoRelogio.innerHTML = '<span class="relogio-icone">⌚</span> Gabu_IA no relógio · <kbd>R</kbd> para olhar';
+  el.append(avisoRelogio);
+
   medidorFps = document.createElement('div');
   medidorFps.className = 'fps';
   el.append(medidorFps);
@@ -219,6 +230,7 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
     if (simulacao.ativa) andar(dt);
     ganchos.quadro(dt);
     orbita.update();
+    for (const c of cascos) c.visible = simulacao.ativa;
     renderizador.render(cena3d, simulacao.ativa ? camSimular : camEditar);
   });
 }
@@ -335,20 +347,26 @@ export async function montar(c: Cena): Promise<void> {
     for (const cl of g.animations) inst.clipes.set(cl.name, cl);
     inst.boca = lerBoca(obj, g.animations);
     inst.paredes = lerParedes(obj);
+    obj.traverse((o) => { if (o.name === 'casco') cascos.add(o); });
   }
+  for (const c of cascos) if (!c.parent || ![...instancias.values()].some((i) => c.parent && isDescendente(c, i.raiz))) cascos.delete(c);
 }
+
+function isDescendente(o: THREE.Object3D, raiz: THREE.Object3D): boolean { for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === raiz) return true; return false; }
 
 export function clipesDe(modelo: string): Promise<string[]> {
   return gltf(modelo).then((g) => (g ? g.animations.map((a) => a.name) : []));
 }
 
 /** Põe o objeto no lugar (vindo da linha do tempo). */
-export function posicionar(id: string, pos: Vec3, rotY: number, escala: number, visivel: boolean): void {
+export function posicionar(id: string, pos: Vec3, rotY: number, escala: number, visivel: boolean, rotX = 0): void {
   const inst = instancias.get(id);
   if (!inst) return;
   if (gizmo.dragging && gizmo.object === inst.raiz) return; // não briga com a mão do usuário
   inst.raiz.position.set(pos[0], pos[1], pos[2]);
+  inst.raiz.rotation.order = 'YXZ';
   inst.raiz.rotation.y = THREE.MathUtils.degToRad(rotY);
+  inst.raiz.rotation.x = THREE.MathUtils.degToRad(rotX);
   inst.raiz.scale.setScalar(escala);
   inst.raiz.visible = visivel;
 }
@@ -515,6 +533,61 @@ export function mostrarChegar(pos: Vec3 | null, raio = 1): void {
 
 export function textoRelogio(texto: string): void { desenharRelogio(texto); }
 
+// ---------- quem fica no relógio (Gabu_IA) ----------
+const ACIMA_DO_RELOGIO = 0.075; // o centro da cabeça (8 cm) flutua 7,5 cm acima da tela
+/** Põe o ator em cima do relógio, virado para os olhos do jogador. No Editar, o relógio é o do boneco do jogador. */
+export function colocarNoRelogio(id: string, escala: number, visivel: boolean): void {
+  const inst = instancias.get(id);
+  if (!inst) return;
+  const p = new THREE.Vector3(), olhos = new THREE.Vector3();
+  if (simulacao.ativa) {
+    relogio.getWorldPosition(p);
+    camSimular.getWorldPosition(olhos);
+  } else {
+    // pulso esquerdo do boneco: um pouco à esquerda e à frente, na altura do peito
+    p.set(-0.2, 1.15, -0.3).applyAxisAngle(new THREE.Vector3(0, 1, 0), marcadorJogador.rotation.y).add(marcadorJogador.position);
+    olhos.copy(marcadorJogador.position).add(new THREE.Vector3(0, ALTURA_OLHOS, 0));
+  }
+  p.y += ACIMA_DO_RELOGIO;
+  inst.raiz.position.copy(p);
+  inst.raiz.rotation.y = Math.atan2(olhos.x - p.x, olhos.z - p.z);
+  inst.raiz.scale.setScalar(escala);
+  inst.raiz.visible = visivel;
+}
+
+/** Tela do relógio piscando: alguém do relógio fala e o jogador não está olhando. */
+let piscando = false;
+export function piscarRelogio(sim: boolean): void {
+  if (sim !== piscando) { piscando = sim; telaRelogio.texto = '#'; }
+  avisoRelogio.hidden = !sim || !simulacao.ativa;
+  if (sim) desenharRelogio(Math.floor(performance.now() / 350) % 2 ? 'Gabu_IA chamando' : ' ');
+}
+
+// ---------- caminhos possíveis (linhas no chão, só no editor) ----------
+export function mostrarCaminhos(caminhos: Caminho[], visivel: boolean): void {
+  const assinatura = JSON.stringify(caminhos);
+  if (assinatura !== assinaturaCaminhos) {
+    assinaturaCaminhos = assinatura;
+    grupoCaminhos.clear();
+    for (const c of caminhos) {
+      if (c.pontos.length < 2) continue;
+      const cor = new THREE.Color(c.cor ?? '#ff7a6b');
+      const pts = c.pontos.map((q) => new THREE.Vector3(q[0], q[1] + 0.04, q[2]));
+      const linha = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: cor, dashSize: 0.25, gapSize: 0.12, depthTest: false, transparent: true }));
+      linha.computeLineDistances(); linha.renderOrder = 6;
+      grupoCaminhos.add(linha);
+      // bolinha no começo e seta no fim (mostra o sentido)
+      const mat = new THREE.MeshBasicMaterial({ color: cor, depthTest: false, transparent: true, opacity: 0.9 });
+      const ini = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 6), mat); ini.position.copy(pts[0]); ini.renderOrder = 6;
+      const a = pts[pts.length - 2], b = pts[pts.length - 1];
+      const ponta = new THREE.Mesh(new THREE.ConeGeometry(0.1, 0.28, 10), mat); ponta.renderOrder = 6;
+      ponta.position.copy(b); ponta.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+      grupoCaminhos.add(ini, ponta);
+    }
+  }
+  grupoCaminhos.visible = visivel;
+}
+
 // ---------- seleção e gizmo ----------
 export type ModoGizmo = 'translate' | 'rotate' | 'scale';
 export function selecionar3d(id: string | null, modo: ModoGizmo, permitir: boolean): void {
@@ -541,6 +614,8 @@ export function enquadrarJogador(): void {
   orbita.target.set(p.x, p.y + 1.4, p.z);
   camEditar.position.copy(p).add(atras);
 }
+/** Câmera livre num lugar exato (usado pelos testes automáticos). */
+export function camEditarPos(de: THREE.Vector3, para: THREE.Vector3): void { orbita.target.copy(para); camEditar.position.copy(de); }
 export function seguirComCamera(delta: THREE.Vector3): void {
   orbita.target.add(delta); camEditar.position.add(delta);
 }

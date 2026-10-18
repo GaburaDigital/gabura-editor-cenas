@@ -11,6 +11,3293 @@
   },
   "cenas": [
     {
+      "id": "sala_abertura",
+      "nome": "Sala central: abertura e tutorial",
+      "duracao": 124.67,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          0,
+          0,
+          0.8
+        ],
+        "rotY": 0
+      },
+      "cenario": [
+        {
+          "id": "sala_central",
+          "modelo": "sala_central.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_ponte",
+          "modelo": "corredor_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_treinamento",
+          "modelo": "corredor_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_oficina",
+          "modelo": "corredor_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_portal",
+          "modelo": "corredor_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_ponte",
+          "modelo": "sala_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_treinamento",
+          "modelo": "sala_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_oficina",
+          "modelo": "sala_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_portal",
+          "modelo": "sala_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "porta_oficina",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            6,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "porta_treinamento",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            -6,
+            0,
+            0
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "porta_portal",
+          "modelo": "porta_portal.glb",
+          "pos": [
+            0,
+            0,
+            6
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "porta_ponte",
+          "modelo": "porta_ponte.glb",
+          "pos": [
+            0,
+            0,
+            -6
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mirante_se",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            4.376
+          ],
+          "rotY": -135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_so",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            4.376
+          ],
+          "rotY": 135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_no",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            -4.376
+          ],
+          "rotY": 45,
+          "escala": 1
+        },
+        {
+          "id": "mirante_ne",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            -4.376
+          ],
+          "rotY": -45,
+          "escala": 1
+        },
+        {
+          "id": "painel_luzes",
+          "modelo": "painel_luzes.glb",
+          "pos": [
+            2.212,
+            0.375,
+            5.76
+          ],
+          "rotY": -158.715,
+          "escala": 0.75
+        },
+        {
+          "id": "janelao",
+          "modelo": "janelao.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "faixas_chao",
+          "modelo": "faixas_chao.glb",
+          "pos": [
+            0,
+            0.016,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_1",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            -1.6,
+            0,
+            1.3
+          ],
+          "rotY": 15,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_2",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            -0.9,
+            0,
+            2
+          ],
+          "rotY": -20,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_3",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            -2.3,
+            0,
+            0.5
+          ],
+          "rotY": 40,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_4",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            1.5,
+            0,
+            1.7
+          ],
+          "rotY": -35,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_5",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            2.1,
+            0,
+            0.9
+          ],
+          "rotY": 10,
+          "escala": 1
+        },
+        {
+          "id": "caixa_teste_6",
+          "modelo": "caixa_teste.glb",
+          "pos": [
+            0.7,
+            0,
+            2.4
+          ],
+          "rotY": 60,
+          "escala": 1
+        }
+      ],
+      "atores": [
+        {
+          "falarAutomatico": true,
+          "escala": 0.085,
+          "visivel": true,
+          "id": "gaburia",
+          "nome": "Gabu_IA (relógio)",
+          "modelo": "gaburia_cabeca.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gaburia",
+          "holograma": true,
+          "relogio": true,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": false,
+          "id": "titulo",
+          "nome": "Título do jogo",
+          "modelo": "titulo_gaburaverso.glb",
+          "cor": "#c9b6ff",
+          "pos": [
+            14.142,
+            -0.3,
+            -14.142
+          ],
+          "rotY": -45
+        }
+      ],
+      "faixas": [
+        {
+          "id": "anim_titulo",
+          "nome": "Título · animação",
+          "tipo": "animacao",
+          "alvo": "titulo",
+          "blocos": [
+            {
+              "t": 24.63,
+              "dur": 4.3,
+              "clipe": "intro",
+              "loop": false
+            },
+            {
+              "t": 28.93,
+              "dur": 3,
+              "clipe": "idle",
+              "loop": true
+            },
+            {
+              "t": 31.93,
+              "dur": 1.2,
+              "clipe": "sumir",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "vis_titulo",
+          "nome": "Título · aparece/some",
+          "tipo": "visivel",
+          "alvo": "titulo",
+          "chaves": [
+            {
+              "t": 24.63,
+              "visivel": true
+            },
+            {
+              "t": 33.03,
+              "visivel": false
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 3,
+              "fala": "sala_gaburia_001"
+            },
+            {
+              "t": 8.56,
+              "fala": "sala_gaburia_002"
+            },
+            {
+              "t": 16.74,
+              "fala": "sala_gaburia_003"
+            },
+            {
+              "t": 33.43,
+              "fala": "sala_gaburia_004"
+            },
+            {
+              "t": 40.4,
+              "fala": "sala_gaburia_005"
+            },
+            {
+              "t": 46.63,
+              "fala": "sala_gaburia_006"
+            },
+            {
+              "t": 57.21,
+              "fala": "sala_gaburia_007"
+            },
+            {
+              "t": 63.43,
+              "fala": "sala_gaburia_008"
+            },
+            {
+              "t": 69.86,
+              "fala": "sala_gaburia_009"
+            },
+            {
+              "t": 77.71,
+              "fala": "sala_gaburia_010"
+            },
+            {
+              "t": 84.64,
+              "fala": "sala_gaburia_011"
+            },
+            {
+              "t": 91.62,
+              "fala": "sala_gaburia_012"
+            },
+            {
+              "t": 101.73,
+              "fala": "sala_gaburia_013"
+            },
+            {
+              "t": 107.91,
+              "fala": "sala_gaburia_014"
+            },
+            {
+              "t": 114.86,
+              "fala": "sala_gaburia_015"
+            }
+          ]
+        },
+        {
+          "id": "aguardar",
+          "nome": "Aguardar o jogador",
+          "tipo": "aguardar",
+          "blocos": [
+            {
+              "t": 24.03,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  3,
+                  0,
+                  -3
+                ],
+                "raio": 1.3,
+                "texto": "chegar perto do mirante"
+              }
+            },
+            {
+              "t": 24.43,
+              "condicao": {
+                "tipo": "olhar",
+                "alvo": "mirante_ne",
+                "angulo": 25,
+                "texto": "olhar pela janela"
+              }
+            },
+            {
+              "t": 77.31,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  -1.3,
+                  0,
+                  1.3
+                ],
+                "raio": 1,
+                "texto": "andar até as caixas"
+              }
+            },
+            {
+              "t": 91.22,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "pegar o primeiro objeto (uma caixa)"
+              }
+            },
+            {
+              "t": 107.51,
+              "condicao": {
+                "tipo": "relogio",
+                "texto": "levantar o pulso e olhar o relógio"
+              }
+            }
+          ]
+        },
+        {
+          "id": "setas",
+          "nome": "Seta holográfica",
+          "tipo": "seta",
+          "blocos": [
+            {
+              "t": 24.03,
+              "dur": 5,
+              "alvo": "mirante_ne"
+            },
+            {
+              "t": 77.31,
+              "dur": 4,
+              "alvo": "caixa_teste_1"
+            }
+          ]
+        },
+        {
+          "id": "sons",
+          "nome": "Música e efeitos",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 24.63,
+              "arquivo": "mus_abertura",
+              "volume": 0.6,
+              "loop": true
+            },
+            {
+              "t": 24.63,
+              "dur": 3,
+              "arquivo": "sfx_titulo",
+              "volume": 0.8,
+              "loop": false
+            },
+            {
+              "t": 33.43,
+              "dur": 91.24,
+              "arquivo": "mus_sala_central",
+              "volume": 0.5,
+              "loop": true
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos do jogo",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 0,
+              "nome": "mostrar_logo"
+            },
+            {
+              "t": 2.5,
+              "nome": "relogio_vibrar"
+            },
+            {
+              "t": 16.14,
+              "nome": "janelas_iluminam"
+            },
+            {
+              "t": 24.63,
+              "nome": "mostrar_titulo"
+            },
+            {
+              "t": 114.86,
+              "nome": "acender_faixas_chao"
+            }
+          ]
+        }
+      ],
+      "notas": "Falas 001 a 003 em sequência; o jogo espera o jogador chegar ao mirante da frente-direita e olhar pela janela; o título aparece lá fora (logo + \"Experiência VR no GaburaVERSO\") e some; depois o tutorial: andar (até as caixas), pegar, olhar o relógio. Gabu_IA fica no relógio: no Simular VR, aperte R para levantar o pulso e ver a cabeça holográfica; sem olhar, a voz fica mais baixa e a tela pisca. As 6 caixas de teste não são obrigatórias (falas 017 e 018 são por evento). Músicas mus_abertura e mus_sala_central e o efeito sfx_titulo ainda não existem: espaços reservados."
+    },
+    {
+      "id": "ponte_navegacao",
+      "nome": "Ponte: navegação",
+      "duracao": 53.56,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          0,
+          0,
+          -10.6
+        ],
+        "rotY": 0
+      },
+      "cenario": [
+        {
+          "id": "sala_central",
+          "modelo": "sala_central.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_ponte",
+          "modelo": "corredor_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_treinamento",
+          "modelo": "corredor_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_oficina",
+          "modelo": "corredor_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_portal",
+          "modelo": "corredor_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_ponte",
+          "modelo": "sala_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_treinamento",
+          "modelo": "sala_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_oficina",
+          "modelo": "sala_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_portal",
+          "modelo": "sala_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "porta_oficina",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            6,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "porta_treinamento",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            -6,
+            0,
+            0
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "porta_portal",
+          "modelo": "porta_portal.glb",
+          "pos": [
+            0,
+            0,
+            6
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "porta_ponte",
+          "modelo": "porta_ponte.glb",
+          "pos": [
+            0,
+            0,
+            -6
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mirante_se",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            4.376
+          ],
+          "rotY": -135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_so",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            4.376
+          ],
+          "rotY": 135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_no",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            -4.376
+          ],
+          "rotY": 45,
+          "escala": 1
+        },
+        {
+          "id": "mirante_ne",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            -4.376
+          ],
+          "rotY": -45,
+          "escala": 1
+        },
+        {
+          "id": "painel_luzes",
+          "modelo": "painel_luzes.glb",
+          "pos": [
+            2.212,
+            0.375,
+            5.76
+          ],
+          "rotY": -158.715,
+          "escala": 0.75
+        },
+        {
+          "id": "janelao",
+          "modelo": "janelao.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "faixas_chao",
+          "modelo": "faixas_chao.glb",
+          "pos": [
+            0,
+            0.016,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mesa",
+          "modelo": "mesa.glb",
+          "pos": [
+            -4.6,
+            0,
+            -14.2
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "caixa_pizza_1",
+          "modelo": "caixa_pizza.glb",
+          "pos": [
+            -4.6,
+            0.925,
+            -13.88
+          ],
+          "rotY": 96.875,
+          "escala": 1
+        },
+        {
+          "id": "caixa_pizza_2",
+          "modelo": "caixa_pizza.glb",
+          "pos": [
+            -4.58,
+            0.975,
+            -13.9
+          ],
+          "rotY": 83.125,
+          "escala": 1
+        },
+        {
+          "id": "caixa_pizza_fatia",
+          "modelo": "caixa_pizza.glb",
+          "pos": [
+            -4.56,
+            0.78,
+            -14.56
+          ],
+          "rotY": 110.054,
+          "escala": 1
+        },
+        {
+          "id": "caneca",
+          "modelo": "caneca.glb",
+          "pos": [
+            -4.34,
+            0.78,
+            -14.92
+          ],
+          "rotY": 90,
+          "escala": 1
+        }
+      ],
+      "atores": [
+        {
+          "falarAutomatico": true,
+          "escala": 0.085,
+          "visivel": true,
+          "id": "gaburia",
+          "nome": "Gabu_IA (relógio)",
+          "modelo": "gaburia_cabeca.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gaburia",
+          "holograma": true,
+          "relogio": true,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0
+        },
+        {
+          "falarAutomatico": true,
+          "escala": 1,
+          "visivel": true,
+          "id": "gabura",
+          "nome": "Gabura",
+          "modelo": "gabura_leve.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gabura",
+          "pos": [
+            2.3,
+            0,
+            -16.2
+          ],
+          "rotY": -25
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "cyberdeck",
+          "nome": "Cyberdeck (na mesa)",
+          "modelo": "cyberdeck.glb",
+          "pos": [
+            -4.43,
+            0.845,
+            -13.88
+          ],
+          "rotY": 95.73,
+          "rotX": -90,
+          "cor": "#8fd651"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": false,
+          "id": "cyberdeck_console",
+          "nome": "Cyberdeck (no console)",
+          "modelo": "cyberdeck.glb",
+          "pos": [
+            -0.3,
+            1.092,
+            -17.951
+          ],
+          "rotY": 0,
+          "rotX": 6.34,
+          "cor": "#8fd651"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "console_tangram",
+          "nome": "Console do tangram",
+          "modelo": "console_tangram.glb",
+          "pos": [
+            0,
+            0,
+            -17.6
+          ],
+          "rotY": 0,
+          "cor": "#b9c2c8"
+        }
+      ],
+      "faixas": [
+        {
+          "id": "anim_gabura",
+          "nome": "Gabura · animação",
+          "tipo": "animacao",
+          "alvo": "gabura",
+          "blocos": [
+            {
+              "t": 22.74,
+              "dur": 1.6,
+              "clipe": "atencao",
+              "loop": false
+            },
+            {
+              "t": 33.82,
+              "dur": 1.6,
+              "clipe": "atencao",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_cyberdeck_console",
+          "nome": "Cyberdeck (console) · animação",
+          "tipo": "animacao",
+          "alvo": "cyberdeck_console",
+          "blocos": [
+            {
+              "t": 28.92,
+              "dur": 24.64,
+              "clipe": "ligar",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_console_tangram",
+          "nome": "Console · animação",
+          "tipo": "animacao",
+          "alvo": "console_tangram",
+          "blocos": [
+            {
+              "t": 28.92,
+              "dur": 24.64,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "vis_cyberdeck",
+          "nome": "Cyberdeck (mesa) · aparece/some",
+          "tipo": "visivel",
+          "alvo": "cyberdeck",
+          "chaves": [
+            {
+              "t": 28.92,
+              "visivel": false
+            }
+          ]
+        },
+        {
+          "id": "vis_cyberdeck_console",
+          "nome": "Cyberdeck (console) · aparece/some",
+          "tipo": "visivel",
+          "alvo": "cyberdeck_console",
+          "chaves": [
+            {
+              "t": 28.92,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 0.8,
+              "fala": "ponte_gabura_001",
+              "ator": "gabura"
+            },
+            {
+              "t": 6.42,
+              "fala": "ponte_gabura_002",
+              "ator": "gabura"
+            },
+            {
+              "t": 13.33,
+              "fala": "ponte_gabura_003",
+              "ator": "gabura"
+            },
+            {
+              "t": 22.74,
+              "fala": "ponte_gabura_006",
+              "ator": "gabura"
+            },
+            {
+              "t": 28.92,
+              "fala": "ponte_gabura_007",
+              "ator": "gabura"
+            },
+            {
+              "t": 33.82,
+              "fala": "ponte_gabura_010",
+              "ator": "gabura"
+            },
+            {
+              "t": 37.12,
+              "fala": "ponte_gabura_011",
+              "ator": "gabura"
+            },
+            {
+              "t": 47.2,
+              "fala": "ponte_gaburia_001"
+            }
+          ]
+        },
+        {
+          "id": "aguardar",
+          "nome": "Aguardar o jogador",
+          "tipo": "aguardar",
+          "blocos": [
+            {
+              "t": 22.34,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "achar e segurar o cyberdeck (embaixo das caixas de pizza)"
+              }
+            },
+            {
+              "t": 28.52,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "encaixar o cyberdeck no console"
+              }
+            },
+            {
+              "t": 33.42,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "montar o foguete do tangram"
+              }
+            }
+          ]
+        },
+        {
+          "id": "setas",
+          "nome": "Seta holográfica",
+          "tipo": "seta",
+          "blocos": [
+            {
+              "t": 28.52,
+              "dur": 4,
+              "alvo": "console_tangram"
+            }
+          ]
+        },
+        {
+          "id": "sons",
+          "nome": "Música e efeitos",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 53.56,
+              "arquivo": "mus_ponte",
+              "volume": 0.5,
+              "loop": true
+            },
+            {
+              "t": 45,
+              "dur": 2,
+              "arquivo": "sfx_missao_completa",
+              "volume": 0.8,
+              "loop": false
+            },
+            {
+              "t": 46.2,
+              "dur": 1,
+              "arquivo": "sfx_luz_acesa",
+              "volume": 0.8,
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos do jogo",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 28.92,
+              "nome": "ligar_console"
+            },
+            {
+              "t": 45,
+              "nome": "missao_completa_ponte"
+            },
+            {
+              "t": 46.2,
+              "nome": "acender_luz_ponte"
+            }
+          ]
+        }
+      ],
+      "notas": "Gabura pede o cyberdeck (embaixo das caixas de pizza na mesa da esquerda). As dicas de 30 s e 60 s (004 e 005) e as do tangram (008 e 009) são falas por evento. Ao encaixar, o cyberdeck da mesa some e aparece em pé no console, e os dois acendem. No fim, a luz da navegação acende e a Gabu_IA avisa pelo relógio. Música mus_ponte: espaço reservado."
+    },
+    {
+      "id": "treino_captura",
+      "nome": "Treinamento: captura dos clones",
+      "duracao": 66.752,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          -10.6,
+          0,
+          0
+        ],
+        "rotY": 90
+      },
+      "cenario": [
+        {
+          "id": "sala_central",
+          "modelo": "sala_central.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_ponte",
+          "modelo": "corredor_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_treinamento",
+          "modelo": "corredor_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_oficina",
+          "modelo": "corredor_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_portal",
+          "modelo": "corredor_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_ponte",
+          "modelo": "sala_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_treinamento",
+          "modelo": "sala_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_oficina",
+          "modelo": "sala_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_portal",
+          "modelo": "sala_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "porta_oficina",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            6,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "porta_treinamento",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            -6,
+            0,
+            0
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "porta_portal",
+          "modelo": "porta_portal.glb",
+          "pos": [
+            0,
+            0,
+            6
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "porta_ponte",
+          "modelo": "porta_ponte.glb",
+          "pos": [
+            0,
+            0,
+            -6
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mirante_se",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            4.376
+          ],
+          "rotY": -135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_so",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            4.376
+          ],
+          "rotY": 135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_no",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            -4.376
+          ],
+          "rotY": 45,
+          "escala": 1
+        },
+        {
+          "id": "mirante_ne",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            -4.376
+          ],
+          "rotY": -45,
+          "escala": 1
+        },
+        {
+          "id": "painel_luzes",
+          "modelo": "painel_luzes.glb",
+          "pos": [
+            2.212,
+            0.375,
+            5.76
+          ],
+          "rotY": -158.715,
+          "escala": 0.75
+        },
+        {
+          "id": "janelao",
+          "modelo": "janelao.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "faixas_chao",
+          "modelo": "faixas_chao.glb",
+          "pos": [
+            0,
+            0.016,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "parapeito_posto",
+          "modelo": "parapeito_posto.glb",
+          "pos": [
+            -19,
+            0,
+            4.2
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "suporte_arma",
+          "modelo": "suporte_arma.glb",
+          "pos": [
+            -16.7,
+            0,
+            4.55
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "camara_captura",
+          "modelo": "camara_captura.glb",
+          "pos": [
+            -19,
+            0,
+            -6.5
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "botao_cuidado",
+          "modelo": "botao_cuidado.glb",
+          "pos": [
+            -24.4,
+            0,
+            1.7
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "caixa_robo_1",
+          "modelo": "caixa_robo_1.glb",
+          "pos": [
+            -21.5,
+            0,
+            -2.5
+          ],
+          "rotY": 18.449,
+          "escala": 1
+        },
+        {
+          "id": "caixa_robo_2",
+          "modelo": "caixa_robo_2.glb",
+          "pos": [
+            -17.5,
+            0,
+            -3
+          ],
+          "rotY": -10.6,
+          "escala": 1
+        },
+        {
+          "id": "caixa_robo_3",
+          "modelo": "caixa_robo_3.glb",
+          "pos": [
+            -15.2,
+            0,
+            -0.5
+          ],
+          "rotY": -34.664,
+          "escala": 1
+        },
+        {
+          "id": "caixas_bracinhos",
+          "modelo": "caixas_bracinhos.glb",
+          "pos": [
+            -19,
+            0,
+            0.8
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "lata_aqua",
+          "modelo": "lata_aqua.glb",
+          "pos": [
+            -20.3,
+            0,
+            1.9
+          ],
+          "rotY": 22.746,
+          "escala": 1
+        },
+        {
+          "id": "lata_violeta",
+          "modelo": "lata_violeta.glb",
+          "pos": [
+            -16.4,
+            0,
+            1.6
+          ],
+          "rotY": -37.414,
+          "escala": 1
+        },
+        {
+          "id": "balde_amarelo",
+          "modelo": "balde_amarelo.glb",
+          "pos": [
+            -19.7,
+            0,
+            -1
+          ],
+          "rotY": 6.646,
+          "escala": 1
+        },
+        {
+          "id": "balde_coral",
+          "modelo": "balde_coral.glb",
+          "pos": [
+            -14.7,
+            0,
+            -2.6
+          ],
+          "rotY": -29.507,
+          "escala": 1
+        },
+        {
+          "id": "arma_laser",
+          "modelo": "arma_laser.glb",
+          "pos": [
+            -16.7,
+            0.933,
+            4.55
+          ],
+          "rotY": 0,
+          "escala": 1
+        }
+      ],
+      "atores": [
+        {
+          "falarAutomatico": true,
+          "escala": 0.085,
+          "visivel": true,
+          "id": "gaburia",
+          "nome": "Gabu_IA (relógio)",
+          "modelo": "gaburia_cabeca.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gaburia",
+          "holograma": true,
+          "relogio": true,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0
+        },
+        {
+          "falarAutomatico": true,
+          "escala": 1,
+          "visivel": true,
+          "id": "gabura_gato",
+          "nome": "Gabura gato",
+          "modelo": "gabura_gato.glb",
+          "cor": "#ffd166",
+          "personagem": "gabura_gato",
+          "pos": [
+            -23.6,
+            0,
+            2.4
+          ],
+          "rotY": 126.051
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "maquina_clonagem",
+          "nome": "Máquina de clonagem",
+          "modelo": "maquina_clonagem.glb",
+          "pos": [
+            -25,
+            0,
+            -1.2
+          ],
+          "rotY": 90,
+          "cor": "#ff7a6b",
+          "animacao": "defeito"
+        }
+      ],
+      "faixas": [
+        {
+          "id": "anim_maquina_clonagem",
+          "nome": "Máquina · animação",
+          "tipo": "animacao",
+          "alvo": "maquina_clonagem",
+          "blocos": [
+            {
+              "t": 43.63,
+              "dur": 23.122,
+              "clipe": "desligar",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_gabura_gato",
+          "nome": "Gabura gato · animação",
+          "tipo": "animacao",
+          "alvo": "gabura_gato",
+          "blocos": [
+            {
+              "t": 54.182,
+              "dur": 4,
+              "clipe": "comemorar",
+              "loop": true
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 0.8,
+              "fala": "treino_gabura_gato_001",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 8.62,
+              "fala": "treino_gabura_gato_002",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 16.53,
+              "fala": "treino_gabura_gato_003",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 22.65,
+              "fala": "treino_gabura_gato_004",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 29.63,
+              "fala": "treino_gabura_gato_005",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 36.59,
+              "fala": "treino_gabura_gato_006",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 43.63,
+              "fala": "treino_gabura_gato_014",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 51.342,
+              "fala": "treino_gabura_gato_015",
+              "ator": "gabura_gato"
+            },
+            {
+              "t": 60.382,
+              "fala": "treino_gaburia_001"
+            }
+          ]
+        },
+        {
+          "id": "aguardar",
+          "nome": "Aguardar o jogador",
+          "tipo": "aguardar",
+          "blocos": [
+            {
+              "t": 35.99,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  -17.4,
+                  0,
+                  3.6
+                ],
+                "raio": 1,
+                "texto": "ir até o suporte da arma"
+              }
+            },
+            {
+              "t": 36.19,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "pegar a arma de captura"
+              }
+            },
+            {
+              "t": 43.23,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "capturar os 16 clones (falas de captura e erro são por evento)"
+              }
+            }
+          ]
+        },
+        {
+          "id": "setas",
+          "nome": "Seta holográfica",
+          "tipo": "seta",
+          "blocos": [
+            {
+              "t": 35.99,
+              "dur": 4,
+              "alvo": "suporte_arma"
+            }
+          ]
+        },
+        {
+          "id": "sons",
+          "nome": "Música e efeitos",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 66.752,
+              "arquivo": "mus_treino",
+              "volume": 0.5,
+              "loop": true
+            },
+            {
+              "t": 58.182,
+              "dur": 2,
+              "arquivo": "sfx_missao_completa",
+              "volume": 0.8,
+              "loop": false
+            },
+            {
+              "t": 59.382,
+              "dur": 1,
+              "arquivo": "sfx_luz_acesa",
+              "volume": 0.8,
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos do jogo",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 43.23,
+              "nome": "comecar_captura"
+            },
+            {
+              "t": 58.182,
+              "nome": "missao_completa_treinamento"
+            },
+            {
+              "t": 59.382,
+              "nome": "acender_luz_treinamento"
+            }
+          ]
+        }
+      ],
+      "caminhos": [
+        {
+          "id": "caminho_caixa_robo_1",
+          "nome": "Clone → caixa robo 1",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -18.375,
+              0,
+              3.125
+            ],
+            [
+              -17.625,
+              0,
+              1.625
+            ],
+            [
+              -17.625,
+              0,
+              -0.625
+            ],
+            [
+              -19.125,
+              0,
+              -1.875
+            ],
+            [
+              -20.175,
+              0,
+              -2.5
+            ],
+            [
+              -21.5,
+              0,
+              -2.5
+            ]
+          ]
+        },
+        {
+          "id": "caminho_caixa_robo_2",
+          "nome": "Clone → caixa robo 2",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -18.375,
+              0,
+              3.125
+            ],
+            [
+              -17.625,
+              0,
+              1.625
+            ],
+            [
+              -17.5,
+              0,
+              -1.735
+            ],
+            [
+              -17.5,
+              0,
+              -3
+            ]
+          ]
+        },
+        {
+          "id": "caminho_caixa_robo_3",
+          "nome": "Clone → caixa robo 3",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -14.625,
+              0,
+              3.375
+            ],
+            [
+              -13.875,
+              0,
+              0.375
+            ],
+            [
+              -13.803,
+              0,
+              -0.5
+            ],
+            [
+              -15.2,
+              0,
+              -0.5
+            ]
+          ]
+        },
+        {
+          "id": "caminho_caixas_bracinhos",
+          "nome": "Clone → caixas bracinhos",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -18.375,
+              0,
+              3.125
+            ],
+            [
+              -17.625,
+              0,
+              1.625
+            ],
+            [
+              -17.71,
+              0,
+              0.8
+            ],
+            [
+              -19,
+              0,
+              0.8
+            ]
+          ]
+        },
+        {
+          "id": "caminho_lata_aqua",
+          "nome": "Clone → lata aqua",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -19.894,
+              0,
+              3.271
+            ],
+            [
+              -19.894,
+              0,
+              1.865
+            ]
+          ]
+        },
+        {
+          "id": "caminho_lata_violeta",
+          "nome": "Clone → lata violeta",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -16.168,
+              0,
+              3.358
+            ],
+            [
+              -16.168,
+              0,
+              1.935
+            ]
+          ]
+        },
+        {
+          "id": "caminho_balde_amarelo",
+          "nome": "Clone → balde amarelo",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -18.375,
+              0,
+              3.125
+            ],
+            [
+              -17.625,
+              0,
+              1.625
+            ],
+            [
+              -17.625,
+              0,
+              -0.375
+            ],
+            [
+              -18.918,
+              0,
+              -1
+            ],
+            [
+              -19.7,
+              0,
+              -1
+            ]
+          ]
+        },
+        {
+          "id": "caminho_balde_coral",
+          "nome": "Clone → balde coral",
+          "cor": "#ff7a6b",
+          "pontos": [
+            [
+              -24.25,
+              0,
+              -1.2
+            ],
+            [
+              -20.85,
+              0,
+              -1.2
+            ],
+            [
+              -20.875,
+              0,
+              0.125
+            ],
+            [
+              -21.375,
+              0,
+              0.875
+            ],
+            [
+              -21.375,
+              0,
+              3.125
+            ],
+            [
+              -14.625,
+              0,
+              3.375
+            ],
+            [
+              -13.875,
+              0,
+              0.375
+            ],
+            [
+              -13.842,
+              0,
+              -2.6
+            ],
+            [
+              -14.7,
+              0,
+              -2.6
+            ]
+          ]
+        }
+      ],
+      "notas": "Arranjo igual ao da galeria (a sala tem o mesmo tamanho, 18 × 14 m). As linhas tracejadas mostram os caminhos possíveis dos clones: da esteira da máquina até cada um dos 8 esconderijos (coral = Gojo e Fred; lilás = só Fred cabe). Capturas, erros, metade e último clone são falas por evento. Depois da 015 o gato dança (comemorar). Música mus_treino (a mais diferente das salas): espaço reservado."
+    },
+    {
+      "id": "oficina_energia",
+      "nome": "Oficina: energia",
+      "duracao": 76.07,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          10.6,
+          0,
+          0
+        ],
+        "rotY": -90
+      },
+      "cenario": [
+        {
+          "id": "sala_central",
+          "modelo": "sala_central.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_ponte",
+          "modelo": "corredor_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_treinamento",
+          "modelo": "corredor_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_oficina",
+          "modelo": "corredor_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_portal",
+          "modelo": "corredor_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_ponte",
+          "modelo": "sala_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_treinamento",
+          "modelo": "sala_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_oficina",
+          "modelo": "sala_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_portal",
+          "modelo": "sala_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "porta_oficina",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            6,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "porta_treinamento",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            -6,
+            0,
+            0
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "porta_portal",
+          "modelo": "porta_portal.glb",
+          "pos": [
+            0,
+            0,
+            6
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "porta_ponte",
+          "modelo": "porta_ponte.glb",
+          "pos": [
+            0,
+            0,
+            -6
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mirante_se",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            4.376
+          ],
+          "rotY": -135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_so",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            4.376
+          ],
+          "rotY": 135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_no",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            -4.376
+          ],
+          "rotY": 45,
+          "escala": 1
+        },
+        {
+          "id": "mirante_ne",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            -4.376
+          ],
+          "rotY": -45,
+          "escala": 1
+        },
+        {
+          "id": "painel_luzes",
+          "modelo": "painel_luzes.glb",
+          "pos": [
+            2.212,
+            0.375,
+            5.76
+          ],
+          "rotY": -158.715,
+          "escala": 0.75
+        },
+        {
+          "id": "janelao",
+          "modelo": "janelao.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "faixas_chao",
+          "modelo": "faixas_chao.glb",
+          "pos": [
+            0,
+            0.016,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "protoboard",
+          "modelo": "protoboard.glb",
+          "pos": [
+            17.5,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "bandeja_pecas",
+          "modelo": "bandeja_pecas.glb",
+          "pos": [
+            17.15,
+            0.78,
+            -1.55
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        },
+        {
+          "id": "quadro_esquema",
+          "modelo": "quadro_esquema.glb",
+          "pos": [
+            18.1,
+            0,
+            -3.2
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "prateleira_ferramentas",
+          "modelo": "prateleira_ferramentas.glb",
+          "pos": [
+            17.9,
+            0,
+            3.4
+          ],
+          "rotY": -180,
+          "escala": 1
+        },
+        {
+          "id": "bancada_solda",
+          "modelo": "bancada_solda.glb",
+          "pos": [
+            15.9,
+            0,
+            2.5
+          ],
+          "rotY": -180,
+          "escala": 1
+        },
+        {
+          "id": "plataforma_metal",
+          "modelo": "plataforma_metal.glb",
+          "pos": [
+            18.55,
+            0,
+            -1.3
+          ],
+          "rotY": -58.487,
+          "escala": 1
+        },
+        {
+          "id": "led",
+          "modelo": "led.glb",
+          "pos": [
+            17.191,
+            0.822,
+            -1.824
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        },
+        {
+          "id": "resistor",
+          "modelo": "resistor.glb",
+          "pos": [
+            17.328,
+            0.822,
+            -1.448
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        },
+        {
+          "id": "resistor_queimado",
+          "modelo": "resistor_queimado.glb",
+          "pos": [
+            17.07,
+            0.822,
+            -1.368
+          ],
+          "rotY": -72.811,
+          "escala": 1,
+          "animacao": "fumegar"
+        },
+        {
+          "id": "jumper_vermelho",
+          "modelo": "jumper_vermelho.glb",
+          "pos": [
+            16.928,
+            0.822,
+            -1.795
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        },
+        {
+          "id": "jumper_preto",
+          "modelo": "jumper_preto.glb",
+          "pos": [
+            16.987,
+            0.822,
+            -1.604
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        },
+        {
+          "id": "jumper_curto",
+          "modelo": "jumper_curto.glb",
+          "pos": [
+            17.234,
+            0.822,
+            -1.21
+          ],
+          "rotY": -72.811,
+          "escala": 1
+        }
+      ],
+      "atores": [
+        {
+          "falarAutomatico": true,
+          "escala": 0.085,
+          "visivel": true,
+          "id": "gaburia",
+          "nome": "Gabu_IA (relógio)",
+          "modelo": "gaburia_cabeca.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gaburia",
+          "holograma": true,
+          "relogio": true,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0
+        },
+        {
+          "falarAutomatico": true,
+          "escala": 1,
+          "visivel": true,
+          "id": "metalgabutron",
+          "nome": "MetalgabuTRON",
+          "modelo": "metalgabutron.glb",
+          "cor": "#b9c2c8",
+          "personagem": "metalgabutron",
+          "pos": [
+            18.55,
+            0.354,
+            -1.3
+          ],
+          "rotY": -58.487
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "motor_engrenagem",
+          "nome": "Motor",
+          "modelo": "motor_engrenagem.glb",
+          "pos": [
+            19.7,
+            0,
+            0.2
+          ],
+          "rotY": -90,
+          "cor": "#ffd166"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": false,
+          "id": "led_circuito",
+          "nome": "LED (no circuito)",
+          "modelo": "led.glb",
+          "pos": [
+            17.498,
+            0.922,
+            0.492
+          ],
+          "rotY": -90,
+          "cor": "#ff7a6b"
+        }
+      ],
+      "faixas": [
+        {
+          "id": "anim_led_circuito",
+          "nome": "LED · animação",
+          "tipo": "animacao",
+          "alvo": "led_circuito",
+          "blocos": [
+            {
+              "t": 46.81,
+              "dur": 29.26,
+              "clipe": "acender",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_motor_engrenagem",
+          "nome": "Motor · animação",
+          "tipo": "animacao",
+          "alvo": "motor_engrenagem",
+          "blocos": [
+            {
+              "t": 51.05,
+              "dur": 0.4,
+              "clipe": "ligar",
+              "loop": false
+            },
+            {
+              "t": 51.45,
+              "dur": 24.62,
+              "clipe": "girar",
+              "loop": true
+            }
+          ]
+        },
+        {
+          "id": "vis_led_circuito",
+          "nome": "LED · aparece/some",
+          "tipo": "visivel",
+          "alvo": "led_circuito",
+          "chaves": [
+            {
+              "t": 46.81,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 0.8,
+              "fala": "oficina_metalgabutron_001",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 9.36,
+              "fala": "oficina_metalgabutron_002",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 17.36,
+              "fala": "oficina_metalgabutron_003",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 25.99,
+              "fala": "oficina_metalgabutron_004",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 31.35,
+              "fala": "oficina_metalgabutron_005",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 38.02,
+              "fala": "oficina_metalgabutron_006",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 46.81,
+              "fala": "oficina_metalgabutron_013",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 51.65,
+              "fala": "oficina_metalgabutron_014",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 60.25,
+              "fala": "oficina_metalgabutron_015",
+              "ator": "metalgabutron"
+            },
+            {
+              "t": 69.69,
+              "fala": "oficina_gaburia_001"
+            }
+          ]
+        },
+        {
+          "id": "aguardar",
+          "nome": "Aguardar o jogador",
+          "tipo": "aguardar",
+          "blocos": [
+            {
+              "t": 46.21,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  16.4,
+                  0,
+                  0
+                ],
+                "raio": 0.8,
+                "texto": "pisar no posto da protoboard"
+              }
+            },
+            {
+              "t": 46.41,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "montar o circuito: pilhas, jumper vermelho, resistor, LED e jumper preto (pegadinhas são por evento)"
+              }
+            }
+          ]
+        },
+        {
+          "id": "setas",
+          "nome": "Seta holográfica",
+          "tipo": "seta",
+          "blocos": [
+            {
+              "t": 46.21,
+              "dur": 4,
+              "alvo": "protoboard"
+            }
+          ]
+        },
+        {
+          "id": "sons",
+          "nome": "Música e efeitos",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 76.07,
+              "arquivo": "mus_oficina",
+              "volume": 0.5,
+              "loop": true
+            },
+            {
+              "t": 67.49,
+              "dur": 2,
+              "arquivo": "sfx_missao_completa",
+              "volume": 0.8,
+              "loop": false
+            },
+            {
+              "t": 68.69,
+              "dur": 1,
+              "arquivo": "sfx_luz_acesa",
+              "volume": 0.8,
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos do jogo",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 46.81,
+              "nome": "acender_led"
+            },
+            {
+              "t": 51.05,
+              "nome": "ligar_motor"
+            },
+            {
+              "t": 67.49,
+              "nome": "missao_completa_oficina"
+            },
+            {
+              "t": 68.69,
+              "nome": "acender_luz_oficina"
+            }
+          ]
+        }
+      ],
+      "notas": "Arranjo da galeria girado para a entrada: a protoboard fica de frente para quem entra; o Metal em cima da plataforma; as peças nos lugares da bandeja. Resistor queimado, jumper curto, LED ao contrário e peça certa são falas por evento. Quando o circuito fecha, o LED acende e o motor gira. Música mus_oficina: espaço reservado."
+    },
+    {
+      "id": "portal_saida",
+      "nome": "Câmara do portal: saída",
+      "duracao": 24.09,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          0,
+          0,
+          10.6
+        ],
+        "rotY": 180
+      },
+      "cenario": [
+        {
+          "id": "sala_central",
+          "modelo": "sala_central.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_ponte",
+          "modelo": "corredor_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_treinamento",
+          "modelo": "corredor_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_oficina",
+          "modelo": "corredor_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "corredor_portal",
+          "modelo": "corredor_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_ponte",
+          "modelo": "sala_ponte.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_treinamento",
+          "modelo": "sala_treinamento.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_oficina",
+          "modelo": "sala_oficina.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "sala_portal",
+          "modelo": "sala_portal.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "porta_oficina",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            6,
+            0,
+            0
+          ],
+          "rotY": -90,
+          "escala": 1
+        },
+        {
+          "id": "porta_treinamento",
+          "modelo": "porta_botao.glb",
+          "pos": [
+            -6,
+            0,
+            0
+          ],
+          "rotY": 90,
+          "escala": 1
+        },
+        {
+          "id": "porta_portal",
+          "modelo": "porta_portal.glb",
+          "pos": [
+            0,
+            0,
+            6
+          ],
+          "rotY": 180,
+          "escala": 1
+        },
+        {
+          "id": "porta_ponte",
+          "modelo": "porta_ponte.glb",
+          "pos": [
+            0,
+            0,
+            -6
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "mirante_se",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            4.376
+          ],
+          "rotY": -135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_so",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            4.376
+          ],
+          "rotY": 135,
+          "escala": 1
+        },
+        {
+          "id": "mirante_no",
+          "modelo": "mirante.glb",
+          "pos": [
+            -4.376,
+            0,
+            -4.376
+          ],
+          "rotY": 45,
+          "escala": 1
+        },
+        {
+          "id": "mirante_ne",
+          "modelo": "mirante.glb",
+          "pos": [
+            4.376,
+            0,
+            -4.376
+          ],
+          "rotY": -45,
+          "escala": 1
+        },
+        {
+          "id": "painel_luzes",
+          "modelo": "painel_luzes.glb",
+          "pos": [
+            2.212,
+            0.375,
+            5.76
+          ],
+          "rotY": -158.715,
+          "escala": 0.75
+        },
+        {
+          "id": "janelao",
+          "modelo": "janelao.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "astros",
+          "modelo": "astros.glb",
+          "pos": [
+            0,
+            0,
+            -21.981
+          ],
+          "rotY": 0,
+          "escala": 1
+        },
+        {
+          "id": "faixas_chao",
+          "modelo": "faixas_chao.glb",
+          "pos": [
+            0,
+            0.016,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1
+        }
+      ],
+      "atores": [
+        {
+          "falarAutomatico": true,
+          "escala": 0.085,
+          "visivel": true,
+          "id": "gaburia",
+          "nome": "Gabu_IA (relógio)",
+          "modelo": "gaburia_cabeca.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gaburia",
+          "holograma": true,
+          "relogio": true,
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "portal",
+          "modelo": "portal.glb",
+          "pos": [
+            0,
+            0,
+            18.4
+          ],
+          "rotY": 180,
+          "nome": "Portal",
+          "cor": "#8a5cf0",
+          "animacao": "girar"
+        },
+        {
+          "falarAutomatico": false,
+          "escala": 1,
+          "visivel": true,
+          "id": "alavanca_portal",
+          "modelo": "alavanca_portal.glb",
+          "pos": [
+            0,
+            0,
+            14.6
+          ],
+          "rotY": 180,
+          "nome": "Alavanca",
+          "cor": "#8fd651"
+        }
+      ],
+      "faixas": [
+        {
+          "id": "anim_alavanca_portal",
+          "nome": "Alavanca · animação",
+          "tipo": "animacao",
+          "alvo": "alavanca_portal",
+          "blocos": [
+            {
+              "t": 0.8,
+              "dur": 0.9,
+              "clipe": "destravar",
+              "loop": false
+            },
+            {
+              "t": 7.42,
+              "dur": 16.67,
+              "clipe": "puxar",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "anim_portal",
+          "nome": "Portal · animação",
+          "tipo": "animacao",
+          "alvo": "portal",
+          "blocos": [
+            {
+              "t": 8.02,
+              "dur": 16.07,
+              "clipe": "expandir",
+              "loop": false
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 0.8,
+              "fala": "portal_gaburia_003"
+            },
+            {
+              "t": 10.02,
+              "fala": "portal_gaburia_004"
+            },
+            {
+              "t": 17.42,
+              "fala": "portal_gaburia_006"
+            }
+          ]
+        },
+        {
+          "id": "aguardar",
+          "nome": "Aguardar o jogador",
+          "tipo": "aguardar",
+          "blocos": [
+            {
+              "t": 6.82,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  0,
+                  0,
+                  13.6
+                ],
+                "raio": 0.8,
+                "texto": "ir até a alavanca"
+              }
+            },
+            {
+              "t": 7.02,
+              "condicao": {
+                "tipo": "manual",
+                "texto": "puxar a alavanca"
+              }
+            },
+            {
+              "t": 17.02,
+              "condicao": {
+                "tipo": "chegar",
+                "pos": [
+                  0,
+                  0,
+                  17.6
+                ],
+                "raio": 0.9,
+                "texto": "atravessar o portal (o aviso de 15 s é por evento)"
+              }
+            }
+          ]
+        },
+        {
+          "id": "setas",
+          "nome": "Seta holográfica",
+          "tipo": "seta",
+          "blocos": [
+            {
+              "t": 6.82,
+              "dur": 4,
+              "alvo": "alavanca_portal"
+            }
+          ]
+        },
+        {
+          "id": "sons",
+          "nome": "Música e efeitos",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 24.09,
+              "arquivo": "mus_portal",
+              "volume": 0.5,
+              "loop": true
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos do jogo",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 7.42,
+              "nome": "abrir_portal"
+            },
+            {
+              "t": 23.09,
+              "nome": "iniciar_tunel"
+            }
+          ]
+        }
+      ],
+      "notas": "Caminho principal (já com as 3 luzes acesas): a alavanca destrava, o jogador puxa, o portal se expande e a Gabu_IA se despede quando ele atravessa; o evento iniciar_tunel leva à cena do túnel. Entrar com menos de 3 luzes, alavanca travada e \"15 s sem entrar\" são falas por evento. Música mus_portal: espaço reservado."
+    },
+    {
       "id": "tunel_despedida",
       "nome": "Túnel: despedida",
       "duracao": 40.373,
@@ -426,7 +3713,7 @@
           "tipo": "fala",
           "blocos": [
             {
-              "t": 2.0,
+              "t": 2,
               "fala": "tunel_gabura_001",
               "ator": "holo_gabura"
             },
@@ -461,7 +3748,7 @@
               "t": 0,
               "dur": 40.373,
               "arquivo": "mus_tunel",
-              "volume": 0.6,
+              "volume": 0.5,
               "loop": true
             }
           ]
@@ -479,6 +3766,283 @@
         }
       ],
       "notas": "Tempos reais da dublagem: cada holograma sai do relógio 0,5 s antes de falar e acompanha o jogador enquanto fala. Pausa de 0,8 s entre as falas (0,3 s entre Gojo e Fred, que riem juntos). Créditos 2,5 s depois da última fala. A música mus_tunel ainda não existe: espaço reservado."
+    }
+  ],
+  "falas_por_evento": [
+    {
+      "id": "sala_olhar_painel",
+      "sala": "sala central",
+      "quando": "jogador olha o painel das 3 luzes",
+      "falas": [
+        "sala_gaburia_016"
+      ],
+      "modo": "uma_vez"
+    },
+    {
+      "id": "sala_caixa_empurrada",
+      "sala": "sala central",
+      "quando": "opcional: empurra ou joga uma caixa de teste",
+      "falas": [
+        "sala_gaburia_017"
+      ],
+      "modo": "uma_vez"
+    },
+    {
+      "id": "sala_torre_3_caixas",
+      "sala": "sala central",
+      "quando": "opcional: empilha 3 caixas",
+      "falas": [
+        "sala_gaburia_018"
+      ],
+      "modo": "uma_vez"
+    },
+    {
+      "id": "ponte_dica_30s",
+      "sala": "ponte",
+      "quando": "30 s sem achar o cyberdeck",
+      "falas": [
+        "ponte_gabura_004"
+      ],
+      "modo": "uma_vez",
+      "ator": "gabura"
+    },
+    {
+      "id": "ponte_dica_60s",
+      "sala": "ponte",
+      "quando": "60 s sem achar o cyberdeck",
+      "falas": [
+        "ponte_gabura_005"
+      ],
+      "modo": "uma_vez",
+      "ator": "gabura"
+    },
+    {
+      "id": "ponte_tangram_dicas",
+      "sala": "ponte",
+      "quando": "tangram parado: dica 1 aos 40 s, dica 2 aos 90 s",
+      "falas": [
+        "ponte_gabura_008",
+        "ponte_gabura_009"
+      ],
+      "modo": "sequencia",
+      "ator": "gabura"
+    },
+    {
+      "id": "treino_captura",
+      "sala": "treinamento",
+      "quando": "capturou um clone",
+      "falas": [
+        "treino_gabura_gato_007",
+        "treino_gabura_gato_008",
+        "treino_gabura_gato_009"
+      ],
+      "modo": "sorteio",
+      "ator": "gabura_gato"
+    },
+    {
+      "id": "treino_errou",
+      "sala": "treinamento",
+      "quando": "a bolinha acertou o esconderijo",
+      "falas": [
+        "treino_gabura_gato_010",
+        "treino_gabura_gato_011"
+      ],
+      "modo": "sorteio",
+      "ator": "gabura_gato"
+    },
+    {
+      "id": "treino_metade",
+      "sala": "treinamento",
+      "quando": "8 clones capturados",
+      "falas": [
+        "treino_gabura_gato_012"
+      ],
+      "modo": "uma_vez",
+      "ator": "gabura_gato"
+    },
+    {
+      "id": "treino_ultimo",
+      "sala": "treinamento",
+      "quando": "falta 1 clone",
+      "falas": [
+        "treino_gabura_gato_013"
+      ],
+      "modo": "uma_vez",
+      "ator": "gabura_gato"
+    },
+    {
+      "id": "treino_botao_depois",
+      "sala": "treinamento",
+      "quando": "aperta o botão \"não aperte\" depois da missão",
+      "falas": [
+        "treino_gaburia_002"
+      ],
+      "modo": "uma_vez",
+      "ator": "gaburia"
+    },
+    {
+      "id": "oficina_resistor_queimado",
+      "sala": "oficina",
+      "quando": "pega o resistor queimado",
+      "falas": [
+        "oficina_metalgabutron_007"
+      ],
+      "modo": "uma_vez",
+      "ator": "metalgabutron"
+    },
+    {
+      "id": "oficina_jumper_curto",
+      "sala": "oficina",
+      "quando": "pega o jumper curto",
+      "falas": [
+        "oficina_metalgabutron_008"
+      ],
+      "modo": "uma_vez",
+      "ator": "metalgabutron"
+    },
+    {
+      "id": "oficina_led_invertido",
+      "sala": "oficina",
+      "quando": "LED encaixado ao contrário",
+      "falas": [
+        "oficina_metalgabutron_009",
+        "oficina_metalgabutron_010"
+      ],
+      "modo": "sequencia",
+      "ator": "metalgabutron"
+    },
+    {
+      "id": "oficina_peca_certa",
+      "sala": "oficina",
+      "quando": "peça certa encaixada",
+      "falas": [
+        "oficina_metalgabutron_011",
+        "oficina_metalgabutron_012"
+      ],
+      "modo": "sorteio",
+      "ator": "metalgabutron"
+    },
+    {
+      "id": "portal_sem_luzes",
+      "sala": "portal",
+      "quando": "entra com menos de 3 luzes",
+      "falas": [
+        "portal_gaburia_001"
+      ],
+      "modo": "uma_vez",
+      "ator": "gaburia"
+    },
+    {
+      "id": "portal_travada",
+      "sala": "portal",
+      "quando": "puxa a alavanca travada",
+      "falas": [
+        "portal_gaburia_002"
+      ],
+      "modo": "uma_vez",
+      "ator": "gaburia"
+    },
+    {
+      "id": "portal_15s",
+      "sala": "portal",
+      "quando": "15 s sem entrar no portal aberto",
+      "falas": [
+        "portal_gaburia_005"
+      ],
+      "modo": "uma_vez",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_parado",
+      "sala": "qualquer sala",
+      "quando": "parado 45 s",
+      "falas": [
+        "geral_gaburia_001",
+        "geral_gaburia_002",
+        "geral_gaburia_003"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_pulso_3",
+      "sala": "qualquer sala",
+      "quando": "levantou o pulso, faltam 3 sistemas",
+      "falas": [
+        "geral_gaburia_004"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_pulso_2",
+      "sala": "qualquer sala",
+      "quando": "levantou o pulso, faltam 2",
+      "falas": [
+        "geral_gaburia_005"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_pulso_1",
+      "sala": "qualquer sala",
+      "quando": "levantou o pulso, falta 1",
+      "falas": [
+        "geral_gaburia_006"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_pulso_pronto",
+      "sala": "qualquer sala",
+      "quando": "levantou o pulso, tudo pronto",
+      "falas": [
+        "geral_gaburia_007"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_saiu_missao",
+      "sala": "qualquer sala",
+      "quando": "saiu no meio de uma missão",
+      "falas": [
+        "geral_gaburia_008"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_reiniciou",
+      "sala": "qualquer sala",
+      "quando": "reiniciou uma missão",
+      "falas": [
+        "geral_gaburia_009"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_arma_volta",
+      "sala": "qualquer sala",
+      "quando": "a arma volta sozinha para o suporte",
+      "falas": [
+        "geral_gaburia_010"
+      ],
+      "modo": "sorteio",
+      "ator": "gaburia"
+    },
+    {
+      "id": "geral_terceira_luz",
+      "sala": "qualquer sala",
+      "quando": "terceira luz acende (no lugar do aviso da sala)",
+      "falas": [
+        "geral_gaburia_011"
+      ],
+      "modo": "uma_vez",
+      "ator": "gaburia"
     }
   ]
 }
