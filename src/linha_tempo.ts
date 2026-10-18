@@ -3,8 +3,8 @@
 
 import { biblioteca } from './arquivos';
 import { cena, estado, guardarParaDesfazer, mudou, avisar } from './estado';
-import { COR_FAIXA, NOME_TIPO, type Cena, type Faixa, type Pacote } from './modelo';
-import { duracaoItem, somFalta } from './tocador';
+import { COR_FAIXA, NOME_TIPO, type BlocoFala, type Cena, type Faixa, type Pacote } from './modelo';
+import { duracaoItem, respirosAuto, respirosDe, somFalta } from './tocador';
 import { el, limpar } from './dom';
 
 const LARGURA_NOMES = 190;
@@ -132,6 +132,7 @@ function linhaFaixa(c: Cena, f: Faixa, largura: number): HTMLElement {
     });
     if (ponto) div.append(el('span', { class: 'lt-losango' }));
     const txt = rotulo(f, i);
+    if (f.tipo === 'fala') desenharRespiros(div, f, i, dur);
     if (txt) div.append(el('span', { class: 'lt-rotulo' }, txt));
     if (!ponto && f.tipo !== 'fala') {
       const alca = el('span', { class: 'lt-alca', title: 'Arraste para mudar a duração' });
@@ -145,6 +146,66 @@ function linhaFaixa(c: Cena, f: Faixa, largura: number): HTMLElement {
 }
 
 const r3 = (n: number) => Math.round(n * 1000) / 1000;
+
+// ---------- respiros dentro dos blocos de fala ----------
+/** Faixas listradas = trechos sem voz (o corpo usa falar_respiro e a boca fecha). */
+function desenharRespiros(div: HTMLElement, f: Extract<Faixa, { tipo: 'fala' }>, i: number, dur: number): void {
+  const b = f.blocos[i];
+  const manual = !!b.respiros;
+  respirosDe(b).forEach(([a, z], k) => {
+    const faixa = el('span', {
+      class: 'lt-respiro' + (manual ? ' manual' : ''),
+      style: `left:${a * estado.zoom}px;width:${Math.max(2, (Math.min(z, dur) - a) * estado.zoom)}px`,
+      title: `Respiro ${fmt(b.t + a)} → ${fmt(b.t + z)} s${manual ? ' (ajustado à mão)' : ' (automático, pela voz)'}\nArraste as bordas · dois cliques apagam`,
+    });
+    for (const lado of [0, 1] as const) {
+      const borda = el('span', { class: 'lt-resp-borda ' + (lado ? 'dir' : 'esq') });
+      borda.addEventListener('pointerdown', (e) => { e.stopPropagation(); arrastarRespiro(e, b, k, lado, dur); });
+      faixa.append(borda);
+    }
+    div.append(faixa);
+  });
+}
+
+/** Na primeira mudança à mão, a fala passa a usar a sua lista (o automático não mexe mais nela). */
+export function garantirManual(b: BlocoFala): [number, number][] {
+  if (!b.respiros) b.respiros = respirosAuto(b.fala).map(([a, z]) => [a, z] as [number, number]);
+  return b.respiros;
+}
+
+function arrastarRespiro(e: PointerEvent, b: BlocoFala, k: number, lado: 0 | 1, dur: number): void {
+  e.preventDefault();
+  const x0 = e.clientX;
+  let lista: [number, number][] | null = null;
+  let v0 = 0;
+  const mover = (ev: PointerEvent) => {
+    if (!lista) { guardarParaDesfazer(); lista = garantirManual(b); v0 = lista[k][lado]; }
+    const r = lista[k];
+    const v = r3(Math.round((v0 + (ev.clientX - x0) / estado.zoom) / 0.02) * 0.02);
+    if (lado === 0) r[0] = Math.min(Math.max(0, v), r[1] - 0.1);
+    else r[1] = Math.max(Math.min(dur, v), r[0] + 0.1);
+    avisar();
+  };
+  const soltar = () => {
+    window.removeEventListener('pointermove', mover);
+    window.removeEventListener('pointerup', soltar);
+    if (lista) { lista.sort((x, y) => x[0] - y[0]); mudou(); }
+  };
+  window.addEventListener('pointermove', mover);
+  window.addEventListener('pointerup', soltar);
+}
+
+/** Dois cliques num bloco de fala: num respiro, apaga; fora dele, cria um de 0,4 s ali. */
+function alternarRespiro(b: BlocoFala, tl: number, dur: number): void {
+  guardarParaDesfazer();
+  const lista = garantirManual(b);
+  const k = lista.findIndex(([a, z]) => tl >= a && tl <= z);
+  if (k >= 0) lista.splice(k, 1);
+  else { lista.push([r3(Math.max(0, tl - 0.2)), r3(Math.min(dur, tl + 0.2))]); lista.sort((x, y) => x[0] - y[0]); }
+  mudou();
+}
+let ultimoClique = { chave: '', quando: 0, x: 0 };
+
 const ima = (t: number, livre: boolean) => Math.max(0, livre ? +t.toFixed(3) : Math.round(t / PASSO) * PASSO);
 
 /** Clique ou arraste na régua para ir a um instante. */
@@ -164,6 +225,17 @@ function arrastarTempo(pista: HTMLElement): void {
 function arrastarItem(e: PointerEvent, f: Faixa, i: number): void {
   if (e.button !== 0) return;
   e.preventDefault();
+  if (f.tipo === 'fala') {
+    // dois cliques (a tela é redesenhada entre eles, então contamos à mão)
+    const chave = f.id + ':' + i, agora = performance.now();
+    if (ultimoClique.chave === chave && agora - ultimoClique.quando < 400 && Math.abs(e.clientX - ultimoClique.x) < 6) {
+      ultimoClique.chave = '';
+      const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      alternarRespiro(f.blocos[i], (e.clientX - r.left) / estado.zoom, duracaoItem(f, i));
+      return;
+    }
+    ultimoClique = { chave, quando: agora, x: e.clientX };
+  }
   estado.selecao = { faixa: f.id, indice: i };
   if ('alvo' in f && f.alvo) estado.atorSel = f.alvo;
   const c = cena()!;

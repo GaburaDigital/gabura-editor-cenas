@@ -4,14 +4,14 @@
 import { biblioteca, duracaoFala } from './arquivos';
 import { cena, estado, guardarParaDesfazer, mudou, avisar } from './estado';
 import { confirmar, el, limpar, pedirTexto, seg } from './dom';
-import { itensDe } from './linha_tempo';
-import { NOME_TIPO, type Ator, type Condicao, type Faixa, type Vec3 } from './modelo';
-import { clipesDe, instancias } from './mundo';
+import { garantirManual, itensDe } from './linha_tempo';
+import { NOME_TIPO, type Ator, type BlocoFala, type Condicao, type Faixa, type Vec3 } from './modelo';
+import { clipesDe, instancias, temBocaPelaVoz } from './mundo';
 import {
   adicionarAtor, adicionarCenario, adicionarFala, adicionarSom, ajustarDuracao, apagarAtor, apagarSelecionado,
   encadearFalas, novaCena,
 } from './operacoes';
-import { duracaoItem, falasDa, poseAtor, poseJogador } from './tocador';
+import { atorDaFala, duracaoItem, falasDa, poseAtor, poseJogador, respirosDe } from './tocador';
 
 let esquerda: HTMLElement;
 let direita: HTMLElement;
@@ -319,6 +319,7 @@ function painelItem(f: Faixa, i: number): HTMLElement[] {
         el('p', { class: 'citacao' }, info?.texto ?? 'Fala sem texto no falas.json.'),
         el('p', { class: 'nota' }, `Duração ${fmtT(duracaoFala(b.fala))} (do áudio)${biblioteca.audios.has(b.fala) ? '' : ' · áudio não encontrado: arraste o ZIP da dublagem'}.`),
         escolha('Quem fala', b.ator ?? '', [['', 'Automático (pelo personagem)'], ...c.atores.map((a) => [a.id, a.nome] as [string, string])], (v) => { b.ator = v || undefined; }),
+        ...painelRespiros(b),
         ...ajustesFalas(),
       );
       break;
@@ -368,6 +369,47 @@ function painelItem(f: Faixa, i: number): HTMLElement[] {
   if (dur > 0 && f.tipo !== 'fala') out.push(el('p', { class: 'nota' }, `Termina em ${fmtT(it.t + dur)}.`));
   out.push(el('div', { class: 'prop-bts' }, el('button', { class: 'bt mini perigo', onclick: apagarSelecionado, title: 'Delete' }, 'Apagar item')));
   return out;
+}
+
+/** Respiros da fala: automáticos (pela curva de volume) ou ajustados à mão. */
+function painelRespiros(b: BlocoFala): HTMLElement[] {
+  const c = cena()!;
+  const dur = duracaoFala(b.fala);
+  const lista = respirosDe(b);
+  const ator = atorDaFala(c, b);
+  const temVoz = ator ? temBocaPelaVoz(ator.id) : false;
+  const r2 = (n: number) => Math.round(n * 100) / 100;
+  const linhas = lista.map(([a, z], k) => {
+    const campo = (v: number, lado: 0 | 1) => {
+      const inp = el('input', { class: 'campo num', type: 'number', step: '0.05', value: String(r2(b.t + v)), 'aria-label': lado ? 'Fim do respiro' : 'Começo do respiro', title: lado ? 'termina (s)' : 'começa (s)' });
+      inp.addEventListener('change', () => {
+        const n = parseFloat(inp.value);
+        if (!Number.isFinite(n)) return;
+        alterar(() => {
+          const l = garantirManual(b);
+          const rel = Math.min(dur, Math.max(0, n - b.t));
+          if (lado === 0) l[k][0] = Math.min(rel, l[k][1] - 0.1); else l[k][1] = Math.max(rel, l[k][0] + 0.1);
+          l.sort((x, y) => x[0] - y[0]);
+        });
+      });
+      return inp;
+    };
+    return el('div', { class: 'respiro-linha' }, campo(a, 0), campo(z, 1),
+      el('button', { class: 'bt mini', type: 'button', title: 'Apagar este respiro', onclick: () => alterar(() => { garantirManual(b).splice(k, 1); }) }, '×'));
+  });
+  const tl = estado.tempo - b.t;
+  return [
+    el('h4', { class: 'sub' }, 'Respiros'),
+    el('p', { class: 'nota' }, b.respiros
+      ? 'Ajustados à mão (faixas amarelas). O automático não mexe mais nesta fala.'
+      : `Automáticos, achados pela voz: pausas de 0,25 s ou mais. O gesto volta 0,1 s antes da voz.`),
+    temVoz ? null : el('p', { class: 'nota alerta' }, 'Este modelo ainda não tem boca pela voz (falar_corpo/falar_respiro): nos respiros ele volta ao clipe parado.'),
+    lista.length ? el('div', { class: 'respiros-lista' }, el('div', { class: 'respiro-linha rotulo' }, el('span', {}, 'começa (s)'), el('span', {}, 'termina (s)'), el('span', {}, '')), linhas) : el('p', { class: 'nota' }, 'Nenhum respiro nesta fala.'),
+    el('div', { class: 'prop-bts' },
+      el('button', { class: 'bt mini', type: 'button', disabled: tl < 0 || tl > dur, title: 'Cria um respiro de 0,4 s na linha vermelha (ou dois cliques no bloco)',
+        onclick: () => alterar(() => { const l = garantirManual(b); l.push([Math.max(0, +(tl - 0.2).toFixed(3)), Math.min(dur, +(tl + 0.2).toFixed(3))]); l.sort((x, y) => x[0] - y[0]); }) }, '+ Respiro na linha vermelha'),
+      b.respiros ? el('button', { class: 'bt mini', type: 'button', onclick: () => alterar(() => { delete b.respiros; }) }, 'Voltar ao automático') : null),
+  ].filter(Boolean) as HTMLElement[];
 }
 
 function condicaoCampos(cd: Condicao): HTMLElement[] {

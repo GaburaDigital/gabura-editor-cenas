@@ -21,12 +21,25 @@ Ferramenta do Gaburaverso para **montar e ajustar as cenas dos jogos** numa linh
 |---|---|
 | Mover | Posição, giro e tamanho por pontos-chave. Cada ponto diz como ir até o próximo: velocidade constante ou suave |
 | Animação | Toca um clipe do GLB (`falar`, `comemorar`…), com transição de 0,25 s |
-| Falas | Toca a gravação, mostra a legenda e faz o ator mexer (`falar`) e brilhar no ritmo da voz. O tamanho do bloco é a duração do áudio |
+| Falas | Toca a gravação, mostra a legenda, mexe a boca pela voz e faz o holograma brilhar no ritmo dela. O tamanho do bloco é a duração do áudio. As listras são os **respiros** |
 | Som e música | Sons e músicas. Arquivos que começam com `mus` abaixam sozinhos enquanto alguém fala. Som que ainda não existe vira "espaço reservado" e toca em silêncio |
 | Mostrar e esconder | Liga e desliga um objeto |
 | Seta holográfica | Seta na frente do jogador apontando para um objeto |
 | Aguardar | Pausa a cena até o jogador chegar a um lugar, olhar para algo, ou o jogo avisar. No Simular VR segue sozinho; no Editar, aparece o botão **Simular** (ou **Enter**) |
 | Evento | Avisa o jogo para fazer algo (ex.: `mostrar_creditos`). O editor só mostra um aviso |
+
+### Fala sincronizada com a voz (respiros)
+
+Personagens com os clipes `falar_corpo` e `falar_respiro` (veja abaixo) falam assim:
+
+- **Boca pela voz:** abre conforme o volume da curva da dublagem, quadro a quadro, e fecha nas pausas. No MetalgabuTRON as barras e o LED mantêm o desenho do `falar`, multiplicado pelo volume.
+- **Corpo:** `falar_corpo` (gestos) enquanto há voz e `falar_respiro` (35% dos gestos, mesma pose) nas pausas, com transição de 0,2 s. Os dois tocam no mesmo ritmo, então a troca não dá salto.
+- **Respiros automáticos:** pausas de 0,25 s ou mais na curva de volume. O gesto volta 0,1 s antes da voz, como quem toma ar para falar.
+- **Ajuste à mão:** arraste as bordas das listras, dê **dois cliques** no bloco para criar ou apagar um respiro, ou edite os números no painel. Listras amarelas = ajustadas à mão; **Voltar ao automático** desfaz.
+
+Modelos antigos (só com `falar`) continuam funcionando: tocam o `falar` completo na voz e voltam ao `idle` nos respiros.
+
+**Preparar um personagem:** `python3 ferramentas/adicionar_fala_sincronizada.py entrada.glb saida.glb` acrescenta `falar_corpo`, `falar_respiro` e os dados da boca (`extras.gabura_fala`) sem mudar nada que já existe: o `falar` completo, com boca, continua no arquivo.
 
 A câmera do jogador **nunca é tomada**: a faixa "Mover" do jogador leva a plataforma onde ele está (como a nave no túnel); a cabeça e o andar continuam dele.
 

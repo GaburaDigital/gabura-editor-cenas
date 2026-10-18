@@ -166,6 +166,14 @@ label.marca { display: flex; gap: 8px; align-items: center; font: 600 .88rem var
 .lt-item.on.bloco { box-shadow: 0 0 0 2px var(--texto); z-index: 1; }
 .lt-item.on .lt-losango { border-color: var(--texto); }
 .lt-item.falta.bloco { border-style: dashed; background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .04) 0 6px, transparent 6px 12px); }
+.lt-respiro { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, rgba(232, 243, 242, .32) 0 3px, rgba(9, 21, 32, .7) 3px 7px); border-left: 1px solid rgba(232, 243, 242, .6); border-right: 1px solid rgba(232, 243, 242, .6); }
+.lt-respiro.manual { border-color: var(--amarelo); background: repeating-linear-gradient(135deg, rgba(255, 209, 102, .35) 0 4px, rgba(9, 21, 32, .3) 4px 8px); }
+.lt-resp-borda { position: absolute; top: 0; bottom: 0; width: 6px; cursor: ew-resize; z-index: 2; }
+.lt-resp-borda.esq { left: -3px; }
+.lt-resp-borda.dir { right: -3px; }
+.lt-item.bloco .lt-rotulo { position: relative; z-index: 1; text-shadow: 0 0 3px var(--fundo-2); }
+.respiros-lista { display: grid; gap: 4px; }
+.respiro-linha { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 4px; align-items: center; }
 .lt-alca { position: absolute; right: 0; top: 0; bottom: 0; width: 7px; cursor: ew-resize; background: linear-gradient(90deg, transparent, var(--cor)); opacity: .6; }
 
 /* ---------- rodapé ---------- */

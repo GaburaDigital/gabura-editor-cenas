@@ -25,6 +25,50 @@ export interface Instancia {
   acoes: Map<string, THREE.AnimationAction>;
   brilho: THREE.MeshStandardMaterial[];
   falta: boolean;           // o .glb não está na biblioteca: mostra uma cápsula no lugar
+  boca: OssoBoca[];         // ossos da boca guiados pela voz (vem de extras.gabura_fala do .glb)
+}
+
+/** Um osso da boca: fechado/aberto (modo envelope) ou o desenho do clipe "falar" vezes o volume (modo padrão). */
+interface OssoBoca {
+  no: THREE.Object3D;
+  caminho: 'rotation' | 'translation' | 'scale';
+  modo: 'envelope' | 'padrao';
+  fechado: number[];
+  aberto: number[];
+  desenho: THREE.Interpolant | null;
+  duracao: number;
+}
+interface InfoFala { boca?: { no: string; caminho: OssoBoca['caminho']; modo: OssoBoca['modo']; fechado: number[]; aberto: number[] }[] }
+const PROP_TRILHA = { rotation: 'quaternion', translation: 'position', scale: 'scale' } as const;
+
+function lerBoca(obj: THREE.Object3D, animacoes: THREE.AnimationClip[]): OssoBoca[] {
+  const info = obj.userData.gabura_fala as InfoFala | undefined;
+  if (!info?.boca) return [];
+  const falar = animacoes.find((a) => a.name === 'falar');
+  const out: OssoBoca[] = [];
+  for (const b of info.boca) {
+    const no = obj.getObjectByName(b.no);
+    if (!no) continue;
+    const trilha = falar?.tracks.find((t) => t.name === `${THREE.PropertyBinding.sanitizeNodeName(b.no)}.${PROP_TRILHA[b.caminho]}`);
+    out.push({ no, caminho: b.caminho, modo: b.modo, fechado: b.fechado, aberto: b.aberto,
+      desenho: b.modo === 'padrao' && trilha ? trilha.createInterpolant() : null, duracao: falar?.duration || 1 });
+  }
+  return out;
+}
+
+const qA = new THREE.Quaternion(), qB = new THREE.Quaternion();
+function porNaBoca(o: OssoBoca, valor: ArrayLike<number>): void {
+  if (o.caminho === 'rotation') o.no.quaternion.set(valor[0], valor[1], valor[2], valor[3]);
+  else if (o.caminho === 'translation') o.no.position.set(valor[0], valor[1], valor[2]);
+  else o.no.scale.set(valor[0], valor[1], valor[2]);
+}
+function misturar(o: OssoBoca, de: ArrayLike<number>, para: ArrayLike<number>, k: number): number[] {
+  if (o.caminho === 'rotation') {
+    qA.set(de[0], de[1], de[2], de[3]); qB.set(para[0], para[1], para[2], para[3]);
+    qA.slerp(qB, k);
+    return [qA.x, qA.y, qA.z, qA.w];
+  }
+  return [0, 1, 2].map((i) => de[i] + (para[i] - de[i]) * k);
 }
 
 // ---------- estado da janela ----------
@@ -257,7 +301,7 @@ export async function montar(c: Cena): Promise<void> {
   for (const p of pedidos) {
     if (instancias.has(p.id)) continue;
     const raiz = new THREE.Group(); raiz.userData.id = p.id;
-    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true };
+    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true, boca: [] };
     instancias.set(p.id, inst);
     cena3d.add(raiz);
     const g = await gltf(p.modelo);
@@ -270,6 +314,7 @@ export async function montar(c: Cena): Promise<void> {
     inst.falta = false;
     inst.mixer = new THREE.AnimationMixer(obj);
     for (const cl of g.animations) inst.clipes.set(cl.name, cl);
+    inst.boca = lerBoca(obj, g.animations);
   }
 }
 
@@ -288,10 +333,20 @@ export function posicionar(id: string, pos: Vec3, rotY: number, escala: number, 
   inst.raiz.visible = visivel;
 }
 
-/** Aplica as animações daquele instante (até duas camadas, para a transição suave entre clipes). */
-export function animar(id: string, camadas: Camada[]): void {
+/** Aplica as animações daquele instante (várias camadas, para as transições suaves entre clipes).
+ *  boca: abertura pela voz; null = boca fechada (ou o que o clipe atual fizer com ela). */
+export function animar(id: string, camadasBrutas: Camada[], boca: { abertura: number; tempo: number } | null = null): void {
   const inst = instancias.get(id);
   if (!inst?.mixer) return;
+  // o mesmo clipe duas vezes (ex.: duas falas seguidas) soma os pesos
+  const porClipe = new Map<string, Camada>();
+  for (const c of camadasBrutas) {
+    const ja = porClipe.get(c.clipe);
+    if (ja) ja.peso += c.peso; else porClipe.set(c.clipe, { ...c });
+  }
+  const camadas = [...porClipe.values()];
+  // boca fechada antes; se algum clipe (ex.: comemorar) mexer na boca, ele manda
+  for (const o of inst.boca) porNaBoca(o, o.fechado);
   const usadas = new Set<string>();
   for (const cam of camadas) {
     const clipe = inst.clipes.get(cam.clipe);
@@ -306,7 +361,18 @@ export function animar(id: string, camadas: Camada[]): void {
   }
   for (const [nome, a] of inst.acoes) if (!usadas.has(nome)) a.enabled = false;
   inst.mixer.update(0);
+  if (!boca) return;
+  for (const o of inst.boca) {
+    if (o.modo === 'padrao' && o.desenho) {
+      const d = o.duracao;
+      const v = o.desenho.evaluate(((boca.tempo % d) + d) % d);
+      porNaBoca(o, misturar(o, o.fechado, v, Math.pow(boca.abertura, 0.6)));
+    } else porNaBoca(o, misturar(o, o.fechado, o.aberto, Math.pow(boca.abertura, 1.2)));
+  }
 }
+
+/** O modelo tem boca guiada pela voz? */
+export function temBocaPelaVoz(id: string): boolean { return (instancias.get(id)?.boca.length ?? 0) > 0; }
 
 /** Brilho do holograma no ritmo da voz (nivel de 0 a 1). */
 export function brilhar(id: string, nivel: number): void {
@@ -441,8 +507,8 @@ export function selecionar3d(id: string | null, modo: ModoGizmo, permitir: boole
 export function gizmoArrastando(): boolean { return gizmo.dragging; }
 
 /** Centraliza a câmera livre num ponto. */
-export function focar(p: THREE.Vector3): void {
-  const desl = camEditar.position.clone().sub(orbita.target);
+export function focar(p: THREE.Vector3, distancia = 2.2): void {
+  const desl = camEditar.position.clone().sub(orbita.target).setLength(distancia);
   orbita.target.copy(p);
   camEditar.position.copy(p).add(desl);
 }

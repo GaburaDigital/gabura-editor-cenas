@@ -205,7 +205,7 @@ function aplicar(c: NonNullable<ReturnType<typeof cena>>, t: number): void {
     const vis = tocador.visivelEm(c, a, t);
     mundo.posicionar(a.id, p.pos, p.rotY, p.escala, vis);
     const inst = mundo.instancias.get(a.id);
-    if (inst && vis) mundo.animar(a.id, tocador.camadasEm(c, a, t, [...inst.clipes.keys()]));
+    if (inst && vis) mundo.animar(a.id, tocador.camadasEm(c, a, t, [...inst.clipes.keys()]), inst.boca.length ? tocador.bocaEm(c, a, t) : null);
     if (a.holograma) mundo.brilhar(a.id, falando.get(a.id) ?? 0);
   }
   const j = tocador.poseJogador(c, t);

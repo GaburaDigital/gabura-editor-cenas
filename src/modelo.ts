@@ -33,7 +33,9 @@ export interface Ator {
  *  linear = velocidade constante (jogador andando); suave = acelera e freia (holograma surgindo). */
 export interface ChaveMover { t: number; pos: Vec3; rotY: number; escala: number; curva?: 'linear' | 'suave'; }
 export interface BlocoAnimacao { t: number; dur: number; clipe: string; loop: boolean; }
-export interface BlocoFala { t: number; fala: string; ator?: string; }
+/** respiros: trechos sem voz, em segundos desde o começo da fala ([início, fim]).
+ *  Sem o campo, o editor acha sozinho pela curva de volume; com o campo, vale o que o autor ajustou. */
+export interface BlocoFala { t: number; fala: string; ator?: string; respiros?: [number, number][]; }
 export interface BlocoSom { t: number; dur: number; arquivo: string; volume: number; loop: boolean; }
 export interface ChaveVisivel { t: number; visivel: boolean; }
 export interface BlocoSeta { t: number; dur: number; alvo: string; }

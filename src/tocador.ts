@@ -46,24 +46,83 @@ export function falasDa(c: Cena): BlocoFala[] {
   return c.faixas.flatMap((f) => (f.tipo === 'fala' ? f.blocos : []));
 }
 
-interface Estado { clipe: string; inicio: number; tempo: number; loop: boolean; }
+interface Estado { clipe: string; inicio: number; tempo: number; loop: boolean; fala?: BlocoFala; }
 
-/** Qual clipe o ator está tocando em t: bloco de animação > "falar" automático > clipe inicial. */
+// ---------- respiros: trechos sem voz dentro de uma fala ----------
+export const LIMIAR_SILENCIO = 0.08;  // volume (0 a 1) abaixo do qual é silêncio
+export const RESPIRO_MINIMO = 0.25;   // pausas menores não trocam nada (o personagem não fica tremendo)
+export const ANTECIPA = 0.1;          // o gesto volta um pouco antes da voz, como quem toma ar para falar
+export const TROCA_RESPIRO = 0.2;     // transição entre falar_corpo e falar_respiro
+
+const cacheRespiros = new Map<string, [number, number][]>();
+/** Respiros achados pela curva de volume da fala (segundos desde o começo da fala). */
+export function respirosAuto(fala: string): [number, number][] {
+  const cv = biblioteca.curvas.get(fala);
+  if (!cv) return [];
+  const chave = fala + ':' + cv.valores.length;
+  const pronto = cacheRespiros.get(chave);
+  if (pronto) return pronto;
+  const q = cv.quadros_por_segundo, v = cv.valores;
+  const fimFala = duracaoFala(fala);
+  const lista: [number, number][] = [];
+  let ini = -1;
+  for (let i = 0; i <= v.length; i++) {
+    const silencio = i < v.length && v[i] < LIMIAR_SILENCIO;
+    if (silencio && ini < 0) ini = i;
+    if (!silencio && ini >= 0) {
+      const a = ini / q, z = i >= v.length ? fimFala : i / q;
+      const fim = i >= v.length ? z : z - ANTECIPA; // no fim da fala não precisa antecipar
+      if (z - a >= RESPIRO_MINIMO && fim - a >= 0.15) lista.push([+a.toFixed(3), +fim.toFixed(3)]);
+      ini = -1;
+    }
+  }
+  cacheRespiros.set(chave, lista);
+  return lista;
+}
+export function respirosDe(b: BlocoFala): [number, number][] { return b.respiros ?? respirosAuto(b.fala); }
+
+/** Quanto do corpo está em "respiro" (0 = gesto de fala, 1 = respiro), com transição suave. */
+export function pesoRespiro(b: BlocoFala, tl: number): number {
+  let p = 0;
+  for (const [a, z] of respirosDe(b)) {
+    const entra = Math.min(1, Math.max(0, (tl - a) / TROCA_RESPIRO));
+    const sai = Math.min(1, Math.max(0, (z + TROCA_RESPIRO / 2 - tl) / TROCA_RESPIRO));
+    p = Math.max(p, Math.min(entra, sai));
+  }
+  return suave(p);
+}
+
+/** Qual clipe o ator está tocando em t: bloco de animação > fala (gesto/respiro) > clipe inicial. */
 function estadoClipe(c: Cena, a: Ator, t: number, clipes: string[]): Estado {
   const blocos = c.faixas.flatMap((f) => (f.tipo === 'animacao' && f.alvo === a.id ? f.blocos : []));
   const ativo = [...blocos].reverse().find((b) => t >= b.t && t < b.t + b.dur);
   if (ativo) return { clipe: ativo.clipe, inicio: ativo.t, tempo: t - ativo.t, loop: ativo.loop };
   const fins = blocos.filter((b) => b.t + b.dur <= t).map((b) => b.t + b.dur);
-  if (a.falarAutomatico !== false && clipes.includes('falar')) {
+  const corpo = clipes.includes('falar_corpo');
+  if (a.falarAutomatico !== false && (corpo || clipes.includes('falar'))) {
     for (const b of falasDa(c)) {
       if (atorDaFala(c, b)?.id !== a.id) continue;
       const fim = b.t + duracaoFala(b.fala);
-      if (t >= b.t && t < fim) return { clipe: 'falar', inicio: b.t, tempo: t - b.t, loop: true };
+      if (t >= b.t && t < fim) return { clipe: corpo ? 'falar_corpo' : 'falar', inicio: b.t, tempo: t - b.t, loop: true, fala: b };
       if (fim <= t) fins.push(fim);
     }
   }
-  const base = a.animacao && clipes.includes(a.animacao) ? a.animacao : clipes.includes('idle') ? 'idle' : clipes[0] ?? '';
+  const base = baseDo(a, clipes);
   return { clipe: base, inicio: fins.length ? Math.max(...fins) : -1e9, tempo: t, loop: true };
+}
+const baseDo = (a: Ator, clipes: string[]) => (a.animacao && clipes.includes(a.animacao) ? a.animacao : clipes.includes('idle') ? 'idle' : clipes[0] ?? '');
+
+/** Um estado vira camadas: na fala, o gesto e o respiro tocam juntos no mesmo ritmo e só muda o peso. */
+function expandir(e: Estado, peso: number, a: Ator, clipes: string[], t: number): Camada[] {
+  if (!e.fala) return [{ clipe: e.clipe, tempo: e.tempo, peso, loop: e.loop }];
+  const p = pesoRespiro(e.fala, e.tempo);
+  const respiro = e.clipe === 'falar_corpo' && clipes.includes('falar_respiro')
+    ? { clipe: 'falar_respiro', tempo: e.tempo }
+    : { clipe: baseDo(a, clipes), tempo: t }; // modelo antigo: no respiro volta ao clipe parado
+  const out: Camada[] = [];
+  if (p < 1) out.push({ clipe: e.clipe, tempo: e.tempo, peso: peso * (1 - p), loop: true });
+  if (p > 0 && respiro.clipe) out.push({ clipe: respiro.clipe, tempo: respiro.tempo, peso: peso * p, loop: true });
+  return out;
 }
 
 /** Camadas de animação com a transição suave (como o crossfade de 0,25 s da galeria). */
@@ -71,14 +130,36 @@ export function camadasEm(c: Cena, a: Ator, t: number, clipes: string[]): Camada
   const agora = estadoClipe(c, a, t, clipes);
   if (!agora.clipe) return [];
   const passou = t - agora.inicio;
-  if (passou >= TRANSICAO_CLIPE) return [{ clipe: agora.clipe, tempo: agora.tempo, peso: 1, loop: agora.loop }];
+  if (passou >= TRANSICAO_CLIPE) return expandir(agora, 1, a, clipes, t);
   const antes = estadoClipe(c, a, agora.inicio - 1e-4, clipes);
-  if (!antes.clipe || antes.clipe === agora.clipe) return [{ clipe: agora.clipe, tempo: agora.tempo, peso: 1, loop: agora.loop }];
+  if (!antes.clipe || (antes.clipe === agora.clipe && !antes.fala && !agora.fala)) return expandir(agora, 1, a, clipes, t);
   const k = passou / TRANSICAO_CLIPE;
-  return [
-    { clipe: antes.clipe, tempo: antes.tempo + passou, peso: 1 - k, loop: antes.loop },
-    { clipe: agora.clipe, tempo: agora.tempo, peso: k, loop: agora.loop },
-  ];
+  return [...expandir({ ...antes, tempo: antes.tempo + passou }, 1 - k, a, clipes, t), ...expandir(agora, k, a, clipes, t)];
+}
+
+/** Boca guiada pela voz: abertura de 0 a 1 e o tempo dentro da fala (para o desenho das barras).
+ *  null = ninguém falando (a boca fica fechada). */
+export function bocaEm(c: Cena, a: Ator, t: number): { abertura: number; tempo: number } | null {
+  if (a.falarAutomatico === false) return null;
+  for (const b of falasDa(c)) {
+    if (t < b.t || t >= b.t + duracaoFala(b.fala) || atorDaFala(c, b)?.id !== a.id) continue;
+    const tl = t - b.t;
+    const nivel = nivelSuave(b.fala, tl + 0.03); // a boca adianta um quadro: parece mais natural
+    // volume normalizado; cada modelo ajusta a curva (envelope abre por sílaba, barras ficam mais vivas)
+    const abre = Math.min(1, Math.max(0, (nivel - LIMIAR_SILENCIO) / 0.9));
+    return { abertura: abre * (1 - pesoRespiro(b, tl)), tempo: tl };
+  }
+  return null;
+}
+
+/** Volume da curva interpolado entre os quadros (30 por segundo), sem degraus. */
+function nivelSuave(fala: string, tl: number): number {
+  const cv = biblioteca.curvas.get(fala);
+  if (!cv) return 0;
+  const x = tl * cv.quadros_por_segundo;
+  const i = Math.floor(x), f = x - i;
+  const v = (k: number) => (k >= 0 && k < cv.valores.length ? cv.valores[k] : 0);
+  return v(i) * (1 - f) + v(i + 1) * f;
 }
 
 export function visivelEm(c: Cena, a: Ator, t: number): boolean {
