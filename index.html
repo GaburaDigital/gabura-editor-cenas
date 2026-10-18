@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editor de Cenas Gabura</title>
+    <meta name="description" content="Monte e ajuste as cenas dos jogos do Gaburaverso numa linha do tempo, com janela 3D e modo Simular VR. Funciona offline." />
+    <meta name="theme-color" content="#0c1a24" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icones/icone-192.png" />
+    <link rel="apple-touch-icon" href="./icones/icone-192.png" />
+  </head>
+  <body>
+    <div id="app">
+      <p class="carregando">Carregando o editor…</p>
+      <p id="aviso-publicacao" hidden style="max-width:560px;margin:0 auto;padding:0 20px;font-family:system-ui,sans-serif;line-height:1.5;color:#e8f3f2">
+        O editor não abriu. Se este endereço é o GitHub Pages, confira no repositório:
+        <b>Settings → Pages → Build and deployment → Source: GitHub Actions</b> (e não "Deploy from a branch"). Depois, na aba <b>Actions</b>,
+        rode de novo "Publicar no GitHub Pages".
+      </p>
+    </div>
+    <script>
+      setTimeout(function () {
+        if (document.querySelector('.carregando')) document.getElementById('aviso-publicacao').hidden = false;
+      }, 6000);
+    </script>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

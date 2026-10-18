@@ -1,0 +1,484 @@
+{
+  "versao_formato": 1,
+  "projeto": "Nave do Gaburaverso",
+  "personagens": {
+    "gabura": "Gabura",
+    "metalgabutron": "MetalgabuTRON",
+    "gabura_gato": "Gabura gato",
+    "gojo": "Gojo",
+    "fred": "Fred",
+    "gaburia": "Gabu_IA"
+  },
+  "cenas": [
+    {
+      "id": "tunel_despedida",
+      "nome": "Túnel: despedida",
+      "duracao": 40.373,
+      "fundo": "#0a141c",
+      "jogador": {
+        "pos": [
+          0,
+          0,
+          1.5
+        ],
+        "rotY": 0
+      },
+      "cenario": [
+        {
+          "id": "tunel",
+          "modelo": "tunel_hiperespaco.glb",
+          "pos": [
+            0,
+            0,
+            0
+          ],
+          "rotY": 0,
+          "escala": 1,
+          "animacao": "correr"
+        }
+      ],
+      "atores": [
+        {
+          "id": "holo_gabura",
+          "nome": "Gabura (holograma)",
+          "modelo": "gabura_leve.glb",
+          "cor": "#4fd6d0",
+          "personagem": "gabura",
+          "holograma": true,
+          "falarAutomatico": true,
+          "pos": [
+            -0.25,
+            1.15,
+            0.075
+          ],
+          "rotY": 16.699,
+          "escala": 0.05,
+          "visivel": false
+        },
+        {
+          "id": "holo_metal",
+          "nome": "MetalgabuTRON (holograma)",
+          "modelo": "metalgabutron.glb",
+          "cor": "#b9c2c8",
+          "personagem": "metalgabutron",
+          "holograma": true,
+          "falarAutomatico": true,
+          "pos": [
+            -0.25,
+            1.15,
+            -7.14
+          ],
+          "rotY": -16.699,
+          "escala": 0.05,
+          "visivel": false
+        },
+        {
+          "id": "holo_gato",
+          "nome": "Gabura gato (holograma)",
+          "modelo": "gabura_gato.glb",
+          "cor": "#ffd166",
+          "personagem": "gabura_gato",
+          "holograma": true,
+          "falarAutomatico": true,
+          "pos": [
+            -0.25,
+            1.15,
+            -15.922
+          ],
+          "rotY": 16.699,
+          "escala": 0.05,
+          "visivel": false
+        },
+        {
+          "id": "holo_gojo",
+          "nome": "Gojo (holograma)",
+          "modelo": "gojo_escala.glb",
+          "cor": "#8a5cf0",
+          "personagem": "gojo",
+          "holograma": true,
+          "falarAutomatico": true,
+          "pos": [
+            -0.25,
+            1.15,
+            -21.82
+          ],
+          "rotY": -11.31,
+          "escala": 0.05,
+          "visivel": false
+        },
+        {
+          "id": "holo_fred",
+          "nome": "Fred (holograma)",
+          "modelo": "fred_escala.glb",
+          "cor": "#ff7a6b",
+          "personagem": "fred",
+          "holograma": true,
+          "falarAutomatico": true,
+          "pos": [
+            -0.25,
+            1.15,
+            -24.752
+          ],
+          "rotY": -21.801,
+          "escala": 0.05,
+          "visivel": false
+        }
+      ],
+      "faixas": [
+        {
+          "id": "mover_jogador",
+          "nome": "Jogador · levado pelo túnel (0,75 m/s)",
+          "tipo": "mover",
+          "alvo": "jogador",
+          "chaves": [
+            {
+              "t": 0,
+              "pos": [
+                0,
+                0,
+                1.5
+              ],
+              "rotY": 0,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 40.373,
+              "pos": [
+                0,
+                0,
+                -28.78
+              ],
+              "rotY": 0,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "mover_holo_gabura",
+          "nome": "Gabura · surge e acompanha",
+          "tipo": "mover",
+          "alvo": "holo_gabura",
+          "chaves": [
+            {
+              "t": 1.5,
+              "pos": [
+                -0.25,
+                1.15,
+                0.075
+              ],
+              "rotY": 16.699,
+              "escala": 0.05,
+              "curva": "suave"
+            },
+            {
+              "t": 2.4,
+              "pos": [
+                -1.2,
+                0,
+                -3.9
+              ],
+              "rotY": 16.699,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 10.32,
+              "pos": [
+                -1.2,
+                0,
+                -9.84
+              ],
+              "rotY": 16.699,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "vis_holo_gabura",
+          "nome": "Gabura · aparece",
+          "tipo": "visivel",
+          "alvo": "holo_gabura",
+          "chaves": [
+            {
+              "t": 1.5,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "mover_holo_metal",
+          "nome": "MetalgabuTRON · surge e acompanha",
+          "tipo": "mover",
+          "alvo": "holo_metal",
+          "chaves": [
+            {
+              "t": 11.12,
+              "pos": [
+                -0.25,
+                1.15,
+                -7.14
+              ],
+              "rotY": -16.699,
+              "escala": 0.05,
+              "curva": "suave"
+            },
+            {
+              "t": 12.02,
+              "pos": [
+                1.2,
+                0,
+                -11.115
+              ],
+              "rotY": -16.699,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 22.029,
+              "pos": [
+                1.2,
+                0,
+                -18.622
+              ],
+              "rotY": -16.699,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "vis_holo_metal",
+          "nome": "MetalgabuTRON · aparece",
+          "tipo": "visivel",
+          "alvo": "holo_metal",
+          "chaves": [
+            {
+              "t": 11.12,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "mover_holo_gato",
+          "nome": "Gabura gato · surge e acompanha",
+          "tipo": "mover",
+          "alvo": "holo_gato",
+          "chaves": [
+            {
+              "t": 22.829,
+              "pos": [
+                -0.25,
+                1.15,
+                -15.922
+              ],
+              "rotY": 16.699,
+              "escala": 0.05,
+              "curva": "suave"
+            },
+            {
+              "t": 23.729,
+              "pos": [
+                -1.2,
+                0,
+                -19.897
+              ],
+              "rotY": 16.699,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 29.893,
+              "pos": [
+                -1.2,
+                0,
+                -24.52
+              ],
+              "rotY": 16.699,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "vis_holo_gato",
+          "nome": "Gabura gato · aparece",
+          "tipo": "visivel",
+          "alvo": "holo_gato",
+          "chaves": [
+            {
+              "t": 22.829,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "mover_holo_gojo",
+          "nome": "Gojo · surge e acompanha",
+          "tipo": "mover",
+          "alvo": "holo_gojo",
+          "chaves": [
+            {
+              "t": 30.693,
+              "pos": [
+                -0.25,
+                1.15,
+                -21.82
+              ],
+              "rotY": -11.31,
+              "escala": 0.05,
+              "curva": "suave"
+            },
+            {
+              "t": 31.593,
+              "pos": [
+                0.8,
+                0,
+                -25.795
+              ],
+              "rotY": -11.31,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 37.873,
+              "pos": [
+                0.8,
+                0,
+                -30.505
+              ],
+              "rotY": -11.31,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "vis_holo_gojo",
+          "nome": "Gojo · aparece",
+          "tipo": "visivel",
+          "alvo": "holo_gojo",
+          "chaves": [
+            {
+              "t": 30.693,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "mover_holo_fred",
+          "nome": "Fred · surge e acompanha",
+          "tipo": "mover",
+          "alvo": "holo_fred",
+          "chaves": [
+            {
+              "t": 34.603,
+              "pos": [
+                -0.25,
+                1.15,
+                -24.752
+              ],
+              "rotY": -21.801,
+              "escala": 0.05,
+              "curva": "suave"
+            },
+            {
+              "t": 35.503,
+              "pos": [
+                1.6,
+                0,
+                -28.927
+              ],
+              "rotY": -21.801,
+              "escala": 1,
+              "curva": "linear"
+            },
+            {
+              "t": 37.873,
+              "pos": [
+                1.6,
+                0,
+                -30.705
+              ],
+              "rotY": -21.801,
+              "escala": 1,
+              "curva": "linear"
+            }
+          ]
+        },
+        {
+          "id": "vis_holo_fred",
+          "nome": "Fred · aparece",
+          "tipo": "visivel",
+          "alvo": "holo_fred",
+          "chaves": [
+            {
+              "t": 34.603,
+              "visivel": true
+            }
+          ]
+        },
+        {
+          "id": "falas",
+          "nome": "Falas",
+          "tipo": "fala",
+          "blocos": [
+            {
+              "t": 2.0,
+              "fala": "tunel_gabura_001",
+              "ator": "holo_gabura"
+            },
+            {
+              "t": 11.62,
+              "fala": "tunel_metalgabutron_001",
+              "ator": "holo_metal"
+            },
+            {
+              "t": 23.329,
+              "fala": "tunel_gabura_gato_001",
+              "ator": "holo_gato"
+            },
+            {
+              "t": 31.193,
+              "fala": "tunel_gojo_001",
+              "ator": "holo_gojo"
+            },
+            {
+              "t": 35.103,
+              "fala": "tunel_fred_001",
+              "ator": "holo_fred"
+            }
+          ]
+        },
+        {
+          "id": "musica",
+          "nome": "Música",
+          "tipo": "som",
+          "blocos": [
+            {
+              "t": 0,
+              "dur": 40.373,
+              "arquivo": "mus_tunel",
+              "volume": 0.6,
+              "loop": true
+            }
+          ]
+        },
+        {
+          "id": "eventos",
+          "nome": "Eventos",
+          "tipo": "evento",
+          "blocos": [
+            {
+              "t": 40.373,
+              "nome": "mostrar_creditos"
+            }
+          ]
+        }
+      ],
+      "notas": "Tempos reais da dublagem: cada holograma sai do relógio 0,5 s antes de falar e acompanha o jogador enquanto fala. Pausa de 0,8 s entre as falas (0,3 s entre Gojo e Fred, que riem juntos). Créditos 2,5 s depois da última fala. A música mus_tunel ainda não existe: espaço reservado."
+    }
+  ]
+}

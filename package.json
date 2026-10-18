@@ -1,0 +1,26 @@
+{
+  "name": "gabura-editor-cenas",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Editor de Cenas Gabura: linha do tempo para montar e ajustar as cenas dos jogos, com janela 3D e modo Simular VR.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "qrcode": "node testes/gerar_qrcode.mjs"
+  },
+  "dependencies": {
+    "@fontsource/baloo-2": "5.1.1",
+    "@fontsource/nunito": "5.1.1",
+    "fflate": "0.8.2",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "0.170.0",
+    "qrcode": "1.5.4",
+    "typescript": "5.7.3",
+    "vite": "6.0.7"
+  }
+}
