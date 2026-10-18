@@ -49,7 +49,7 @@ const legenda = el('div', { class: 'legenda', hidden: true });
 const caixaAguardar = el('div', { class: 'aguardar', hidden: true });
 const dicaSimular = el('div', { class: 'dica-simular', hidden: true },
   el('strong', {}, 'Clique na janela para olhar com o mouse.'),
-  el('span', {}, el('kbd', {}, 'W'), el('kbd', {}, 'A'), el('kbd', {}, 'S'), el('kbd', {}, 'D'), ' anda · ', el('kbd', {}, 'Espaço'), ' toca/pausa · ', el('kbd', {}, 'R'), ' relógio · ', el('kbd', {}, 'Esc'), ' solta o mouse'));
+  el('span', {}, el('kbd', {}, 'W'), el('kbd', {}, 'A'), el('kbd', {}, 'S'), el('kbd', {}, 'D'), ' anda · ', el('kbd', {}, 'Espaço'), ' toca/pausa · ', el('kbd', {}, 'R'), ' relógio · ', el('kbd', {}, 'C'), ' atravessar paredes · ', el('kbd', {}, 'Esc'), ' solta o mouse'));
 const avisoEvento = el('div', { class: 'evento-3d', hidden: true });
 const gizmoModos = el('div', { class: 'gizmo-modos' });
 const seguirCam = el('input', { type: 'checkbox', checked: true });
@@ -466,6 +466,7 @@ async function iniciar(): Promise<void> {
   estado.cenaId = (await lerConfig<string>('cena_aberta')) ?? p.cenas[0]?.id ?? '';
   if (!cena()) estado.cenaId = p.cenas[0]?.id ?? '';
   const leve = await lerConfig<boolean | null>('modo_leve');
+  janela3d.addEventListener('colisao', (e) => aviso((e as CustomEvent<boolean>).detail ? 'Paredes seguram o jogador.' : 'Atravessando paredes (C liga de novo).', 'info'));
   mundo.iniciarMundo(janela3d, {
     quadro,
     selecionar: (id) => {

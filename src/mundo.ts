@@ -26,6 +26,23 @@ export interface Instancia {
   brilho: THREE.MeshStandardMaterial[];
   falta: boolean;           // o .glb não está na biblioteca: mostra uma cápsula no lugar
   boca: OssoBoca[];         // ossos da boca guiados pela voz (vem de extras.gabura_fala do .glb)
+  paredes: Parede[];        // caixas de colisão das salas (extras.gabura_sala.colisores), no espaço do modelo
+}
+
+/** Caixa de parede vista de cima: centro, meia-largura, meia-espessura e giro (graus, como o rotation.y). */
+interface Parede { c: THREE.Vector3; hx: number; hz: number; rot: number }
+function lerParedes(obj: THREE.Object3D): Parede[] {
+  const out: Parede[] = [];
+  obj.traverse((o) => {
+    const sala = o.userData.gabura_sala as { colisores?: { c: number[]; t: number[]; rotY: number }[] } | undefined;
+    if (!sala?.colisores) return;
+    o.updateMatrix();
+    for (const k of sala.colisores) {
+      const c = new THREE.Vector3(k.c[0], k.c[1], k.c[2]).applyMatrix4(o.matrix);
+      out.push({ c, hx: k.t[0] / 2, hz: k.t[2] / 2, rot: THREE.MathUtils.degToRad(k.rotY) + o.rotation.y });
+    }
+  });
+  return out;
 }
 
 /** Um osso da boca: fechado/aberto (modo envelope) ou o desenho do clipe "falar" vezes o volume (modo padrão). */
@@ -96,6 +113,7 @@ export const simulacao = {
   preso: false,          // mouse preso na janela (pointer lock)
   yaw: 0, pitch: 0,
   deslocamento: new THREE.Vector3(), // o quanto o jogador andou com WASD, em relação ao ponto da cena
+  colisao: true,         // as paredes das salas seguram o jogador (C liga e desliga)
   teclas: new Set<string>(),
   relogio: false,
 };
@@ -301,7 +319,7 @@ export async function montar(c: Cena): Promise<void> {
   for (const p of pedidos) {
     if (instancias.has(p.id)) continue;
     const raiz = new THREE.Group(); raiz.userData.id = p.id;
-    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true, boca: [] };
+    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true, boca: [], paredes: [] };
     instancias.set(p.id, inst);
     cena3d.add(raiz);
     const g = await gltf(p.modelo);
@@ -315,6 +333,7 @@ export async function montar(c: Cena): Promise<void> {
     inst.mixer = new THREE.AnimationMixer(obj);
     for (const cl of g.animations) inst.clipes.set(cl.name, cl);
     inst.boca = lerBoca(obj, g.animations);
+    inst.paredes = lerParedes(obj);
   }
 }
 
@@ -443,7 +462,9 @@ function desenharRelogio(texto: string): void {
 }
 
 /** Onde o jogador está (ponto da cena + o que andou com WASD) e para onde está virado. */
+let ultimaBase: Vec3 = [0, 0, 0], ultimoGiro = 0;
 export function lugarDoJogador(base: Vec3, rotY: number): void {
+  ultimaBase = base; ultimoGiro = rotY;
   const r = THREE.MathUtils.degToRad(rotY);
   const desl = simulacao.deslocamento.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), r);
   const x = base[0] + desl.x, z = base[2] + desl.z;
@@ -561,6 +582,7 @@ function ligarEntrada(): void {
     if (k === 'escape' && document.pointerLockElement) { document.exitPointerLock(); return; }
     if (['w', 'a', 's', 'd'].includes(k)) { simulacao.teclas.add(k); e.preventDefault(); }
     if (k === 'r' && !e.ctrlKey && !e.metaKey) { simulacao.relogio = !simulacao.relogio; relogio.visible = simulacao.relogio; }
+    if (k === 'c' && !e.ctrlKey && !e.metaKey) { simulacao.colisao = !simulacao.colisao; caixa.dispatchEvent(new CustomEvent('colisao', { detail: simulacao.colisao })); }
   });
   window.addEventListener('keyup', (e) => simulacao.teclas.delete(e.key.toLowerCase()));
   window.addEventListener('blur', () => simulacao.teclas.clear());
@@ -574,7 +596,49 @@ function andar(dt: number): void {
   // anda na direção em que a cabeça aponta (só no chão), em relação ao giro da cena
   const v = new THREE.Vector3(lado, 0, -frente).normalize().multiplyScalar(VELOCIDADE_ANDAR * dt);
   v.applyAxisAngle(new THREE.Vector3(0, 1, 0), simulacao.yaw);
-  simulacao.deslocamento.add(v);
+  const novo = simulacao.deslocamento.clone().add(v);
+  if (simulacao.colisao) {
+    // passa para o mundo, empurra para fora das paredes e volta para o referencial da cena
+    const eixo = new THREE.Vector3(0, 1, 0), r = THREE.MathUtils.degToRad(ultimoGiro);
+    const p = novo.clone().applyAxisAngle(eixo, r).add(new THREE.Vector3(ultimaBase[0], 0, ultimaBase[2]));
+    empurrarParaFora(p);
+    novo.copy(p.sub(new THREE.Vector3(ultimaBase[0], 0, ultimaBase[2])).applyAxisAngle(eixo, -r));
+  }
+  simulacao.deslocamento.copy(novo);
+}
+
+const RAIO_JOGADOR = 0.25;
+/** Tira o ponto (círculo de 25 cm) de dentro das caixas das paredes. */
+function empurrarParaFora(p: THREE.Vector3): void {
+  const c = new THREE.Vector3();
+  for (let passada = 0; passada < 2; passada++) {
+    for (const inst of instancias.values()) {
+      if (!inst.paredes.length || !inst.raiz.visible) continue;
+      const s = inst.raiz.scale.x;
+      for (const w of inst.paredes) {
+        c.copy(w.c).multiplyScalar(s).applyAxisAngle(new THREE.Vector3(0, 1, 0), inst.raiz.rotation.y).add(inst.raiz.position);
+        const th = w.rot + inst.raiz.rotation.y, co = Math.cos(th), si = Math.sin(th);
+        const dx = p.x - c.x, dz = p.z - c.z;
+        const lx = co * dx - si * dz, lz = si * dx + co * dz;
+        const hx = w.hx * s, hz = w.hz * s;
+        const qx = Math.max(-hx, Math.min(hx, lx)), qz = Math.max(-hz, Math.min(hz, lz));
+        let ex = lx - qx, ez = lz - qz;
+        const d = Math.hypot(ex, ez);
+        let nlx = lx, nlz = lz;
+        if (d > 1e-6) {
+          if (d >= RAIO_JOGADOR) continue;
+          ex /= d; ez /= d;
+          nlx = qx + ex * RAIO_JOGADOR; nlz = qz + ez * RAIO_JOGADOR;
+        } else {
+          // centro dentro da caixa: sai pelo lado mais perto
+          const px = hx - Math.abs(lx), pz = hz - Math.abs(lz);
+          if (px < pz) nlx = Math.sign(lx || 1) * (hx + RAIO_JOGADOR); else nlz = Math.sign(lz || 1) * (hz + RAIO_JOGADOR);
+        }
+        p.x = c.x + co * nlx + si * nlz;
+        p.z = c.z - si * nlx + co * nlz;
+      }
+    }
+  }
 }
 
 export function entrarSimular(rotYCena: number): void {
