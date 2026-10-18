@@ -2,7 +2,8 @@
 // seta, legenda) e toca o som. É o mesmo cálculo que o jogo vai fazer no Quest.
 
 import { biblioteca, bufferPronto, contextoAudio, duracaoFala } from './arquivos';
-import type { Ator, BlocoFala, Cena, ChaveMover, Faixa, Vec3 } from './modelo';
+import type { Ator, BlocoFala, Cena, ChaveMover, Faixa, GrupoSom, Mixagem, Vec3 } from './modelo';
+import { estado } from './estado';
 import type { Camada } from './mundo';
 
 export const TRANSICAO_CLIPE = 0.25; // segundos de mistura entre um clipe e outro
@@ -217,15 +218,36 @@ export function duracaoItem(f: Faixa, i: number): number {
 }
 
 // ---------- som: falas e músicas agendadas no relógio do áudio ----------
-interface Tocando { fonte: AudioBufferSourceNode; ganho: GainNode; musica: boolean; volume: number; relogio?: boolean; }
+interface Tocando { fonte: AudioBufferSourceNode; ganho: GainNode; musica: boolean; volume: number; relogio?: boolean; arquivo: string; base: number; }
 let tocando: Tocando[] = [];
+
+// ---------- mesa de som ----------
+export const ABAIXAR_PADRAO = 0.5;
+const mix = (): Mixagem | undefined => estado.pacote?.mixagem;
+export function grupoDe(arquivo: string): GrupoSom {
+  return mix()?.sons[arquivo]?.grupo ?? (/^mus/i.test(arquivo) ? 'musica' : /^sfx/i.test(arquivo) ? 'efeitos' : 'vozes');
+}
+/** Volume final = volume do bloco × volume do som × volume do grupo. */
+export function volumeFinal(arquivo: string, base = 1): number {
+  const m = mix(); const g = grupoDe(arquivo);
+  const doSom = g === 'vozes' ? 1 : (m?.sons[arquivo]?.volume ?? 1);
+  return base * doSom * (m?.grupos[g] ?? 1);
+}
+let alguemFalandoAgora = false;
+/** Depois de mexer na mesa: aplica os volumes novos no que está tocando. */
+export function reaplicarVolumes(): void {
+  const ctx = contextoAudio();
+  for (const s of tocando) { s.volume = volumeFinal(s.arquivo, s.base); s.ganho.gain.setTargetAtTime(s.volume * fatorMusica(s), ctx.currentTime, 0.05); }
+}
+const fatorMusica = (s: Tocando) => (s.musica && alguemFalandoAgora ? (mix()?.abaixar_musica ?? ABAIXAR_PADRAO) : 1);
 
 /** Começa o som da cena a partir de t0 (o relógio do áudio manda no tempo). */
 export function tocarSom(c: Cena, t0: number): number {
   pararSom();
   const ctx = contextoAudio();
   const agora = ctx.currentTime + 0.05;
-  const agendar = (buf: AudioBuffer, inicio: number, volume: number, musica: boolean, loop = false, fim?: number, relogio = false) => {
+  const agendar = (buf: AudioBuffer, inicio: number, arquivo: string, base: number, musica: boolean, loop = false, fim?: number, relogio = false) => {
+    const volume = volumeFinal(arquivo, base);
     const dentro = t0 - inicio;
     if (!loop && dentro >= buf.duration) return;
     if (fim !== undefined && t0 >= fim) return;
@@ -236,15 +258,21 @@ export function tocarSom(c: Cena, t0: number): number {
     const offset = Math.max(0, dentro);
     fonte.start(quando, loop ? offset % buf.duration : offset);
     if (fim !== undefined) fonte.stop(agora + (fim - t0));
-    tocando.push({ fonte, ganho, musica, volume, relogio });
+    tocando.push({ fonte, ganho, musica, volume, relogio, arquivo, base });
   };
-  for (const b of falasDa(c)) { const buf = bufferPronto(b.fala); if (buf) agendar(buf, b.t, 1, false, false, undefined, !!atorDaFala(c, b)?.relogio); }
+  for (const b of falasDa(c)) { const buf = bufferPronto(b.fala); if (buf) agendar(buf, b.t, b.fala, 1, false, false, undefined, !!atorDaFala(c, b)?.relogio); }
   for (const f of c.faixas) {
     if (f.tipo !== 'som') continue;
     for (const b of f.blocos) {
       const buf = bufferPronto(b.arquivo);
-      if (buf) agendar(buf, b.t, b.volume, /^mus/i.test(b.arquivo), b.loop, b.t + b.dur);
+      if (buf) agendar(buf, b.t, b.arquivo, b.volume, grupoDe(b.arquivo) === 'musica', b.loop, b.t + b.dur);
     }
+  }
+  // sons dos objetos ligados aos eventos (porta, console, motor…): o jogo toca do mesmo jeito
+  for (const b of eventosDa(c)) for (const se of mix()?.por_evento ?? []) {
+    if (se.evento !== b.nome) continue;
+    const buf = bufferPronto(se.som);
+    if (buf) agendar(buf, b.t + (se.atraso ?? 0), se.som, 1, false, !!se.loop, se.loop ? c.duracao : undefined);
   }
   return agora; // instante do relógio do áudio em que t0 acontece
 }
@@ -256,8 +284,32 @@ export function pararSom(): void {
 
 /** A música abaixa sozinha enquanto alguém fala. */
 export function abaixarMusica(alguemFalando: boolean): void {
+  alguemFalandoAgora = alguemFalando;
   const ctx = contextoAudio();
-  for (const s of tocando) if (s.musica) s.ganho.gain.setTargetAtTime(s.volume * (alguemFalando ? 0.35 : 1), ctx.currentTime, 0.15);
+  for (const s of tocando) if (s.musica) s.ganho.gain.setTargetAtTime(s.volume * fatorMusica(s), ctx.currentTime, 0.15);
+}
+
+const eventosDa = (c: Cena) => c.faixas.flatMap((f) => (f.tipo === 'evento' ? f.blocos : []));
+/** Nomes de todos os sons que a cena usa (blocos e eventos), para decodificar antes de tocar. */
+export function sonsDa(c: Cena): string[] {
+  const nomes = new Set(eventosDa(c).map((b) => b.nome));
+  return [...c.faixas.flatMap((f) => (f.tipo === 'som' ? f.blocos.map((b) => b.arquivo) : [])),
+    ...(mix()?.por_evento ?? []).filter((s) => nomes.has(s.evento)).map((s) => s.som)];
+}
+
+/** Ouve um som solto no volume da mesa (o mesmo do jogo). */
+export function ouvirSom(id: string): boolean {
+  const buf = bufferPronto(id);
+  try { soltaAtual?.stop(); } catch { /* já parou */ }
+  if (!buf) return false;
+  const ctx = contextoAudio();
+  const fonte = ctx.createBufferSource(); fonte.buffer = buf;
+  const g = ctx.createGain(); g.gain.value = volumeFinal(id);
+  fonte.connect(g).connect(ctx.destination);
+  fonte.start(); if (grupoDe(id) === 'musica') fonte.stop(ctx.currentTime + 12);
+  else if (/loop/.test(id)) { fonte.loop = true; fonte.stop(ctx.currentTime + 6); }
+  soltaAtual = fonte;
+  return true;
 }
 
 /** Voz de quem está no relógio: normal quando o jogador olha, mais baixa quando não olha. */
@@ -274,7 +326,8 @@ export function ouvirFala(id: string): boolean {
   try { soltaAtual?.stop(); } catch { /* já parou */ }
   if (!buf) return false;
   const ctx = contextoAudio();
-  const fonte = ctx.createBufferSource(); fonte.buffer = buf; fonte.connect(ctx.destination); fonte.start();
+  const fonte = ctx.createBufferSource(); fonte.buffer = buf;
+  const g = ctx.createGain(); g.gain.value = volumeFinal(id); fonte.connect(g).connect(ctx.destination); fonte.start();
   soltaAtual = fonte;
   return true;
 }

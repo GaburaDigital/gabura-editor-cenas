@@ -331,9 +331,10 @@ function painelItem(f: Faixa, i: number): HTMLElement[] {
       out.push(...[texto('Arquivo', b.arquivo, (v) => { b.arquivo = v; }, 'Nome sem extensão. Ex.: mus_tunel' + (sons.length ? `\nNa biblioteca: ${sons.join(', ')}` : '')),
         biblioteca.audios.has(b.arquivo) ? null : el('p', { class: 'nota alerta' }, 'Espaço reservado: o som ainda não existe, a cena toca em silêncio neste trecho.'),
         num('Duração', b.dur, (v) => { b.dur = Math.max(0.1, v); }, 0.1, { unidade: 's' }),
-        num('Volume', b.volume, (v) => { b.volume = Math.min(1, Math.max(0, v)); }, 0.05, { min: 0, max: 1 }),
+        num('Volume deste trecho', b.volume, (v) => { b.volume = Math.min(1, Math.max(0, v)); }, 0.05, { min: 0, max: 1 }),
+        el('p', { class: 'nota' }, 'Multiplica o volume do som na Mesa de som (botão 🔊 Som). Normalmente fica em 1.'),
         marca('Repetir (loop)', b.loop, (v) => { b.loop = v; }),
-        el('p', { class: 'nota' }, 'Arquivos que começam com "mus" são música: abaixam sozinhos enquanto alguém fala.'),
+        el('p', { class: 'nota' }, 'Músicas (mus_…) abaixam sozinhas enquanto alguém fala; quanto, você ajusta na Mesa de som.'),
       ].filter(Boolean) as HTMLElement[]);
       break;
     }

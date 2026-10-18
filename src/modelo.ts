@@ -102,6 +102,27 @@ export interface Pacote {
   falas_por_evento?: FalaPorEvento[];
   /** Luzes de teste (18/10): só vistas e testadas no editor; o jogo usa as mesmas. */
   iluminacao?: Iluminacao;
+  /** Mesa de som (18/10): volume de cada som e de cada grupo; o jogo usa os mesmos valores. */
+  mixagem?: Mixagem;
+}
+
+export type GrupoSom = 'musica' | 'efeitos' | 'vozes';
+export interface SomMix {
+  /** Volume do arquivo (0 a 1). Regra do autor: trilha 15–20%, efeitos 35–50% (menos se for agudo). */
+  volume: number;
+  grupo: GrupoSom;
+  /** Quando toca no jogo (só para lembrar). */
+  descricao?: string;
+}
+/** Som de objeto que toca quando um evento da cena acontece (o jogo faz o mesmo). */
+export interface SomPorEvento { evento: string; som: string; atraso?: number; loop?: boolean }
+export interface Mixagem {
+  /** Volume geral de cada grupo (no jogo, o jogador muda pelo menu: Música, Efeitos, Vozes). */
+  grupos: Record<GrupoSom, number>;
+  /** Quanto a música fica enquanto alguém fala (0,5 = metade). */
+  abaixar_musica: number;
+  sons: Record<string, SomMix>;
+  por_evento: SomPorEvento[];
 }
 
 export type ModoLuz = 'sem_sombras' | 'jogo' | 'detalhado';
@@ -120,6 +141,8 @@ export interface LuzSala {
   acende_evento?: string;
   /** Quanto fica acesa antes do evento (0 = apagada, 0,2 = fraquinha). */
   apagada?: number;
+  /** Cor antes do evento (sem ela, a mesma cor da missão). */
+  cor_apagada?: string;
 }
 
 export interface Iluminacao {

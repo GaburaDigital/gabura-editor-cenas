@@ -18,6 +18,7 @@ import { apagarFaixa, apagarSelecionado, gravarPosicao, janelaNovaFaixa, novaCen
 import { criarPaineis, desenharDireita, desenharEsquerda } from './paineis';
 import * as tocador from './tocador';
 import * as luzes from './luzes';
+import { abrirMesaDeSom } from './mesa_som';
 import type { ModoLuz } from './modelo';
 
 // ---------- tela ----------
@@ -37,6 +38,7 @@ const btAbrir = el('button', { class: 'bt', type: 'button', onclick: () => escol
 const btExportar = el('button', { class: 'bt lima', type: 'button', onclick: () => exportar() }, 'Exportar cenas');
 const btEventos = el('button', { class: 'bt', type: 'button', title: 'Falas que tocam quando algo acontece no jogo (sem hora marcada)', onclick: () => abrirFalasPorEvento() }, 'Falas por evento');
 const btAjustes = el('button', { class: 'bt icone', type: 'button', title: 'Ajustes', onclick: () => abrirAjustes() }, '⚙');
+const btSom = el('button', { class: 'bt', type: 'button', title: 'Mesa de som: volume das músicas, dos efeitos e das vozes', onclick: () => { parar(); void abrirMesaDeSom(); } }, '🔊 Som');
 const btLuz = el('button', { class: 'bt', type: 'button', title: 'Testar a iluminação: modos, luzes das salas, sombra dos personagens', onclick: () => alternarPainelLuz() }, '💡 Luz');
 
 const barra = el('header', { class: 'barra' },
@@ -44,7 +46,7 @@ const barra = el('header', { class: 'barra' },
   selCena,
   el('div', { class: 'abas' }, btEditar, btSimular),
   el('div', { class: 'transporte' }, btInicio, btTocar, relogioTxt),
-  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btEventos, btLuz, btAbrir, btExportar, btAjustes));
+  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btEventos, btSom, btLuz, btAbrir, btExportar, btAjustes));
 
 const esquerda = el('aside', { class: 'painel esq', 'aria-label': 'Biblioteca' });
 const direita = el('aside', { class: 'painel dir', 'aria-label': 'Propriedades' });
@@ -384,7 +386,7 @@ async function receber(arquivos: File[]): Promise<void> {
 
 async function prepararAudio(): Promise<void> {
   const c = cena(); if (!c) return;
-  const ids = [...tocador.falasDa(c).map((b) => b.fala), ...c.faixas.flatMap((f) => (f.tipo === 'som' ? f.blocos.map((b) => b.arquivo) : []))];
+  const ids = [...tocador.falasDa(c).map((b) => b.fala), ...tocador.sonsDa(c)];
   await prepararFalas(ids.filter((id) => biblioteca.audios.has(id)));
 }
 

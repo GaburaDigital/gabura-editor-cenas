@@ -233,3 +233,17 @@ label.marca { display: flex; gap: 8px; align-items: center; font: 600 .88rem var
 .luz-cor { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255,255,255,.3); }
 .luz-estado { color: #9fb8bf; font-size: 12px; text-align: right; }
 .bt.on { outline: 2px solid #4fd6d0; }
+
+/* ---------- mesa de som ---------- */
+.modal:has(.mesa) { max-width: 720px; }
+.mesa h4 { margin: 8px 0 2px; font: 800 1rem var(--fonte-titulo, inherit); color: var(--aqua); }
+.mesa-grupo { display: grid; gap: 4px; }
+.mesa-linha { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 2fr) 46px; gap: 10px; align-items: center; }
+.mesa-linha input[type=range] { width: 100%; accent-color: #8fd651; }
+.mesa-som .mesa-linha { grid-template-columns: 0 minmax(120px, 1fr) 46px; gap: 6px; }
+.mesa-num { text-align: right; font-variant-numeric: tabular-nums; color: #e8f3f2; }
+.mesa-som { display: grid; grid-template-columns: 32px minmax(0, 1.2fr) minmax(160px, 1fr); gap: 8px; align-items: center; padding: 3px 0; border-top: 1px solid rgba(255,255,255,.05); }
+.mesa-som.falta { opacity: .55; }
+.mesa-nome { display: grid; min-width: 0; }
+.mesa-nome code { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mesa-nome small { color: #9fb8bf; font-size: 11px; line-height: 1.3; }

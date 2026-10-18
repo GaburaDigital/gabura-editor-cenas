@@ -142,6 +142,7 @@ export function atualizarLuzes(p: Pacote | null, cenaId: string, t: number, olho
     const apagada = l.apagada ?? 0;
     const f = apagada + (1 - apagada) * v;
     situacao.acesas.set(l.id, v);
+    acesoAgora.set(l.id, v);
     return f;
   });
   // vagas: no "jogo" ficam as luzes acesas mais perto do jogador; no "detalhado", todas
@@ -153,7 +154,8 @@ export function atualizarLuzes(p: Pacote | null, cenaId: string, t: number, olho
     if (i === undefined) { pl.intensity = 0; return; }
     const l = lista[i];
     pl.position.set(l.pos[0], l.pos[1], l.pos[2]);
-    pl.color.set(l.cor); pl.distance = l.alcance; pl.decay = 1; // queda suave (estilo desenho), some no alcance
+    // antes da missão a luz é branca e mais fraca ("sem energia"); acesa, ganha a cor da missão
+    pl.color.set(l.cor_apagada ?? l.cor).lerp(corTmp.set(l.cor), acesoAgora.get(l.id) ?? 1); pl.distance = l.alcance; pl.decay = 1; // queda suave (estilo desenho), some no alcance
     pl.intensity = l.intensidade * forca[i];
     situacao.emUso.add(l.id);
   });
@@ -174,6 +176,8 @@ export function atualizarLuzes(p: Pacote | null, cenaId: string, t: number, olho
   atualizarSombrasRedondas(personagens);
 }
 
+const corTmp = new THREE.Color();
+const acesoAgora = new Map<string, number>();
 const dist = (l: LuzSala, o: THREE.Vector3) => Math.hypot(l.pos[0] - o.x, l.pos[1] - o.y, l.pos[2] - o.z);
 
 // ---------- sombra redonda (blob) ----------

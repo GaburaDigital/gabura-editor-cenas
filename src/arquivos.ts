@@ -44,6 +44,11 @@ export const lerConfig = <T>(chave: string) => pedir<T | undefined>('config', 'r
 
 const semExt = (n: string) => n.replace(/^.*\//, '').replace(/\.(ogg|wav|mp3|glb|json)$/i, '').replace(/\.curva$/i, '');
 const copia = (u: Uint8Array): ArrayBuffer => u.slice().buffer;
+/** "gabura-digital_nave-do-gaburaverso_mus_ponte_A" → "mus_ponte" (nome que vem das páginas de áudio). */
+export function nomeDoSom(n: string): string {
+  const m = /^[a-z0-9-]+_[a-z0-9-]+_((?:mus|sfx)_[a-z0-9_]+?)(?:_[A-H])?$/.exec(n);
+  return m ? m[1] : n.replace(/^((?:mus|sfx)_[a-z0-9_]+?)_[A-H]$/, '$1');
+}
 
 /** Coloca um arquivo na biblioteca (e no banco). Devolve o que entrou, para o aviso na tela. */
 async function guardar(nome: string, dados: Uint8Array): Promise<string | null> {
@@ -60,8 +65,10 @@ async function guardar(nome: string, dados: Uint8Array): Promise<string | null> 
     return 'curva';
   }
   if (/\.(ogg|wav|mp3)$/i.test(base)) {
-    biblioteca.audios.set(semExt(base), copia(dados));
-    await salvarArquivo('audio:' + semExt(base), copia(dados));
+    const id = nomeDoSom(semExt(base));
+    biblioteca.audios.set(id, copia(dados));
+    decodificados.delete(id); // uma versão nova substitui a antiga
+    await salvarArquivo('audio:' + id, copia(dados));
     return 'audio';
   }
   if (/^falas\.json$/i.test(base)) {
