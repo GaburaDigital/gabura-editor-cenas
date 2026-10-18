@@ -100,6 +100,35 @@ export interface Pacote {
   personagens: Record<string, string>; // id → nome mostrado na legenda
   cenas: Cena[];
   falas_por_evento?: FalaPorEvento[];
+  /** Luzes de teste (18/10): só vistas e testadas no editor; o jogo usa as mesmas. */
+  iluminacao?: Iluminacao;
+}
+
+export type ModoLuz = 'sem_sombras' | 'jogo' | 'detalhado';
+
+/** Luz colorida de uma sala (ponto de luz). Acende quando o evento acontece (ex.: acender_luz_ponte). */
+export interface LuzSala {
+  id: string;
+  nome: string;
+  pos: Vec3;
+  cor: string;
+  /** Força da luz acesa (como a "energy" de uma OmniLight3D da Godot; queda suave, linear com a distância). */
+  intensidade: number;
+  /** Até onde a luz chega (m). */
+  alcance: number;
+  /** Evento que acende a luz; sem ele, fica sempre acesa. */
+  acende_evento?: string;
+  /** Quanto fica acesa antes do evento (0 = apagada, 0,2 = fraquinha). */
+  apagada?: number;
+}
+
+export interface Iluminacao {
+  /** Modo que o editor abre e que o jogo usa no Quest. */
+  modo_padrao: ModoLuz;
+  /** Força da luz geral (céu/chão) e da luz do teto em cada modo. */
+  geral?: Record<ModoLuz, { ceu: number; sol: number }>;
+  luzes: LuzSala[];
+  notas?: string;
 }
 
 /** Itens "pontuais" ou com duração de qualquer faixa, para a linha do tempo tratar todos igual. */

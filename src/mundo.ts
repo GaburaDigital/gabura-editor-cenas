@@ -7,6 +7,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { biblioteca } from './arquivos';
+import * as luzes from './luzes';
 import type { Caminho, Cena, Vec3 } from './modelo';
 
 export const ALTURA_OLHOS = 1.6;
@@ -27,6 +28,7 @@ export interface Instancia {
   falta: boolean;           // o .glb não está na biblioteca: mostra uma cápsula no lugar
   boca: OssoBoca[];         // ossos da boca guiados pela voz (vem de extras.gabura_fala do .glb)
   paredes: Parede[];        // caixas de colisão das salas (extras.gabura_sala.colisores), no espaço do modelo
+  raioSombra: number;       // raio da sombra redonda embaixo do personagem (m)
 }
 
 /** Caixa de parede vista de cima: centro, meia-largura, meia-espessura e giro (graus, como o rotation.y). */
@@ -150,7 +152,7 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
   renderizador = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', stencil: true }); // stencil: janela do portal
   leve = forcarLeve ?? placaFraca(renderizador);
   renderizador.setPixelRatio(leve ? 0.75 : Math.min(devicePixelRatio, 2));
-  renderizador.shadowMap.enabled = !leve;
+  renderizador.shadowMap.enabled = false; // quem liga é o modo de iluminação (luzes.ts)
   renderizador.shadowMap.type = THREE.PCFSoftShadowMap;
   renderizador.outputColorSpace = THREE.SRGBColorSpace;
   renderizador.toneMapping = THREE.ACESFilmicToneMapping;
@@ -160,13 +162,15 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
   cena3d = new THREE.Scene();
   cena3d.background = new THREE.Color('#0a141c');
   // luz parecida com a da galeria e do jogo: céu + chão e um "sol" suave
-  cena3d.add(new THREE.HemisphereLight('#cfeaff', '#1a2a33', 1.6));
+  const ceu = new THREE.HemisphereLight('#cfeaff', '#1a2a33', 1.6);
+  cena3d.add(ceu);
   sol = new THREE.DirectionalLight('#ffffff', 1.8);
   sol.position.set(4, 8, 5);
-  sol.castShadow = !leve;
   sol.shadow.mapSize.set(1024, 1024);
-  Object.assign(sol.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, far: 40 });
+  sol.shadow.bias = -0.0006; sol.shadow.normalBias = 0.03;
+  Object.assign(sol.shadow.camera, { left: -12, right: 12, top: 12, bottom: -12, near: 0.5, far: 30 });
   cena3d.add(sol, sol.target);
+  luzes.iniciarLuzes(cena3d, renderizador, ceu, sol);
 
   grade = new THREE.GridHelper(40, 40, '#2d5566', '#173040');
   (grade.material as THREE.Material).transparent = true;
@@ -227,7 +231,7 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
     const agora = performance.now();
     const dt = Math.min(0.1, (agora - antes) / 1000); antes = agora;
     quadros++; janela += dt;
-    if (janela >= 0.5) { medidorFps.textContent = `${Math.round(quadros / janela)} qps${leve ? ' · leve' : ''}`; quadros = 0; janela = 0; }
+    if (janela >= 0.5) { medidorFps.textContent = `${Math.round(quadros / janela)} qps${leve ? ' · leve' : ''} · ${luzes.custo()}`; quadros = 0; janela = 0; }
     if (simulacao.ativa) andar(dt);
     ganchos.quadro(dt);
     orbita.update();
@@ -239,9 +243,6 @@ export function iniciarMundo(el: HTMLElement, g: Ganchos, forcarLeve: boolean | 
 export function trocarLeve(v: boolean): void {
   leve = v;
   renderizador.setPixelRatio(leve ? 0.75 : Math.min(devicePixelRatio, 2));
-  renderizador.shadowMap.enabled = !leve;
-  sol.castShadow = !leve;
-  cena3d.traverse((o) => { if ((o as THREE.Mesh).isMesh) { o.castShadow = !leve; o.receiveShadow = !leve; } });
   redimensionar();
 }
 
@@ -333,14 +334,16 @@ export async function montar(c: Cena): Promise<void> {
   for (const p of pedidos) {
     if (instancias.has(p.id)) continue;
     const raiz = new THREE.Group(); raiz.userData.id = p.id;
-    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true, boca: [], paredes: [] };
+    const inst: Instancia = { id: p.id, modelo: p.modelo, holograma: p.holograma, raiz, mixer: null, clipes: new Map(), acoes: new Map(), brilho: [], falta: true, boca: [], paredes: [], raioSombra: 0.3 };
     instancias.set(p.id, inst);
     cena3d.add(raiz);
     const g = await gltf(p.modelo);
     if (instancias.get(p.id) !== inst) continue; // a cena mudou enquanto o modelo carregava
     if (!g) { raiz.add(capsula(p.cor)); continue; }
     const obj = SkeletonUtils.clone(g.scene);
-    obj.traverse((o) => { if ((o as THREE.Mesh).isMesh) { o.castShadow = !leve && !p.holograma; o.receiveShadow = !leve; } });
+    // sombras (só no modo detalhado): teto, casco e céu não fazem sombra, senão o chão fica todo escuro
+    obj.traverse((o) => { if ((o as THREE.Mesh).isMesh) { o.castShadow = !p.holograma && !semSombra(o); o.receiveShadow = !semSombra(o); } });
+    { const b = new THREE.Box3().setFromObject(obj), t = b.getSize(new THREE.Vector3()); inst.raioSombra = THREE.MathUtils.clamp(Math.max(t.x, t.z) * 0.55, 0.18, 0.9); }
     if (p.holograma) virarHolograma(obj, inst.brilho);
     raiz.add(obj);
     inst.falta = false;
@@ -381,6 +384,11 @@ function prepararAlemDoPortal(obj: THREE.Object3D): void {
     m.material = Array.isArray(m.material) ? m.material.map(conv) : conv(m.material);
     m.renderOrder = 11; m.castShadow = false; m.frustumCulled = false;
   });
+}
+
+function semSombra(o: THREE.Object3D): boolean {
+  for (let p: THREE.Object3D | null = o; p; p = p.parent) if (/^(teto|casco|vidros?|luzes)$/.test(p.name) || p.userData.gabura_objeto?.ceu) return true;
+  return false;
 }
 
 function isDescendente(o: THREE.Object3D, raiz: THREE.Object3D): boolean { for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === raiz) return true; return false; }

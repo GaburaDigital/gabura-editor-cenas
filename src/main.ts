@@ -17,6 +17,8 @@ import * as mundo from './mundo';
 import { apagarFaixa, apagarSelecionado, gravarPosicao, janelaNovaFaixa, novaCena, novoItem } from './operacoes';
 import { criarPaineis, desenharDireita, desenharEsquerda } from './paineis';
 import * as tocador from './tocador';
+import * as luzes from './luzes';
+import type { ModoLuz } from './modelo';
 
 // ---------- tela ----------
 const app = document.getElementById('app')!;
@@ -35,13 +37,14 @@ const btAbrir = el('button', { class: 'bt', type: 'button', onclick: () => escol
 const btExportar = el('button', { class: 'bt lima', type: 'button', onclick: () => exportar() }, 'Exportar cenas');
 const btEventos = el('button', { class: 'bt', type: 'button', title: 'Falas que tocam quando algo acontece no jogo (sem hora marcada)', onclick: () => abrirFalasPorEvento() }, 'Falas por evento');
 const btAjustes = el('button', { class: 'bt icone', type: 'button', title: 'Ajustes', onclick: () => abrirAjustes() }, '⚙');
+const btLuz = el('button', { class: 'bt', type: 'button', title: 'Testar a iluminação: modos, luzes das salas, sombra dos personagens', onclick: () => alternarPainelLuz() }, '💡 Luz');
 
 const barra = el('header', { class: 'barra' },
   el('div', { class: 'marca' }, 'Editor de Cenas ', el('span', {}, 'Gabura')),
   selCena,
   el('div', { class: 'abas' }, btEditar, btSimular),
   el('div', { class: 'transporte' }, btInicio, btTocar, relogioTxt),
-  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btEventos, btAbrir, btExportar, btAjustes));
+  el('div', { class: 'acoes' }, btDesfazer, btRefazer, btEventos, btLuz, btAbrir, btExportar, btAjustes));
 
 const esquerda = el('aside', { class: 'painel esq', 'aria-label': 'Biblioteca' });
 const direita = el('aside', { class: 'painel dir', 'aria-label': 'Propriedades' });
@@ -58,7 +61,8 @@ const vazio = el('div', { class: 'boas-vindas', hidden: true },
   el('h2', {}, 'Comece arrastando os arquivos para cá'),
   el('p', {}, 'O pacote de cenas (', el('code', {}, 'cenas_nave.json'), ' ou o ZIP que o Claude mandar), os modelos ', el('code', {}, '.glb'), ' e o ZIP da dublagem do Estúdio.'),
   el('p', { class: 'nota' }, 'Fica tudo guardado neste navegador e funciona sem internet.'));
-janela3d.append(legenda, caixaAguardar, dicaSimular, avisoEvento, gizmoModos, vazio,
+const painelLuz = el('div', { class: 'painel-luz', hidden: true, role: 'dialog', 'aria-label': 'Iluminação' });
+janela3d.append(legenda, caixaAguardar, dicaSimular, avisoEvento, gizmoModos, vazio, painelLuz,
   el('label', { class: 'seguir-cam', title: 'A câmera livre anda junto com o jogador (tocando ou indo a outro instante)' }, seguirCam, 'câmera segue o jogador'));
 const linhaTempo = el('section', { class: 'linha-tempo', 'aria-label': 'Linha do tempo' });
 const zoomMenos = el('button', { class: 'bt mini', type: 'button', title: 'Afastar (Ctrl + roda do mouse)', onclick: () => mudarZoom(estado.zoom / 1.4) }, '−');
@@ -215,6 +219,11 @@ function aplicar(c: NonNullable<ReturnType<typeof cena>>, t: number): void {
   const j = tocador.poseJogador(c, t);
   mundo.lugarDoJogador(j.pos, j.rotY);
   const pj = mundo.posicaoJogador();
+  // luzes: o que já acendeu, as vagas do modo "jogo" (as mais perto do jogador) e as sombras redondas
+  const comSombra = c.atores.filter((a) => !a.holograma && !a.relogio).map((a) => mundo.instancias.get(a.id)).filter((i): i is mundo.Instancia => !!i && !i.falta)
+    .map((i) => ({ id: i.id, raiz: i.raiz, raio: i.raioSombra }));
+  luzes.atualizarLuzes(estado.pacote, c.id, t, pj.clone().setY(ALTURA_LUZ_OLHO), comSombra);
+  if (!painelLuz.hidden) atualizarPainelLuz();
   if (estado.modo === 'editar' && seguirCam.checked && deltaJogador) mundo.seguirComCamera(pj.clone().sub(ultimoJogador));
   deltaJogador = pj; ultimoJogador.copy(pj);
   mundo.apontar(tocador.setaEm(c, t), performance.now() / 1000);
@@ -277,6 +286,47 @@ function atualizarGizmo(): void {
     return f && 'alvo' in f ? f.alvo : estado.atorSel;
   })() : estado.atorSel;
   mundo.selecionar3d(id || null, modoGizmo, estado.modo === 'editar' && !estado.tocando);
+}
+
+// ---------- iluminação (teste) ----------
+const ALTURA_LUZ_OLHO = 1.6;
+function alternarPainelLuz(): void {
+  painelLuz.hidden = !painelLuz.hidden;
+  btLuz.classList.toggle('on', !painelLuz.hidden);
+  if (!painelLuz.hidden) desenharPainelLuz();
+}
+function salvarLuz(): void { void salvarConfig('luz_opcoes', { ...luzes.opcoes }); }
+let linhasLuz = new Map<string, HTMLElement>();
+function desenharPainelLuz(): void {
+  const il = estado.pacote?.iluminacao;
+  const modos = (Object.keys(luzes.NOME_MODO) as ModoLuz[]).map((m) => el('label', { class: 'luz-modo' + (luzes.opcoes.modo === m ? ' on' : '') },
+    el('input', { type: 'radio', name: 'luz-modo', checked: luzes.opcoes.modo === m, onchange: () => { luzes.definirModo(m); salvarLuz(); desenharPainelLuz(); } }),
+    el('span', {}, el('strong', {}, luzes.NOME_MODO[m]), il?.modo_padrao === m ? el('em', {}, ' · padrão do jogo') : '', el('br', {}), el('small', {}, luzes.DESCRICAO_MODO[m]))));
+  const blob = el('input', { type: 'checkbox', checked: luzes.opcoes.sombraRedonda, onchange: () => { luzes.definirSombraRedonda(blob.checked); salvarLuz(); } });
+  const pontos = el('input', { type: 'checkbox', checked: luzes.opcoes.mostrarPontos, onchange: () => { luzes.definirMostrarPontos(pontos.checked); salvarLuz(); } });
+  linhasLuz = new Map();
+  const lista = el('ul', { class: 'luz-lista' });
+  for (const l of il?.luzes ?? []) {
+    const est = el('span', { class: 'luz-estado' });
+    linhasLuz.set(l.id, est);
+    lista.append(el('li', {}, el('span', { class: 'luz-cor', style: `background:${l.cor}` }), el('span', { class: 'luz-nome' }, l.nome),
+      el('button', { class: 'bt mini', type: 'button', title: 'Levar a câmera até esta luz', onclick: () => mundo.focar(new THREE.Vector3(l.pos[0], 1.2, l.pos[2]), 7) }, 'ver'), est));
+  }
+  painelLuz.replaceChildren(
+    el('div', { class: 'luz-cab' }, el('strong', {}, 'Iluminação (teste)'), el('button', { class: 'bt mini', type: 'button', onclick: () => alternarPainelLuz() }, '×')),
+    el('div', { class: 'luz-modos' }, ...modos),
+    el('label', { class: 'luz-op' }, blob, ' Sombra redonda embaixo dos personagens'),
+    el('label', { class: 'luz-op' }, pontos, ' Mostrar os pontos de luz e o alcance'),
+    il ? lista : el('p', { class: 'nota' }, 'Este pacote ainda não tem luzes das salas (campo "iluminacao"). Abra o pacote novo que o Claude mandar.'),
+    el('p', { class: 'nota' }, 'As luzes acendem no evento da missão (ex.: acender_luz_ponte). As cenas seguem a ordem do jogo: o que acendeu numa cena anterior já começa aceso. O custo aparece no canto da janela 3D.'));
+  atualizarPainelLuz();
+}
+function atualizarPainelLuz(): void {
+  for (const [id, e] of linhasLuz) {
+    const v = luzes.situacao.acesas.get(id) ?? 1;
+    const txt = (v >= 0.999 ? 'acesa' : v <= 0.001 ? 'apagada' : 'acendendo') + (luzes.situacao.emUso.has(id) ? ' · em uso' : '');
+    if (e.textContent !== txt) e.textContent = txt;
+  }
 }
 
 // ---------- desenhar tudo ----------
@@ -488,6 +538,10 @@ async function iniciar(): Promise<void> {
     },
     moveu: (id, pos, rotY, escala) => gravarPosicao(id, pos, rotY, escala),
   }, leve ?? null);
+  const lo = await lerConfig<typeof luzes.opcoes>('luz_opcoes');
+  luzes.definirModo(lo?.modo ?? p.iluminacao?.modo_padrao ?? 'jogo');
+  luzes.definirSombraRedonda(lo?.sombraRedonda ?? true);
+  luzes.definirMostrarPontos(lo?.mostrarPontos ?? false);
   criarPaineis(esquerda, direita);
   criarLinhaTempo(corpoLinha, {
     buscar,
@@ -506,7 +560,7 @@ async function iniciar(): Promise<void> {
   await prepararAudio();
   desenharTudo();
   // para os testes automáticos
-  (window as unknown as Record<string, unknown>).__editor = { estado, buscar, tocar, parar, trocarModo, liberarAguardar, itensDe, mundo, gravarPosicao };
+  (window as unknown as Record<string, unknown>).__editor = { estado, buscar, tocar, parar, trocarModo, liberarAguardar, itensDe, mundo, gravarPosicao, luzes };
 }
 void iniciar().catch((e) => {
   console.error(e);
